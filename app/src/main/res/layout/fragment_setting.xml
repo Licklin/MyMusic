@@ -18,14 +18,14 @@
             android:id="@+id/setting_bank_bottom"
             android:layout_width="13dp"
             android:layout_height="22dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="15dp"
             android:background="@drawable/setting_bank_botton"
             android:clipToOutline="true" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="15dp"
             android:text="@string/setting_head"
             android:textColor="@color/black"
             android:textSize="18sp"
@@ -65,8 +65,11 @@
 
             <Button
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_margin="10dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="0dp"
                 android:background="@drawable/setting_btn"
                 android:elevation="4dp"
                 android:gravity="start|center_vertical"
@@ -74,23 +77,51 @@
 
             <Button
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="35dp"
+                android:layout_margin="10dp"
                 android:background="@drawable/setting_btn"
-
-                />
+                android:elevation="4dp"
+                android:gravity="start|center_vertical"
+                android:text="  退出登录"/>
 
             <Button
-                android:layout_width="200dp"
-                android:layout_height="wrap_content" />
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/setting_btn"
+                android:elevation="4dp"
+                android:gravity="start|center_vertical"
+                android:text="  账号注销"/>
         </LinearLayout>
         <View
-            android:id="@+id/setting_btn_arrow"
+            android:id="@+id/setting_btn_arrow1"
             android:layout_width="10dp"
             android:layout_height="18dp"
             android:layout_marginLeft="360dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="18dp"
             android:background="@drawable/setting_btn_arrow"
             android:layout_below="@id/account_settings"
+            android:clipToOutline="true" />
+        <View
+            android:id="@+id/setting_btn_arrow2"
+            android:layout_width="10dp"
+            android:layout_height="18dp"
+            android:layout_marginLeft="360dp"
+            android:layout_marginTop="28dp"
+            android:background="@drawable/setting_btn_arrow"
+            android:layout_below="@id/setting_btn_arrow1"
+            android:clipToOutline="true" />
+        <View
+            android:id="@+id/setting_btn_arrow3"
+            android:layout_width="10dp"
+            android:layout_height="18dp"
+            android:layout_marginLeft="360dp"
+            android:layout_marginTop="27dp"
+            android:background="@drawable/setting_btn_arrow"
+            android:layout_below="@id/setting_btn_arrow2"
             android:clipToOutline="true" />
 
     </RelativeLayout>
