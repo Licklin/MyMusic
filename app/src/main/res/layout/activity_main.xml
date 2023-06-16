@@ -10,7 +10,7 @@
         android:id="@+id/some_id"
         android:layout_width="9.29dp"
         android:layout_height="17.84dp"
-        android:background="@drawable/setting_bank_botton"
+        android:background="@drawable/setting_bank_button"
         android:clipToOutline="true"
 
         />

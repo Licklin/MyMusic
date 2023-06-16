@@ -12,7 +12,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     @SuppressLint("ResourceType")
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-        setPreferencesFromResource(R.layout.fragment_setting, rootKey);
+        setPreferencesFromResource(R.layout.actitvity_setting, rootKey);
 
     }
 }
