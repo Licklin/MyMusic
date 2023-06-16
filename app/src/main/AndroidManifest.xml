@@ -12,7 +12,16 @@
         android:theme="@style/Theme.MyMusic"
         tools:targetApi="31">
         <activity
-            android:name=".ui.setting.password.view.PassWordActivity"
+            android:name=".ui.setting.api.APIActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.setting.notice.NoticeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.setting.sound_quality.SoundQualityActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.setting.password.PassWordActivity"
             android:exported="false" />
         <activity
             android:name=".ui.setting.home.HomeActivity"
