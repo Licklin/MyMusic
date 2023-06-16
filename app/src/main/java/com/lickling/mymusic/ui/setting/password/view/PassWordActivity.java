@@ -1,4 +1,4 @@
-package com.lickling.mymusic.ui.setting.password;
+package com.lickling.mymusic.ui.setting.password.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;

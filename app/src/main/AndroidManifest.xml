@@ -12,7 +12,10 @@
         android:theme="@style/Theme.MyMusic"
         tools:targetApi="31">
         <activity
-            android:name=".ui.setting.password.PassWordActivity"
+            android:name=".ui.setting.password.view.PassWordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.setting.home.HomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
