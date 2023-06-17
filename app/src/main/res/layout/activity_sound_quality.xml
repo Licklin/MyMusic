@@ -47,10 +47,9 @@
             android:orientation="vertical">
 
             <RadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/online_radio_group"
-                >
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <RadioButton
                     android:id="@+id/online_standard"
@@ -61,9 +60,9 @@
                     android:layout_marginRight="10dp"
                     android:layout_marginBottom="0dp"
                     android:background="@drawable/setting_btn"
+                    android:button="@null"
                     android:elevation="4dp"
                     android:gravity="start|center_vertical"
-                    android:button="@null"
                     android:text="   标准" />
 
                 <RadioButton
@@ -72,9 +71,9 @@
                     android:layout_height="35dp"
                     android:layout_margin="10dp"
                     android:background="@drawable/setting_btn"
+                    android:button="@null"
                     android:elevation="4dp"
                     android:gravity="start|center_vertical"
-                    android:button="@null"
                     android:text="   高品" />
 
                 <RadioButton
@@ -86,9 +85,9 @@
                     android:layout_marginRight="10dp"
                     android:layout_marginBottom="10dp"
                     android:background="@drawable/setting_btn"
+                    android:button="@null"
                     android:elevation="4dp"
                     android:gravity="start|center_vertical"
-                    android:button="@null"
                     android:text="   无损" />
             </RadioGroup>
 
@@ -97,6 +96,7 @@
         <View
 
             xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/online_tick1"
             android:layout_width="16.25dp"
             android:layout_height="13dp"
             android:layout_below="@id/online_quality"
@@ -106,40 +106,37 @@
             android:layout_marginRight="40dp"
             android:background="@drawable/tick"
             android:clipToOutline="true"
-            android:id="@+id/online_tick"/>
+            android:visibility="invisible" />
 
-        <TextView
-            android:id="@+id/text1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/online_quality"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="18dp"
-            android:text="2-5M/首，省流好音质"
-            android:textSize="14sp" />
+        <View
 
-        <TextView
-            android:id="@+id/text2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/text1"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="26dp"
-            android:text="7-10M/首，接近CD的体验"
-            android:textSize="14sp" />
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/online_tick2"
+            android:layout_width="16.25dp"
+            android:layout_height="13dp"
+            android:layout_below="@id/online_tick1"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="33dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/tick"
+            android:clipToOutline="true"
+            android:visibility="invisible" />
 
-        <TextView
-            android:id="@+id/text3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/text2"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="26dp"
-            android:text="20-50M/首，VIP专享"
-            android:textSize="14sp" />
+        <View
+
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/online_tick3"
+            android:layout_width="16.25dp"
+            android:layout_height="13dp"
+            android:layout_below="@id/online_tick2"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="33dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/tick"
+            android:clipToOutline="true"
+            android:visibility="invisible" />
 
     </RelativeLayout>
 
@@ -173,9 +170,9 @@
             android:orientation="vertical">
 
             <RadioGroup
+                android:id="@+id/download_radio_group"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/download_radio_group">
+                android:layout_height="wrap_content">
 
                 <RadioButton
                     android:id="@+id/download_standard"
@@ -186,9 +183,9 @@
                     android:layout_marginRight="10dp"
                     android:layout_marginBottom="0dp"
                     android:background="@drawable/setting_btn"
+                    android:button="@null"
                     android:elevation="4dp"
                     android:gravity="start|center_vertical"
-                    android:button="@null"
                     android:text="   标准" />
 
                 <RadioButton
@@ -197,9 +194,9 @@
                     android:layout_height="35dp"
                     android:layout_margin="10dp"
                     android:background="@drawable/setting_btn"
+                    android:button="@null"
                     android:elevation="4dp"
                     android:gravity="start|center_vertical"
-                    android:button="@null"
                     android:text="   高品" />
 
                 <RadioButton
@@ -211,16 +208,16 @@
                     android:layout_marginRight="10dp"
                     android:layout_marginBottom="10dp"
                     android:background="@drawable/setting_btn"
+                    android:button="@null"
                     android:elevation="4dp"
                     android:gravity="start|center_vertical"
-                    android:button="@null"
                     android:text="   无损" />
             </RadioGroup>
 
         </LinearLayout>
 
-        <View
-            xmlns:android="http://schemas.android.com/apk/res/android"
+        <View xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/download_tick1"
             android:layout_width="16.25dp"
             android:layout_height="13dp"
             android:layout_below="@id/download_quality"
@@ -230,44 +227,34 @@
             android:layout_marginRight="40dp"
             android:background="@drawable/tick"
             android:clipToOutline="true"
-            android:id="@+id/download_tick"/>
+            android:visibility="invisible" />
 
-        <TextView
-            android:id="@+id/text4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/download_quality"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="18dp"
-            android:text="2-5M/首，省流好音质"
-            android:textSize="14sp" />
+        <View xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/download_tick2"
+            android:layout_width="16.25dp"
+            android:layout_height="13dp"
+            android:layout_below="@id/download_tick1"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="33dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/tick"
+            android:clipToOutline="true"
+            android:visibility="invisible" />
 
-        <TextView
-            android:id="@+id/text5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/text4"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="26dp"
-            android:text="7-10M/首，接近CD的体验"
-            android:textSize="14sp"
-            />
-
-        <TextView
-            android:id="@+id/text6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/text5"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="26dp"
-            android:text="20-50M/首，VIP专享"
-            android:textSize="14sp" />
+        <View xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/download_tick3"
+            android:layout_width="16.25dp"
+            android:layout_height="13dp"
+            android:layout_below="@id/download_tick2"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="33dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/tick"
+            android:clipToOutline="true"
+            android:visibility="invisible" />
 
     </RelativeLayout>
-
-
 
 </LinearLayout>
