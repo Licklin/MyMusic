@@ -106,7 +106,36 @@
             android:layout_marginRight="40dp"
             android:background="@drawable/tick"
             android:clipToOutline="true"
-            android:id="@+id/online_tick"/>
+            android:visibility="invisible"
+            android:id="@+id/online_tick1"/>
+        <View
+
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="16.25dp"
+            android:layout_height="13dp"
+            android:layout_below="@id/online_tick1"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="33dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/tick"
+            android:clipToOutline="true"
+            android:visibility="invisible"
+            android:id="@+id/online_tick2"/>
+        <View
+
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="16.25dp"
+            android:layout_height="13dp"
+            android:layout_below="@id/online_tick2"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="33dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/tick"
+            android:clipToOutline="true"
+            android:visibility="invisible"
+            android:id="@+id/online_tick3"/>
 
         <TextView
             android:id="@+id/text1"
@@ -230,7 +259,36 @@
             android:layout_marginRight="40dp"
             android:background="@drawable/tick"
             android:clipToOutline="true"
-            android:id="@+id/download_tick"/>
+            android:visibility="invisible"
+            android:id="@+id/download_tick1"/>
+
+        <View
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="16.25dp"
+            android:layout_height="13dp"
+            android:layout_below="@id/download_tick1"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="33dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/tick"
+            android:clipToOutline="true"
+            android:visibility="invisible"
+            android:id="@+id/download_tick2"/>
+
+        <View
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="16.25dp"
+            android:layout_height="13dp"
+            android:layout_below="@id/download_tick2"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="33dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/tick"
+            android:clipToOutline="true"
+            android:visibility="invisible"
+            android:id="@+id/download_tick3"/>
 
         <TextView
             android:id="@+id/text4"
