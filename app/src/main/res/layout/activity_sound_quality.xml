@@ -17,4 +17,257 @@
         app:navigationIcon="@drawable/setting_bank_button"
         app:title="音质选择" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:id="@+id/item2"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/setting_item"
+            android:shadowColor="@color/black"
+            android:shadowRadius="3" />
+
+        <TextView
+            android:id="@+id/online_quality"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="27dp"
+            android:text="在线听音质" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/online_quality"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:orientation="vertical">
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/online_radio_group"
+                >
+
+                <RadioButton
+                    android:id="@+id/online_standard"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="0dp"
+                    android:background="@drawable/setting_btn"
+                    android:elevation="4dp"
+                    android:gravity="start|center_vertical"
+                    android:button="@null"
+                    android:text="   标准" />
+
+                <RadioButton
+                    android:id="@+id/online_high"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/setting_btn"
+                    android:elevation="4dp"
+                    android:gravity="start|center_vertical"
+                    android:button="@null"
+                    android:text="   高品" />
+
+                <RadioButton
+                    android:id="@+id/online_hifi"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/setting_btn"
+                    android:elevation="4dp"
+                    android:gravity="start|center_vertical"
+                    android:button="@null"
+                    android:text="   无损" />
+            </RadioGroup>
+
+        </LinearLayout>
+
+        <View
+
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="16.25dp"
+            android:layout_height="13dp"
+            android:layout_below="@id/online_quality"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/tick"
+            android:clipToOutline="true"
+            android:id="@+id/online_tick"/>
+
+        <TextView
+            android:id="@+id/text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/online_quality"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="18dp"
+            android:text="2-5M/首，省流好音质"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/text2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text1"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="26dp"
+            android:text="7-10M/首，接近CD的体验"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/text3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text2"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="26dp"
+            android:text="20-50M/首，VIP专享"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:id="@+id/item3"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/setting_item"
+            android:shadowColor="@color/black"
+            android:shadowRadius="3" />
+
+        <TextView
+            android:id="@+id/download_quality"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="27dp"
+            android:text="下载音质" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/download_quality"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:orientation="vertical">
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/download_radio_group">
+
+                <RadioButton
+                    android:id="@+id/download_standard"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="0dp"
+                    android:background="@drawable/setting_btn"
+                    android:elevation="4dp"
+                    android:gravity="start|center_vertical"
+                    android:button="@null"
+                    android:text="   标准" />
+
+                <RadioButton
+                    android:id="@+id/download_high"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/setting_btn"
+                    android:elevation="4dp"
+                    android:gravity="start|center_vertical"
+                    android:button="@null"
+                    android:text="   高品" />
+
+                <RadioButton
+                    android:id="@+id/download_hifi"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/setting_btn"
+                    android:elevation="4dp"
+                    android:gravity="start|center_vertical"
+                    android:button="@null"
+                    android:text="   无损" />
+            </RadioGroup>
+
+        </LinearLayout>
+
+        <View
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="16.25dp"
+            android:layout_height="13dp"
+            android:layout_below="@id/download_quality"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/tick"
+            android:clipToOutline="true"
+            android:id="@+id/download_tick"/>
+
+        <TextView
+            android:id="@+id/text4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/download_quality"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="18dp"
+            android:text="2-5M/首，省流好音质"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/text5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text4"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="26dp"
+            android:text="7-10M/首，接近CD的体验"
+            android:textSize="14sp"
+            />
+
+        <TextView
+            android:id="@+id/text6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text5"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="26dp"
+            android:text="20-50M/首，VIP专享"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+
+
+
 </LinearLayout>

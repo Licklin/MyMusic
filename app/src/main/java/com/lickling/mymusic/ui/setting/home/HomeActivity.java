@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lickling.mymusic.R;
+import com.lickling.mymusic.ui.setting.api.APIActivity;
 import com.lickling.mymusic.ui.setting.home.presenter.IPresenter;
 import com.lickling.mymusic.ui.setting.home.presenter.MainPresenter;
 import com.lickling.mymusic.ui.setting.notice.NoticeActivity;
@@ -63,6 +64,8 @@ public class HomeActivity extends AppCompatActivity implements MainView {
 
         toolbarBack();
         setClick();
+
+
     }
     void toolbarBack(){
         toolbar = findViewById(R.id.setting_navigation);
@@ -121,7 +124,7 @@ public class HomeActivity extends AppCompatActivity implements MainView {
         api.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(HomeActivity.this, SoundQualityActivity.class));
+                startActivity(new Intent(HomeActivity.this, APIActivity.class));
             }
         });
         versionBtn.setOnClickListener(new View.OnClickListener() {
