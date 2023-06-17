@@ -21,7 +21,7 @@ import com.lickling.mymusic.ui.setting.notice.NoticeActivity;
 import com.lickling.mymusic.ui.setting.password.PassWordActivity;
 import com.lickling.mymusic.ui.setting.sound_quality.SoundQualityActivity;
 
-public class HomeActivity extends AppCompatActivity implements MainView {
+public class SettingHomeActivity extends AppCompatActivity implements MainView {
 
     private IPresenter mainPresenter;//V层拥有P层
 
@@ -88,13 +88,13 @@ public class HomeActivity extends AppCompatActivity implements MainView {
         notice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(HomeActivity.this, NoticeActivity.class));
+                startActivity(new Intent(SettingHomeActivity.this, NoticeActivity.class));
             }
         });
         soundQuality.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(HomeActivity.this, SoundQualityActivity.class));
+                startActivity(new Intent(SettingHomeActivity.this, SoundQualityActivity.class));
             }
         });
         logOut.setOnClickListener(new View.OnClickListener() {
@@ -124,7 +124,7 @@ public class HomeActivity extends AppCompatActivity implements MainView {
         api.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(HomeActivity.this, APIActivity.class));
+                startActivity(new Intent(SettingHomeActivity.this, APIActivity.class));
             }
         });
         versionBtn.setOnClickListener(new View.OnClickListener() {
