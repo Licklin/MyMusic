@@ -1,6 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android ="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background_white"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/setting_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="38dp"
+        app:navigationIcon="@drawable/load_back_button"
+        app:title="下载" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/loaded_head"
+            >
+
+            <Button
+                android:id="@+id/loaded_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="70dp"
+                android:background="@android:color/transparent"
+                android:text="已下载"
+                android:textSize="20sp">
+
+            </Button>
+
+            <View
+                android:id="@+id/select_tag1"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_below="@id/loaded_btn"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="110dp"
+                android:layout_marginTop="0dp"
+                android:background="@drawable/load_red_point"
+                android:clipToOutline="true" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/loading_head"
+            >
+
+            <Button
+                android:id="@+id/loading_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@@android:color/transparent"
+                android:text="正在下载"
+                android:textSize="20sp">
+
+            </Button>
+
+            <View
+                android:id="@+id/select_tag2"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_below="@id/loading_btn"
+
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="0dp"
+                android:background="@drawable/load_red_point"
+                android:clipToOutline="true" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:id="@+id/load_head3"
+        >
+
+        <Button
+            android:id="@+id/play_btn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="40dp"
+            android:background="@drawable/load_red_play"
+            >
+
+        </Button>
+
+        <Button
+            android:id="@+id/multi_choice_btn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="20dp"
+            android:background="@android:color/transparent"
+            android:text="多选"
+            android:textSize="15sp"
+            android:textStyle="bold">
+
+        </Button>
+
+        <Button
+            android:id="@+id/serach_btn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="15dp"
+            android:layout_toLeftOf="@id/multi_choice_btn"
+            android:background="@drawable/search">
+
+        </Button>
+
+
+    </RelativeLayout>
+</LinearLayout>

@@ -4,9 +4,14 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lickling.mymusic.R;
@@ -29,7 +34,15 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.setting_api_list_item, parent, false);
-        return new ViewHolder(itemView);
+        ViewHolder holder = new ViewHolder(itemView);
+
+        return holder;
+    }
+
+    private void showMenu(View v,Integer selectedItem) {
+
+        MenuDialogFragment dialog = new MenuDialogFragment(context,v,selectedItem);
+        dialog.show(((AppCompatActivity) v.getContext()).getSupportFragmentManager(), "menu");
     }
 
     @Override
@@ -75,6 +88,10 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
             // Intent intent = new Intent(context, EditActivity.class);
             // intent.putExtra("item", listItems.get(getAdapterPosition()));
             // context.startActivity(intent);
+//            selectedItem = getAdapterPosition();
+
+            showMenu(v,getAdapterPosition());  // 长按列表项时触发弹出菜单
+
             return true;
         }
     }
