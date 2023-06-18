@@ -1,8 +1,5 @@
 package com.lickling.mymusic.ui.setting.home;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -13,14 +10,18 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import com.lickling.mymusic.R;
+import com.lickling.mymusic.ui.setting.api.APIActivity;
 import com.lickling.mymusic.ui.setting.home.presenter.IPresenter;
 import com.lickling.mymusic.ui.setting.home.presenter.MainPresenter;
 import com.lickling.mymusic.ui.setting.notice.NoticeActivity;
 import com.lickling.mymusic.ui.setting.password.PassWordActivity;
 import com.lickling.mymusic.ui.setting.sound_quality.SoundQualityActivity;
 
-public class HomeActivity extends AppCompatActivity implements MainView {
+public class SettingHomeActivity extends AppCompatActivity implements MainView {
 
     private IPresenter mainPresenter;//V层拥有P层
 
@@ -48,7 +49,14 @@ public class HomeActivity extends AppCompatActivity implements MainView {
             window.setStatusBarColor(Color.TRANSPARENT);
         }
         mainPresenter = new MainPresenter(this); // V层交给P层
+        initFindView();
+        toolbarBack();
+        setClick();
 
+
+    }
+
+    private void initFindView() {
         passWord = findViewById(R.id.change_password);
         notice = findViewById(R.id.notice);
         soundQuality = findViewById(R.id.sound_quality);
@@ -60,11 +68,9 @@ public class HomeActivity extends AppCompatActivity implements MainView {
         versionBtn = findViewById(R.id.version_btn);
         cacheSize = findViewById(R.id.cache_size);
         version = findViewById(R.id.version);
-
-        toolbarBack();
-        setClick();
     }
-    void toolbarBack(){
+
+    void toolbarBack() {
         toolbar = findViewById(R.id.setting_navigation);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,13 +91,13 @@ public class HomeActivity extends AppCompatActivity implements MainView {
         notice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(HomeActivity.this, NoticeActivity.class));
+                startActivity(new Intent(SettingHomeActivity.this, NoticeActivity.class));
             }
         });
         soundQuality.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(HomeActivity.this, SoundQualityActivity.class));
+                startActivity(new Intent(SettingHomeActivity.this, SoundQualityActivity.class));
             }
         });
         logOut.setOnClickListener(new View.OnClickListener() {
@@ -121,7 +127,7 @@ public class HomeActivity extends AppCompatActivity implements MainView {
         api.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(HomeActivity.this, SoundQualityActivity.class));
+                startActivity(new Intent(SettingHomeActivity.this, APIActivity.class));
             }
         });
         versionBtn.setOnClickListener(new View.OnClickListener() {
@@ -151,7 +157,7 @@ public class HomeActivity extends AppCompatActivity implements MainView {
 
     @Override
     public void upgradeCacheSize(Integer size) {
-        cacheSize.setText(size+"GB");
+        cacheSize.setText(size + "GB");
     }
 
     @Override
