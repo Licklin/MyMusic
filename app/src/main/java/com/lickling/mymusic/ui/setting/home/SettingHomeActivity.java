@@ -1,8 +1,5 @@
 package com.lickling.mymusic.ui.setting.home;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -12,6 +9,9 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.lickling.mymusic.R;
 import com.lickling.mymusic.ui.setting.api.APIActivity;
@@ -49,7 +49,14 @@ public class SettingHomeActivity extends AppCompatActivity implements MainView {
             window.setStatusBarColor(Color.TRANSPARENT);
         }
         mainPresenter = new MainPresenter(this); // V层交给P层
+        initFindView();
+        toolbarBack();
+        setClick();
 
+
+    }
+
+    private void initFindView() {
         passWord = findViewById(R.id.change_password);
         notice = findViewById(R.id.notice);
         soundQuality = findViewById(R.id.sound_quality);
@@ -61,13 +68,9 @@ public class SettingHomeActivity extends AppCompatActivity implements MainView {
         versionBtn = findViewById(R.id.version_btn);
         cacheSize = findViewById(R.id.cache_size);
         version = findViewById(R.id.version);
-
-        toolbarBack();
-        setClick();
-
-
     }
-    void toolbarBack(){
+
+    void toolbarBack() {
         toolbar = findViewById(R.id.setting_navigation);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,7 +157,7 @@ public class SettingHomeActivity extends AppCompatActivity implements MainView {
 
     @Override
     public void upgradeCacheSize(Integer size) {
-        cacheSize.setText(size+"GB");
+        cacheSize.setText(size + "GB");
     }
 
     @Override

@@ -16,303 +16,314 @@
         app:navigationIcon="@drawable/setting_bank_button"
         app:title="设置" />
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <View
-            android:id="@+id/item1"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/setting_item"
-            android:shadowColor="@color/black"
-            android:shadowRadius="3" />
-
-        <TextView
-            android:id="@+id/account_settings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:layout_marginTop="27dp"
-            android:text="账号设置" />
-
+        android:layout_height="match_parent"
+        >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/account_settings"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
             android:orientation="vertical">
-
-            <Button
-                android:id="@+id/change_password"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="0dp"
-                android:background="@drawable/setting_btn"
-                android:elevation="4dp"
-                android:gravity="start|center_vertical"
-                android:text="  修改密码" />
+                android:layout_height="wrap_content">
 
-            <Button
-                android:id="@+id/log_out"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_margin="10dp"
-                android:background="@drawable/setting_btn"
-                android:elevation="4dp"
-                android:gravity="start|center_vertical"
-                android:text="  退出登录" />
+                <View
+                    android:id="@+id/item1"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/setting_item"
+                    android:shadowColor="@color/black"
+                    android:shadowRadius="3" />
 
-            <Button
-                android:id="@+id/account_cancellation"
+                <TextView
+                    android:id="@+id/account_settings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="27dp"
+                    android:text="账号设置" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/account_settings"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/change_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="0dp"
+                        android:background="@drawable/setting_btn"
+                        android:elevation="4dp"
+                        android:gravity="start|center_vertical"
+                        android:text="  修改密码" />
+
+                    <Button
+                        android:id="@+id/log_out"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/setting_btn"
+                        android:elevation="4dp"
+                        android:gravity="start|center_vertical"
+                        android:text="  退出登录" />
+
+                    <Button
+                        android:id="@+id/account_cancellation"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/setting_btn"
+                        android:elevation="4dp"
+                        android:gravity="start|center_vertical"
+                        android:text="  账号注销" />
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/setting_btn_arrow1"
+                    android:layout_width="10dp"
+                    android:layout_height="18dp"
+                    android:layout_below="@id/account_settings"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginRight="40dp"
+                    android:background="@drawable/setting_btn_arrow"
+                    android:clipToOutline="true" />
+
+                <View
+                    android:id="@+id/setting_btn_arrow2"
+                    android:layout_width="10dp"
+                    android:layout_height="18dp"
+                    android:layout_below="@id/setting_btn_arrow1"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="28dp"
+                    android:layout_marginRight="40dp"
+                    android:background="@drawable/setting_btn_arrow"
+                    android:clipToOutline="true" />
+
+                <View
+                    android:id="@+id/setting_btn_arrow3"
+                    android:layout_width="10dp"
+                    android:layout_height="18dp"
+                    android:layout_below="@id/setting_btn_arrow2"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="27dp"
+                    android:layout_marginRight="40dp"
+                    android:background="@drawable/setting_btn_arrow"
+                    android:clipToOutline="true" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="0dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/setting_btn"
-                android:elevation="4dp"
-                android:gravity="start|center_vertical"
-                android:text="  账号注销" />
+                android:layout_height="wrap_content">
+
+                <View
+                    android:id="@+id/item2"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/setting_item"
+                    android:shadowColor="@color/black"
+                    android:shadowRadius="3" />
+
+                <TextView
+                    android:id="@+id/normal_settings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="32dp"
+                    android:text="通用" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/normal_settings"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/notice"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="0dp"
+                        android:background="@drawable/setting_btn"
+                        android:elevation="4dp"
+                        android:gravity="start|center_vertical"
+                        android:text="  消息通知" />
+
+                    <Button
+                        android:id="@+id/sound_quality"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/setting_btn"
+                        android:elevation="4dp"
+                        android:gravity="start|center_vertical"
+                        android:text="  音质选择" />
+
+                    <Button
+                        android:id="@+id/cache_limit"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="0dp"
+                        android:background="@drawable/setting_btn"
+                        android:elevation="4dp"
+                        android:gravity="start|center_vertical"
+                        android:text="  音乐缓存上限" />
+
+                    <Button
+                        android:id="@+id/clear_cache"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="0dp"
+                        android:background="@drawable/setting_btn"
+                        android:elevation="4dp"
+                        android:gravity="start|center_vertical"
+                        android:text="  清除缓存" />
+
+                    <Button
+                        android:id="@+id/api"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/setting_btn"
+                        android:elevation="4dp"
+                        android:gravity="start|center_vertical"
+                        android:text="  API地址" />
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/setting_btn_arrow4"
+                    android:layout_width="10dp"
+                    android:layout_height="18dp"
+                    android:layout_below="@id/normal_settings"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginRight="40dp"
+                    android:background="@drawable/setting_btn_arrow"
+                    android:clipToOutline="true" />
+
+                <View
+                    android:id="@+id/setting_btn_arrow5"
+                    android:layout_width="10dp"
+                    android:layout_height="18dp"
+                    android:layout_below="@id/setting_btn_arrow4"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="28dp"
+                    android:layout_marginRight="40dp"
+                    android:background="@drawable/setting_btn_arrow"
+                    android:clipToOutline="true" />
+
+                <View
+                    android:id="@+id/setting_btn_arrow6"
+                    android:layout_width="10dp"
+                    android:layout_height="18dp"
+                    android:layout_below="@id/setting_btn_arrow5"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="27dp"
+                    android:layout_marginRight="40dp"
+                    android:background="@drawable/setting_btn_arrow"
+                    android:clipToOutline="true" />
+
+                <View
+                    android:id="@+id/setting_btn_arrow7"
+                    android:layout_width="10dp"
+                    android:layout_height="18dp"
+                    android:layout_below="@id/setting_btn_arrow6"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="27dp"
+                    android:layout_marginRight="40dp"
+                    android:background="@drawable/setting_btn_arrow"
+                    android:clipToOutline="true" />
+
+                <View
+                    android:id="@+id/setting_btn_arrow8"
+                    android:layout_width="10dp"
+                    android:layout_height="18dp"
+                    android:layout_below="@id/setting_btn_arrow7"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="27dp"
+                    android:layout_marginRight="40dp"
+                    android:background="@drawable/setting_btn_arrow"
+                    android:clipToOutline="true" />
+
+                <TextView
+                    android:id="@+id/cache_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/setting_btn_arrow5"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="27dp"
+                    android:layout_marginRight="60dp"
+                    android:text="-GB"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <Button
+                        android:id="@+id/version_btn"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/setting_btn"
+                        android:elevation="4dp"
+                        android:gravity="start|center_vertical"
+                        android:text="  检测更新" />
+                </LinearLayout>
+
+
+                <TextView
+                    android:id="@+id/version"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginRight="45dp"
+                    android:text="1.0.0"
+                    android:textSize="14sp" />
+
+                <View
+                    android:id="@+id/setting_btn_arrow9"
+                    android:layout_width="10dp"
+                    android:layout_height="18dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/setting_btn_arrow" />
+
+            </RelativeLayout>
         </LinearLayout>
 
-        <View
-            android:id="@+id/setting_btn_arrow1"
-            android:layout_width="10dp"
-            android:layout_height="18dp"
-            android:layout_below="@id/account_settings"
-            android:layout_alignParentRight="true"
-            android:layout_marginLeft="0dp"
-            android:layout_marginTop="18dp"
-            android:layout_marginRight="40dp"
-            android:background="@drawable/setting_btn_arrow"
-            android:clipToOutline="true" />
-
-        <View
-            android:id="@+id/setting_btn_arrow2"
-            android:layout_width="10dp"
-            android:layout_height="18dp"
-            android:layout_below="@id/setting_btn_arrow1"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="28dp"
-            android:layout_marginRight="40dp"
-            android:background="@drawable/setting_btn_arrow"
-            android:clipToOutline="true" />
-
-        <View
-            android:id="@+id/setting_btn_arrow3"
-            android:layout_width="10dp"
-            android:layout_height="18dp"
-            android:layout_below="@id/setting_btn_arrow2"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="27dp"
-            android:layout_marginRight="40dp"
-            android:background="@drawable/setting_btn_arrow"
-            android:clipToOutline="true" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <View
-            android:id="@+id/item2"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/setting_item"
-            android:shadowColor="@color/black"
-            android:shadowRadius="3" />
-
-        <TextView
-            android:id="@+id/normal_settings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:layout_marginTop="32dp"
-            android:text="通用" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/normal_settings"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/notice"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="0dp"
-                android:background="@drawable/setting_btn"
-                android:elevation="4dp"
-                android:gravity="start|center_vertical"
-                android:text="  消息通知" />
-
-            <Button
-                android:id="@+id/sound_quality"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_margin="10dp"
-                android:background="@drawable/setting_btn"
-                android:elevation="4dp"
-                android:gravity="start|center_vertical"
-                android:text="  音质选择" />
-
-            <Button
-                android:id="@+id/cache_limit"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="0dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="0dp"
-                android:background="@drawable/setting_btn"
-                android:elevation="4dp"
-                android:gravity="start|center_vertical"
-                android:text="  音乐缓存上限" />
-
-            <Button
-                android:id="@+id/clear_cache"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="0dp"
-                android:background="@drawable/setting_btn"
-                android:elevation="4dp"
-                android:gravity="start|center_vertical"
-                android:text="  清除缓存" />
-
-            <Button
-                android:id="@+id/api"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_margin="10dp"
-                android:background="@drawable/setting_btn"
-                android:elevation="4dp"
-                android:gravity="start|center_vertical"
-                android:text="  API地址" />
-        </LinearLayout>
-
-        <View
-            android:id="@+id/setting_btn_arrow4"
-            android:layout_width="10dp"
-            android:layout_height="18dp"
-            android:layout_below="@id/normal_settings"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="18dp"
-            android:layout_marginRight="40dp"
-            android:background="@drawable/setting_btn_arrow"
-            android:clipToOutline="true" />
-
-        <View
-            android:id="@+id/setting_btn_arrow5"
-            android:layout_width="10dp"
-            android:layout_height="18dp"
-            android:layout_below="@id/setting_btn_arrow4"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="28dp"
-            android:layout_marginRight="40dp"
-            android:background="@drawable/setting_btn_arrow"
-            android:clipToOutline="true" />
-
-        <View
-            android:id="@+id/setting_btn_arrow6"
-            android:layout_width="10dp"
-            android:layout_height="18dp"
-            android:layout_below="@id/setting_btn_arrow5"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="27dp"
-            android:layout_marginRight="40dp"
-            android:background="@drawable/setting_btn_arrow"
-            android:clipToOutline="true" />
-
-        <View
-            android:id="@+id/setting_btn_arrow7"
-            android:layout_width="10dp"
-            android:layout_height="18dp"
-            android:layout_below="@id/setting_btn_arrow6"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="27dp"
-            android:layout_marginRight="40dp"
-            android:background="@drawable/setting_btn_arrow"
-            android:clipToOutline="true" />
-
-        <View
-            android:id="@+id/setting_btn_arrow8"
-            android:layout_width="10dp"
-            android:layout_height="18dp"
-            android:layout_below="@id/setting_btn_arrow7"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="27dp"
-            android:layout_marginRight="40dp"
-            android:background="@drawable/setting_btn_arrow"
-            android:clipToOutline="true" />
-
-        <TextView
-            android:id="@+id/cache_size"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/setting_btn_arrow5"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="27dp"
-            android:layout_marginRight="60dp"
-            android:text="-GB"
-            android:textSize="12sp" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:id="@+id/version_btn"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_margin="10dp"
-                android:background="@drawable/setting_btn"
-                android:elevation="4dp"
-                android:gravity="start|center_vertical"
-                android:text="  检测更新" />
-        </LinearLayout>
-
-
-        <TextView
-            android:id="@+id/version"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="18dp"
-            android:layout_marginRight="45dp"
-            android:text="1.0.0"
-            android:textSize="14sp" />
-
-        <View
-            android:id="@+id/setting_btn_arrow9"
-            android:layout_width="10dp"
-            android:layout_height="18dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="18dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/setting_btn_arrow" />
-
-    </RelativeLayout>
+    </ScrollView>
 
 </LinearLayout>
