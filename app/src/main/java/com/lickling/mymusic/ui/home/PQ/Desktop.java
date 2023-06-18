@@ -10,6 +10,7 @@ import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.lickling.mymusic.R;
 import com.lickling.mymusic.ui.home.test.MainActivity;
@@ -95,6 +96,27 @@ public class Desktop extends AppCompatActivity {
                 button7.startAnimation(animation);
             }
         });
+
+        // 我喜欢按钮
+        ImageView imageView2 = findViewById(R.id.imageView2);
+        imageView2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Animation animation = AnimationUtils.loadAnimation(Desktop.this,R.anim.alpha);
+                imageView2.startAnimation(animation);
+            }
+        });
+
+        //个人头像按键
+        ImageView imageView5 = findViewById(R.id.imageView5);
+        imageView5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Animation animation = AnimationUtils.loadAnimation(Desktop.this,R.anim.alpha);
+                imageView5.startAnimation(animation);
+            }
+        });
+
 
     }
 }
