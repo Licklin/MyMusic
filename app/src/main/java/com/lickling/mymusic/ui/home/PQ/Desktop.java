@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -239,6 +240,35 @@ public class Desktop extends AppCompatActivity {
             }
         });
 
+        ImageView imageView10 = findViewById(R.id.imageView10);
+        imageView10.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(new Intent(Desktop.this,Desktop2.class));
+
+            }
+        });
+
+        ImageView imageView11 = findViewById(R.id.imageView11);
+        imageView11.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(new Intent(Desktop.this,Desktop3.class));
+
+            }
+        });
+
+        ImageView imageView12 = findViewById(R.id.imageView12);
+        imageView12.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(new Intent(Desktop.this,Desktop4.class));
+
+            }
+        });
 
     }
 }
