@@ -37,12 +37,14 @@ public class EditActivity extends AppCompatActivity {
         apiName = findViewById(R.id.api_name);
         URL = findViewById(R.id.api_url);
 
-
+        intent = getIntent();
+        apiName.setText(intent.getStringExtra("Title"));
+        URL.setText(intent.getStringExtra("Url"));
+        isAdd = intent.getBooleanExtra("isAdd", false);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
-
             }
         });
 
@@ -56,9 +58,9 @@ public class EditActivity extends AppCompatActivity {
                     Bundle addData = new Bundle();
                     addData.putString("mode", "0");
 //                    addData.putInt("mode",0);
-                    addData.putString("resultName",apiName.getText().toString());
-                    addData.putString("resultURL",URL.getText().toString());
-                    backIntent.putExtra("result",addData);
+                    addData.putString("resultName", apiName.getText().toString());
+                    addData.putString("resultURL", URL.getText().toString());
+                    backIntent.putExtra("result", addData);
                     setResult(RESULT_OK, backIntent);
 
 //                    Toast.makeText(EditActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
@@ -67,11 +69,10 @@ public class EditActivity extends AppCompatActivity {
                     Intent backIntent = new Intent();
                     Bundle addData = new Bundle();
                     addData.putString("mode", "1");
-//                    addData.putInt("mode",0);
-                    addData.putString("resultName",apiName.getText().toString());
-                    addData.putString("resultURL",URL.getText().toString());
-                    addData.putString("resultNum",intent.getStringExtra("Num"));
-                    backIntent.putExtra("result",addData);
+                    addData.putString("resultName", apiName.getText().toString());
+                    addData.putString("resultURL", URL.getText().toString());
+                    addData.putInt("resultNum", intent.getIntExtra("Num",0));
+                    backIntent.putExtra("result", addData);
 
                     setResult(RESULT_OK, backIntent);
 //                    Toast.makeText(EditActivity.this, "编辑成功", Toast.LENGTH_SHORT).show();
@@ -81,9 +82,6 @@ public class EditActivity extends AppCompatActivity {
                 return true;
             }
         });
-        intent = getIntent();
-        apiName.setText(intent.getStringExtra("Title"));
-        URL.setText(intent.getStringExtra("Url"));
-        isAdd=intent.getBooleanExtra("isAdd",false);
+
     }
 }

@@ -36,7 +36,7 @@
             android:name=".ui.setting.password.PassWordActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.home.PQ.Desktop"
+            android:name=".ui.setting.home.SettingHomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

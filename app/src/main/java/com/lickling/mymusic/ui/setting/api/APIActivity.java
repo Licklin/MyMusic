@@ -62,7 +62,7 @@ public class APIActivity extends AppCompatActivity {
                 intent.putExtra("Title", "");
                 intent.putExtra("URL", "");
                 intent.putExtra("isAdd",true);
-                startActivity(intent);
+                startActivityForResult(intent,1);
                 return true;
             }
         });
@@ -92,8 +92,8 @@ public class APIActivity extends AppCompatActivity {
             {
                 String name = dataBundle.getString("resultName");
                 String URL = dataBundle.getString("resultURL");
-                Integer num = dataBundle.getInt("resultNum",0);
-                Toast.makeText(this, name, Toast.LENGTH_SHORT).show();
+                Integer num = dataBundle.getInt("resultNum");
+                Toast.makeText(this, num.toString(), Toast.LENGTH_SHORT).show();
                 listItems.get(num).setTitle(name);
                 listItems.get(num).setSubtitle(URL);
             }

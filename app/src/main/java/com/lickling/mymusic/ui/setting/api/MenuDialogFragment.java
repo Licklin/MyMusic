@@ -80,7 +80,7 @@ public class MenuDialogFragment extends BottomSheetDialogFragment {
                 intent.putExtra("Title", titleString);
 //                Toast.makeText(context, urlString, Toast.LENGTH_SHORT).show();
                 intent.putExtra("Url", urlString);
-                startActivity(intent);
+                startActivityForResult(intent,1);
                 dismiss();
 
             }
