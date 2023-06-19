@@ -11,7 +11,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyMusic"
         tools:targetApi="31">
-
+        <activity
+            android:name=".ui.home.PQ.Desktop2"
+            android:exported="false" />
+        <activity
+            android:name=".ui.home.PQ.Desktop3"
+            android:exported="false" />
+        <activity
+            android:name=".ui.home.PQ.Desktop4"
+            android:exported="false" />
+        <activity
+            android:name=".ui.setting.api.EditActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.setting.api.APIActivity"
             android:exported="false">

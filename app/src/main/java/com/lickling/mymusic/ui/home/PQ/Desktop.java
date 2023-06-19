@@ -2,6 +2,9 @@ package com.lickling.mymusic.ui.home.PQ;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -54,6 +57,26 @@ public class Desktop extends AppCompatActivity {
             public void onClick(View v) {
                 Animation animation = AnimationUtils.loadAnimation(Desktop.this,R.anim.alpha);
                 button3.startAnimation(animation);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(Desktop.this);
+                builder.setIcon(R.drawable.baseline_lightbulb_24);
+                builder.setTitle("功能待完善");
+                builder.setMessage("敬请期待");
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                builder.create();
+                builder.show();
+
             }
         });
 
@@ -64,6 +87,26 @@ public class Desktop extends AppCompatActivity {
             public void onClick(View v) {
                 Animation animation = AnimationUtils.loadAnimation(Desktop.this,R.anim.alpha);
                 button4.startAnimation(animation);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(Desktop.this);
+                builder.setIcon(R.drawable.baseline_lightbulb_24);
+                builder.setTitle("功能待完善");
+                builder.setMessage("敬请期待");
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                builder.create();
+                builder.show();
+
             }
         });
 
@@ -74,6 +117,26 @@ public class Desktop extends AppCompatActivity {
             public void onClick(View v) {
                 Animation animation = AnimationUtils.loadAnimation(Desktop.this,R.anim.alpha);
                 button5.startAnimation(animation);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(Desktop.this);
+                builder.setIcon(R.drawable.baseline_lightbulb_24);
+                builder.setTitle("功能待完善");
+                builder.setMessage("敬请期待");
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                builder.create();
+                builder.show();
+
             }
         });
 
@@ -84,6 +147,26 @@ public class Desktop extends AppCompatActivity {
             public void onClick(View v) {
                 Animation animation = AnimationUtils.loadAnimation(Desktop.this,R.anim.alpha);
                 button6.startAnimation(animation);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(Desktop.this);
+                builder.setIcon(R.drawable.baseline_lightbulb_24);
+                builder.setTitle("功能待完善");
+                builder.setMessage("敬请期待");
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                builder.create();
+                builder.show();
+
             }
         });
 
@@ -94,6 +177,26 @@ public class Desktop extends AppCompatActivity {
             public void onClick(View v) {
                 Animation animation = AnimationUtils.loadAnimation(Desktop.this,R.anim.alpha);
                 button7.startAnimation(animation);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(Desktop.this);
+                builder.setIcon(R.drawable.baseline_lightbulb_24);
+                builder.setTitle("功能待完善");
+                builder.setMessage("敬请期待");
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                builder.create();
+                builder.show();
+
             }
         });
 
@@ -114,9 +217,58 @@ public class Desktop extends AppCompatActivity {
             public void onClick(View v) {
                 Animation animation = AnimationUtils.loadAnimation(Desktop.this,R.anim.alpha);
                 imageView5.startAnimation(animation);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(Desktop.this);
+                builder.setIcon(R.drawable.baseline_lightbulb_24);
+                builder.setTitle("功能待完善");
+                builder.setMessage("敬请期待");
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                builder.create();
+                builder.show();
+
             }
         });
 
+        ImageView imageView10 = findViewById(R.id.imageView10);
+        imageView10.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(new Intent(Desktop.this,Desktop2.class));
+
+            }
+        });
+
+        ImageView imageView11 = findViewById(R.id.imageView11);
+        imageView11.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(new Intent(Desktop.this,Desktop3.class));
+
+            }
+        });
+
+        ImageView imageView12 = findViewById(R.id.imageView12);
+        imageView12.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(new Intent(Desktop.this,Desktop4.class));
+
+            }
+        });
 
     }
 }
