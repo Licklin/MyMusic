@@ -25,7 +25,9 @@
             android:exported="false" />
         <activity
             android:name=".ui.setting.api.APIActivity"
-            android:exported="false" />
+            android:exported="false">
+        </activity>
+
         <activity
             android:name=".ui.setting.notice.NoticeActivity"
             android:exported="false" />
@@ -33,10 +35,19 @@
             android:name=".ui.setting.sound_quality.SoundQualityActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.setting.home.SettingHomeActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.setting.password.PassWordActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.setting.home.SettingHomeActivity"
+            android:name=".ui.home.PQ.Desktop"
+            android:exported="false">
+
+        </activity>
+
+        <activity
+            android:name=".ui.load.LoadActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -44,6 +55,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.home.test.MainActivity"
+            android:exported="false" />
 
     </application>
 
