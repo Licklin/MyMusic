@@ -1,26 +1,34 @@
 package com.lickling.mymusic.ui.setting.home;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import com.lickling.mymusic.R;
 import com.lickling.mymusic.ui.setting.api.APIActivity;
+import com.lickling.mymusic.ui.setting.dialog.EditDialog;
 import com.lickling.mymusic.ui.setting.home.presenter.IPresenter;
 import com.lickling.mymusic.ui.setting.home.presenter.MainPresenter;
 import com.lickling.mymusic.ui.setting.notice.NoticeActivity;
@@ -57,43 +65,15 @@ public class SettingHomeActivity extends AppCompatActivity implements MainView {
             window.setStatusBarColor(Color.TRANSPARENT);
         }
         mainPresenter = new MainPresenter(this); // V层交给P层
-//        MenuDialogFragment dialogFragment = new MenuDialogFragment(this);
 
-        initDialog();
         initFindView();
         toolbarBack();
         setClick();
 
     }
 
-    private void initEditDialog(){
-        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View popupEditView = inflater.inflate(R.layout.setting_dialog_layout, null);
-
-        popupEditWindow = new PopupWindow(popupEditView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
-        popupEditWindow.setAnimationStyle(android.R.style.Animation_Dialog);
-        popupEditWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        Button btn_ok = popupEditView.findViewById(R.id.btn_ok);
-        Button btn_cancel = popupEditView.findViewById(R.id.btn_cancel);
-        btn_ok.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 点击确定后的处理
-                Toast.makeText(SettingHomeActivity.this, "退出成功", Toast.LENGTH_SHORT).show();
-                popupEditWindow.dismiss();
-            }
-        });
-
-        btn_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 点击取消后的处理
-                popupEditWindow.dismiss();
-            }
-        });
-    }
-
-    private void initDialog() {
+    // 使用PopupWindow实现Dialog
+    private void initPopupWindowDialog() {
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View popupView = inflater.inflate(R.layout.setting_dialog_layout, null);
 
@@ -134,7 +114,7 @@ public class SettingHomeActivity extends AppCompatActivity implements MainView {
         version = findViewById(R.id.version);
     }
 
-    void toolbarBack() {
+    private void toolbarBack() {
         toolbar = findViewById(R.id.setting_navigation);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,7 +125,7 @@ public class SettingHomeActivity extends AppCompatActivity implements MainView {
 
     }
 
-    void setClick() {
+    private void setClick() {
         passWord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -167,13 +147,16 @@ public class SettingHomeActivity extends AppCompatActivity implements MainView {
         logOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+//                popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0); //使用弹出的popupWindow对话框
+                showDialog("退出账号","123");
             }
         });
         accountCancellation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                EditDialog dialog = new EditDialog();
+//                dialog.show(getFragmentManager(), "MyDialogFragment");
+                showEditDialog("账号注销", "123");
             }
         });
         cacheLimit.setOnClickListener(new View.OnClickListener() {
@@ -202,6 +185,112 @@ public class SettingHomeActivity extends AppCompatActivity implements MainView {
         });
 
 
+    }
+
+    private void showEditDialog(String title, String subtitle) {
+        Dialog dialog = new Dialog(this);
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.setting_edit_dialog, null);
+        EditText mEditText = dialogView.findViewById(R.id.confirm_user_name_edit);
+        TextView mTitle = dialogView.findViewById(R.id.title);
+        TextView mSubtitle = dialogView.findViewById(R.id.subtitle);
+        Button mConfirmButton = dialogView.findViewById(R.id.btn_ok);
+        Button mCancelButton = dialogView.findViewById(R.id.btn_cancel);
+        mTitle.setText(title);
+        mSubtitle.setText(subtitle);
+        mConfirmButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //账号注销操作
+                Toast.makeText(SettingHomeActivity.this, "成功", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+        });
+        mCancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+
+        dialog.setContentView(dialogView);
+        mEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                // 如果 oldPassWordEdit 获得了焦点，则将下划线颜色设置为橙色
+                if (hasFocus) {
+                    mEditText.getBackground().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.our_orange), PorterDuff.Mode.SRC_IN);
+                }
+                // 如果 oldPassWordEdit 失去了焦点，则将下划线颜色恢复默认颜色
+                else {
+                    mEditText.getBackground().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.hint_text), PorterDuff.Mode.SRC_IN);
+                }
+            }
+        });
+        mEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String text = s.toString().trim();
+                if (text.equals(subtitle)) {
+                    mConfirmButton.setEnabled(true);
+                } else {
+                    mConfirmButton.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+
+            }
+        });
+
+
+        dialog.show();
+    }
+
+    private void showDialog(String title, String subtitle) {
+        Dialog dialog = new Dialog(this);
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.setting_dialog_layout, null);
+        dialog.setContentView(dialogView);
+        TextView mTitle = dialogView.findViewById(R.id.title);
+        TextView mSubtitle = dialogView.findViewById(R.id.subtitle);
+        Button btn_ok = dialogView.findViewById(R.id.btn_ok);
+        Button btn_cancel = dialogView.findViewById(R.id.btn_cancel);
+        mTitle.setText(title);
+        mSubtitle.setText(subtitle);
+        btn_ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 点击确定后的处理
+                Toast.makeText(SettingHomeActivity.this, "退出成功", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+        });
+
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 点击取消后的处理
+                dialog.dismiss();
+            }
+        });
+        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+
+            }
+        });
+
+        dialog.show();
     }
 
     @Override
