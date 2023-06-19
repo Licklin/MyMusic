@@ -63,7 +63,7 @@ public class EditActivity extends AppCompatActivity {
                     backIntent.putExtra("result", addData);
                     setResult(RESULT_OK, backIntent);
 
-//                    Toast.makeText(EditActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
 
                 } else {
                     Intent backIntent = new Intent();
@@ -75,7 +75,7 @@ public class EditActivity extends AppCompatActivity {
                     backIntent.putExtra("result", addData);
 
                     setResult(RESULT_OK, backIntent);
-//                    Toast.makeText(EditActivity.this, "编辑成功", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditActivity.this, "编辑成功", Toast.LENGTH_SHORT).show();
                 }
                 finish();
 

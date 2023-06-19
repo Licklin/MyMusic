@@ -75,8 +75,7 @@ public class APIActivity extends AppCompatActivity {
         listItems = new ArrayList<>();
         // 在此处添加数据到listItems
         listItems.add(new ListItem("腾讯云", "https://service-hrf5csss-1318703950.gz.apigw.tencentcs.com/release/"));
-        listItems.add(new ListItem("Title 2", "Subtitle 2"));
-        listItems.add(new ListItem("Title 3", "Subtitle 3"));
+
         FragmentManager manager = getSupportFragmentManager();
         listAdapter = new ListAdapter(listItems, this);
         recyclerView.setAdapter(listAdapter);
@@ -93,14 +92,12 @@ public class APIActivity extends AppCompatActivity {
                 String name = dataBundle.getString("resultName");
                 String URL = dataBundle.getString("resultURL");
                 Integer num = dataBundle.getInt("resultNum");
-                Toast.makeText(this, num.toString(), Toast.LENGTH_SHORT).show();
                 listItems.get(num).setTitle(name);
                 listItems.get(num).setSubtitle(URL);
             }
             else {
                 String name = dataBundle.getString("resultName");
                 String URL = dataBundle.getString("resultURL");
-                Toast.makeText(this, name, Toast.LENGTH_SHORT).show();
                 listItems.add(new ListItem(name, URL));
 
             }

@@ -1,6 +1,8 @@
 package com.lickling.mymusic.ui.setting.api;
 
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -72,19 +74,38 @@ public class MenuDialogFragment extends BottomSheetDialogFragment {
         url.setText(this.urlString);
 
         Button edit = view.findViewById(R.id.edit_btn);
+        Button copy = view.findViewById(R.id.copy_btn);
+        Button delete = view.findViewById(R.id.delete_btn);
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, EditActivity.class);
                 intent.putExtra("Num", selectedItem);
                 intent.putExtra("Title", titleString);
-//                Toast.makeText(context, urlString, Toast.LENGTH_SHORT).show();
                 intent.putExtra("Url", urlString);
                 startActivityForResult(intent,1);
                 dismiss();
-
             }
         });
+        copy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clipData = ClipData.newPlainText("url", url.getText().toString());
+                clipboardManager.setPrimaryClip(clipData);
+                Toast.makeText(context, "已复制到剪切板", Toast.LENGTH_SHORT).show();
+                dismiss();
+            }
+        });
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dismiss();
+            }
+        });
+
+
         // 获取其他按钮的实例并设置 OnClickListener
         return view;
     }
