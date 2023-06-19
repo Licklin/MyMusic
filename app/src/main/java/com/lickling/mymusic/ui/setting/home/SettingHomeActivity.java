@@ -1,12 +1,18 @@
 package com.lickling.mymusic.ui.setting.home;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +43,8 @@ public class SettingHomeActivity extends AppCompatActivity implements MainView {
     private TextView cacheSize;
     private TextView version;
     private Toolbar toolbar;
+    private PopupWindow popupWindow;
+    private PopupWindow popupEditWindow;
 
 
     @Override
@@ -49,11 +57,67 @@ public class SettingHomeActivity extends AppCompatActivity implements MainView {
             window.setStatusBarColor(Color.TRANSPARENT);
         }
         mainPresenter = new MainPresenter(this); // V层交给P层
+//        MenuDialogFragment dialogFragment = new MenuDialogFragment(this);
+
+        initDialog();
         initFindView();
         toolbarBack();
         setClick();
 
+    }
 
+    private void initEditDialog(){
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View popupEditView = inflater.inflate(R.layout.setting_dialog_layout, null);
+
+        popupEditWindow = new PopupWindow(popupEditView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        popupEditWindow.setAnimationStyle(android.R.style.Animation_Dialog);
+        popupEditWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Button btn_ok = popupEditView.findViewById(R.id.btn_ok);
+        Button btn_cancel = popupEditView.findViewById(R.id.btn_cancel);
+        btn_ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 点击确定后的处理
+                Toast.makeText(SettingHomeActivity.this, "退出成功", Toast.LENGTH_SHORT).show();
+                popupEditWindow.dismiss();
+            }
+        });
+
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 点击取消后的处理
+                popupEditWindow.dismiss();
+            }
+        });
+    }
+
+    private void initDialog() {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.setting_dialog_layout, null);
+
+        popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        popupWindow.setAnimationStyle(android.R.style.Animation_Dialog);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Button btn_ok = popupView.findViewById(R.id.btn_ok);
+        Button btn_cancel = popupView.findViewById(R.id.btn_cancel);
+        btn_ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 点击确定后的处理
+                Toast.makeText(SettingHomeActivity.this, "退出成功", Toast.LENGTH_SHORT).show();
+                popupWindow.dismiss();
+            }
+        });
+
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 点击取消后的处理
+                popupWindow.dismiss();
+            }
+        });
     }
 
     private void initFindView() {
@@ -103,7 +167,7 @@ public class SettingHomeActivity extends AppCompatActivity implements MainView {
         logOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
             }
         });
         accountCancellation.setOnClickListener(new View.OnClickListener() {

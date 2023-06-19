@@ -1,6 +1,7 @@
 package com.lickling.mymusic.ui.setting.api;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     private List<ListItem> listItems;
     private Context context;
     private int selectedItem = -1;
+    private MenuDialogFragment dialogFragment;
 
     public ListAdapter(List<ListItem> listItems, Context context) {
         this.listItems = listItems;
@@ -38,11 +40,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
         return holder;
     }
-
-    private void showMenu(View v,Integer selectedItem) {
-
-        MenuDialogFragment dialog = new MenuDialogFragment(context,v,selectedItem);
-        dialog.show(((AppCompatActivity) v.getContext()).getSupportFragmentManager(), "menu");
+    public void setDialog(MenuDialogFragment dialog){
+        dialogFragment=dialog;
     }
 
     @Override
@@ -91,8 +90,14 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 //            selectedItem = getAdapterPosition();
 
             showMenu(v,getAdapterPosition());  // 长按列表项时触发弹出菜单
-
             return true;
         }
+
+
     }
+    private void showMenu(View v,int selectedItem) {
+        dialogFragment.setData(v,selectedItem);//把长按的item的数据给dialog
+        dialogFragment.show(((AppCompatActivity) v.getContext()).getSupportFragmentManager(), "menu");
+    }
+
 }

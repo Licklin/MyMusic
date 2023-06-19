@@ -28,13 +28,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class APIActivity extends AppCompatActivity {
+public class APIActivity extends AppCompatActivity implements MenuDialogFragment.OnDeleteItemListener {
 
     private static final String EDIT_CODE = "1";
     private Toolbar toolbar;
     private RecyclerView recyclerView;
     private ListAdapter listAdapter;
     private List<ListItem> listItems;
+    private MenuDialogFragment dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +62,8 @@ public class APIActivity extends AppCompatActivity {
                 Intent intent = new Intent(APIActivity.this, EditActivity.class);
                 intent.putExtra("Title", "");
                 intent.putExtra("URL", "");
-                intent.putExtra("isAdd",true);
-                startActivityForResult(intent,1);
+                intent.putExtra("isAdd", true);
+                startActivityForResult(intent, 1);
                 return true;
             }
         });
@@ -73,11 +74,15 @@ public class APIActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         listItems = new ArrayList<>();
-        // 在此处添加数据到listItems
+
         listItems.add(new ListItem("腾讯云", "https://service-hrf5csss-1318703950.gz.apigw.tencentcs.com/release/"));
 
         FragmentManager manager = getSupportFragmentManager();
         listAdapter = new ListAdapter(listItems, this);
+
+        dialog = new MenuDialogFragment(this);
+        dialog.setOnDeleteItemListener(this);
+        listAdapter.setDialog(dialog);
         recyclerView.setAdapter(listAdapter);
     }
 
@@ -87,26 +92,31 @@ public class APIActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK && data != null) {
 
             Bundle dataBundle = data.getBundleExtra("result");
-            if (dataBundle.getString("mode").equals(EDIT_CODE))
-            {
+            if (dataBundle.getString("mode").equals(EDIT_CODE)) {
                 String name = dataBundle.getString("resultName");
                 String URL = dataBundle.getString("resultURL");
                 Integer num = dataBundle.getInt("resultNum");
                 listItems.get(num).setTitle(name);
                 listItems.get(num).setSubtitle(URL);
-            }
-            else {
+            } else {
                 String name = dataBundle.getString("resultName");
                 String URL = dataBundle.getString("resultURL");
                 listItems.add(new ListItem(name, URL));
-
             }
-
             listAdapter = new ListAdapter(listItems, this);
+            dialog.setOnDeleteItemListener(this);
+            listAdapter.setDialog(dialog);
             recyclerView.setAdapter(listAdapter);
 
         }
 
+    }
 
+    @Override
+    public void onDeleteItem(int position) {//删除list的item
+        listItems.remove(position);
+        listAdapter.notifyItemRemoved(position);
+        listAdapter.notifyItemRangeChanged(position, listAdapter.getItemCount() - position);
+        recyclerView.setAdapter(listAdapter);
     }
 }

@@ -31,11 +31,36 @@ public class MenuDialogFragment extends BottomSheetDialogFragment {
     private Integer selectedItem;
     private View view;
 
+    private OnDeleteItemListener deleteItemListener;
+
     public MenuDialogFragment() {
 
     }
 
-    public MenuDialogFragment(Context context, View v, Integer selectedItem) {
+    public MenuDialogFragment(Context context) {
+        this.context = context;
+    }
+
+    public interface OnDeleteItemListener {
+        void onDeleteItem(int position);
+    }
+
+
+    public void setOnDeleteItemListener(OnDeleteItemListener listener) {
+        deleteItemListener = listener;
+    }
+
+    public void setData(View v,int selectedItem) {
+        view = v;
+        this.selectedItem = selectedItem;
+        TextView tmp = v.findViewById(R.id.title);
+        this.titleString = tmp.getText().toString();
+
+        tmp = v.findViewById(R.id.subtitle);
+        this.urlString = tmp.getText().toString();
+    }
+
+    public MenuDialogFragment(Context context, View v, int selectedItem) {
         view = v;
         this.selectedItem = selectedItem;
         TextView tmp = v.findViewById(R.id.title);
@@ -83,7 +108,7 @@ public class MenuDialogFragment extends BottomSheetDialogFragment {
                 intent.putExtra("Num", selectedItem);
                 intent.putExtra("Title", titleString);
                 intent.putExtra("Url", urlString);
-                startActivityForResult(intent,1);
+                startActivityForResult(intent, 1);
                 dismiss();
             }
         });
@@ -100,13 +125,15 @@ public class MenuDialogFragment extends BottomSheetDialogFragment {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (selectedItem != -1) {
+                    deleteItemListener.onDeleteItem(selectedItem);
+                    Toast.makeText(context, "删除成功", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "删除失败", Toast.LENGTH_SHORT).show();
+                }
                 dismiss();
             }
         });
-
-
-        // 获取其他按钮的实例并设置 OnClickListener
         return view;
     }
 }
