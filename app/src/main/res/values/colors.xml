@@ -13,4 +13,5 @@
     <color name="setting_btn">#F8F8F8</color>
     <color name="setting_btn_press">#FFFFFF</color>
     <color name="hint_text">#A4BFBFBF</color>
+    <color name="grey">#767676</color>
 </resources>
