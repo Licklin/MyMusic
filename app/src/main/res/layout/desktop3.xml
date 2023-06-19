@@ -55,4 +55,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView26"
         app:srcCompat="@drawable/a13" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="361dp"
+        android:layout_height="373dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="200dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/a21" />
 </androidx.constraintlayout.widget.ConstraintLayout>
