@@ -148,7 +148,7 @@ public class SettingHomeActivity extends AppCompatActivity implements MainView {
             @Override
             public void onClick(View view) {
 //                popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0); //使用弹出的popupWindow对话框
-                showDialog("退出账号","123");
+                showDialog("退出账号", "123");
             }
         });
         accountCancellation.setOnClickListener(new View.OnClickListener() {
@@ -162,13 +162,94 @@ public class SettingHomeActivity extends AppCompatActivity implements MainView {
         cacheLimit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Dialog dialog = new Dialog(SettingHomeActivity.this);
+                View dialogView = LayoutInflater.from(SettingHomeActivity.this).inflate(R.layout.setting_edit_dialog, null);
+                EditText mEditText = dialogView.findViewById(R.id.confirm_user_name_edit);
+                TextView mTitle = dialogView.findViewById(R.id.title);
+                TextView mSubtitle = dialogView.findViewById(R.id.subtitle);
+                Button mConfirmButton = dialogView.findViewById(R.id.btn_ok);
+                Button mCancelButton = dialogView.findViewById(R.id.btn_cancel);
+//                mConfirmButton.setEnabled(true);
+                mTitle.setText("设置缓存上限");
+                mSubtitle.setText("1-8GB");
+                mConfirmButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //账号注销操作
+                        Toast.makeText(SettingHomeActivity.this, "成功", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    }
+                });
+                mCancelButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
 
+                dialog.setContentView(dialogView);
+                mEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                        // 如果 oldPassWordEdit 获得了焦点，则将下划线颜色设置为橙色
+                        if (hasFocus) {
+                            mEditText.getBackground().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.our_orange), PorterDuff.Mode.SRC_IN);
+                        }
+                        // 如果 oldPassWordEdit 失去了焦点，则将下划线颜色恢复默认颜色
+                        else {
+                            mEditText.getBackground().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.hint_text), PorterDuff.Mode.SRC_IN);
+                        }
+                    }
+                });
+                mEditText.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        String text = s.toString().trim();
+                        switch (text) {
+                            case "1":
+                                mConfirmButton.setEnabled(true);
+                                break;
+                            case "2":
+                                mConfirmButton.setEnabled(true);
+                                break;
+                            case "3":
+                                mConfirmButton.setEnabled(true);
+                                break;
+                            case "4":
+                                mConfirmButton.setEnabled(true);
+                                break;
+                            case "5":
+                                mConfirmButton.setEnabled(true);
+                                break;
+                            case "6":
+                                mConfirmButton.setEnabled(true);
+                                break;
+                            case "7":
+                                mConfirmButton.setEnabled(true);
+                                break;
+                            case "8":
+                                mConfirmButton.setEnabled(true);
+                                break;
+                            default:
+                                mConfirmButton.setEnabled(false);
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                    }
+                });
+                dialog.show();
             }
         });
         clearCache.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                showDialog("清除缓存", "");
             }
         });
         api.setOnClickListener(new View.OnClickListener() {
@@ -180,7 +261,7 @@ public class SettingHomeActivity extends AppCompatActivity implements MainView {
         versionBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Toast.makeText(SettingHomeActivity.this, "已是最新版", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -267,11 +348,13 @@ public class SettingHomeActivity extends AppCompatActivity implements MainView {
         Button btn_cancel = dialogView.findViewById(R.id.btn_cancel);
         mTitle.setText(title);
         mSubtitle.setText(subtitle);
+        if (subtitle.equals(""))
+            mSubtitle.setVisibility(View.GONE);
         btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // 点击确定后的处理
-                Toast.makeText(SettingHomeActivity.this, "退出成功", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SettingHomeActivity.this, "成功", Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
             }
         });
