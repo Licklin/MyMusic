@@ -23,7 +23,6 @@ import com.lickling.mymusic.ui.home.test.MainActivity;
 
 public class Desktop extends AppCompatActivity {
 
-    private ImageView bottom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -31,14 +31,12 @@
         <activity
             android:name=".ui.setting.password.PassWordActivity"
             android:exported="false" />
+
+
+
+
         <activity
             android:name=".ui.home.PQ.Desktop"
-            android:exported="false">
-
-        </activity>
-
-        <activity
-            android:name=".ui.load.LoadActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -46,6 +44,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".ui.home.test.MainActivity"
             android:exported="false" />
