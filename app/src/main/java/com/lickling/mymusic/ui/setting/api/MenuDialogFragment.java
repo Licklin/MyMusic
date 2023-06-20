@@ -1,6 +1,8 @@
 package com.lickling.mymusic.ui.setting.api;
 
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,11 +31,36 @@ public class MenuDialogFragment extends BottomSheetDialogFragment {
     private Integer selectedItem;
     private View view;
 
+    private OnDeleteItemListener deleteItemListener;
+
     public MenuDialogFragment() {
 
     }
 
-    public MenuDialogFragment(Context context, View v, Integer selectedItem) {
+    public MenuDialogFragment(Context context) {
+        this.context = context;
+    }
+
+    public interface OnDeleteItemListener {
+        void onDeleteItem(int position);
+    }
+
+
+    public void setOnDeleteItemListener(OnDeleteItemListener listener) {
+        deleteItemListener = listener;
+    }
+
+    public void setData(View v,int selectedItem) {
+        view = v;
+        this.selectedItem = selectedItem;
+        TextView tmp = v.findViewById(R.id.title);
+        this.titleString = tmp.getText().toString();
+
+        tmp = v.findViewById(R.id.subtitle);
+        this.urlString = tmp.getText().toString();
+    }
+
+    public MenuDialogFragment(Context context, View v, int selectedItem) {
         view = v;
         this.selectedItem = selectedItem;
         TextView tmp = v.findViewById(R.id.title);
@@ -72,20 +99,41 @@ public class MenuDialogFragment extends BottomSheetDialogFragment {
         url.setText(this.urlString);
 
         Button edit = view.findViewById(R.id.edit_btn);
+        Button copy = view.findViewById(R.id.copy_btn);
+        Button delete = view.findViewById(R.id.delete_btn);
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, EditActivity.class);
                 intent.putExtra("Num", selectedItem);
                 intent.putExtra("Title", titleString);
-//                Toast.makeText(context, urlString, Toast.LENGTH_SHORT).show();
                 intent.putExtra("Url", urlString);
-                startActivity(intent);
+                startActivityForResult(intent, 1);
                 dismiss();
-
             }
         });
-        // 获取其他按钮的实例并设置 OnClickListener
+        copy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clipData = ClipData.newPlainText("url", url.getText().toString());
+                clipboardManager.setPrimaryClip(clipData);
+                Toast.makeText(context, "已复制到剪切板", Toast.LENGTH_SHORT).show();
+                dismiss();
+            }
+        });
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (selectedItem != -1) {
+                    deleteItemListener.onDeleteItem(selectedItem);
+                    Toast.makeText(context, "删除成功", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "删除失败", Toast.LENGTH_SHORT).show();
+                }
+                dismiss();
+            }
+        });
         return view;
     }
 }

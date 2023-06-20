@@ -25,7 +25,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="10dp"
             android:layout_weight="8"
             android:orientation="vertical"
             >
@@ -51,7 +52,7 @@
 
         <ImageView
             android:id="@+id/custom_icon"
-            android:layout_width="28dp"
+            android:layout_width="wrap_content"
             android:layout_height="23dp"
             android:layout_marginRight="15dp"
             android:layout_weight="2"
