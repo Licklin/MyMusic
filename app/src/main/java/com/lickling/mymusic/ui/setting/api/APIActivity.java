@@ -17,10 +17,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.lickling.mymusic.R;
+import com.lickling.mymusic.ui.home.PQ.Desktop;
 import com.lickling.mymusic.ui.setting.home.SettingHomeActivity;
 import com.lickling.mymusic.ui.setting.sound_quality.SoundQualityActivity;
 
@@ -119,4 +123,6 @@ public class APIActivity extends AppCompatActivity implements MenuDialogFragment
         listAdapter.notifyItemRangeChanged(position, listAdapter.getItemCount() - position);
         recyclerView.setAdapter(listAdapter);
     }
+
+
 }

@@ -1,342 +1,434 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_white">
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:background="@color/background_white"
+    android:orientation="vertical">
 
-    <ImageView
-        android:layout_width="275dp"
-        android:layout_height="38dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="60dp"
-        android:background="@drawable/a1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <TextView
-        android:layout_width="wrap_content"
+    <FrameLayout
+        android:id="@+id/framelayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="18dp"
-        android:layout_marginTop="10dp"
-        android:text="Mymusic"
-        android:textSize="30dp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_weight="1"
+        android:background="@color/background_white"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="308dp"
-        android:layout_marginTop="60dp"
-        android:background="@drawable/a2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/background_white"
+            android:orientation="vertical">
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="358dp"
-        android:layout_marginTop="58dp"
-        android:background="@drawable/a3"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+<!--    1-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
 
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="18dp"
-        android:layout_marginTop="240dp"
-        android:background="@drawable/a4"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:text="Mymusic"
+                    android:textSize="25dp" />
+            </LinearLayout>
 
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="240dp"
-        android:background="@drawable/a5"
-        app:layout_constraintStart_toEndOf="@+id/button3"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/button5"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="240dp"
-        android:background="@drawable/a6"
-        app:layout_constraintStart_toEndOf="@+id/button4"
-        app:layout_constraintTop_toTopOf="parent" />
+            <!--    2-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/button6"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="240dp"
-        android:background="@drawable/a7"
-        app:layout_constraintStart_toEndOf="@+id/button5"
-        app:layout_constraintTop_toTopOf="parent" />
+                <LinearLayout
+                    android:layout_width="260dp"
+                    android:layout_height="35dp"
+                    android:layout_weight="2"
+                    android:gravity="center">
 
-    <Button
-        android:id="@+id/button7"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="240dp"
-        android:background="@drawable/a8"
-        app:layout_constraintStart_toEndOf="@+id/button6"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="394dp"
-        android:layout_height="102dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="232dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/desktop_item" />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/pq_input">
+                    </ImageView>
+                </LinearLayout>
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="395dp"
-        android:layout_height="64dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
-        app:srcCompat="@drawable/desktop_item" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:layout_gravity="center"
+                    android:gravity="center">
 
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="395dp"
-        android:layout_height="230dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="15dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
-        app:srcCompat="@drawable/desktop_item" />
+                    <ImageView
+                        android:id="@+id/imageview_scan"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:background="@drawable/pq_scan" />
+                </LinearLayout>
 
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="395dp"
-        android:layout_height="106dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/desktop_item" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:layout_gravity="center"
+                    android:gravity="center">
 
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="60dp"
+                    <ImageView
+                        android:id="@+id/imageview_recognition"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:background="@drawable/pq_recognition" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <!--    // 3-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/desktop_item">
+
+                <ImageView
+                    android:id="@+id/imageview_personage"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/baseline_person_24" />
+
+            </LinearLayout>
+
+
+            <!--    // 4-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/desktop_item"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/imageview_hot"
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        android:background="@drawable/pq_hot" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="热门" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/imageview_rank"
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        android:background="@drawable/pq_rank" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="排行榜" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/imageview_station"
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        android:background="@drawable/pq_station" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="电台" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/imageview_recommend"
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        android:background="@drawable/pq_recommend" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="推荐" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/imageview_singer"
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        android:background="@drawable/pq_personage" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="歌手" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <!--    // 5-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/desktop_item"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:id="@+id/imageview_like"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_marginLeft="15dp"
+                        android:background="@drawable/pq_like" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="9">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="我喜欢"
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <!--    6-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/desktop_item">
+
+            </LinearLayout>
+
+
+            <!--    7-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/desktop_item"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/pq_cover">
+
+                    </ImageView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="3"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="歌曲名"
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="歌手" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/imageView_play"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/pq_play" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/imageView_next"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/pq_next" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center">
+                    <ImageView
+                        android:id="@+id/imageView_list"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/pq_list" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+
+
+<!--8-->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="@+id/imageView4"
-        app:layout_constraintTop_toTopOf="@+id/imageView4"
-        app:srcCompat="@drawable/baseline_person_24" />
+        android:background="@drawable/desktop_item"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="38dp"
-        android:text="热门"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button3" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:gravity="center">
+            <ImageView
+                android:id="@+id/bottom1"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/pq_bottom1_selector"
+                android:layout_gravity="center"/>
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="107dp"
-        android:text="排行榜"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button4" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:gravity="center">
+            <ImageView
+                android:id="@+id/bottom2"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/pq_bottom2_selector"
+                android:layout_gravity="center"/>
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="190dp"
-        android:text="电台"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button5" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:gravity="center">
+            <ImageView
+                android:id="@+id/bottom3"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/pq_bottom3_selector"
+                android:layout_gravity="center"/>
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="264dp"
-        android:text="推荐"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button6" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:gravity="center">
+            <ImageView
+                android:id="@+id/bottom4"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/pq_bottom4_selector"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="339dp"
-        android:text="歌手"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button7" />
 
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="92dp"
-        android:layout_marginTop="20dp"
-        android:text="我喜欢"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/imageView2"
-        app:layout_constraintTop_toTopOf="@+id/imageView2" />
 
-    <ImageView
-        android:id="@+id/imageView7"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintStart_toStartOf="@+id/imageView2"
-        app:layout_constraintTop_toTopOf="@+id/imageView2"
-        app:srcCompat="@drawable/a9" />
+</LinearLayout>
 
-    <ImageView
-        android:id="@+id/imageView8"
-        android:layout_width="392dp"
-        android:layout_height="61dp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/desktop_item" />
 
-    <ImageView
-        android:id="@+id/imageView13"
-        android:layout_width="394dp"
-        android:layout_height="97dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView8"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/desktop_item" />
-
-    <ImageView
-        android:id="@+id/imageView14"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="15dp"
-        app:layout_constraintStart_toStartOf="@+id/imageView13"
-        app:layout_constraintTop_toTopOf="@+id/imageView13"
-        app:srcCompat="@drawable/a14" />
-
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="112dp"
-        android:layout_marginTop="20dp"
-        android:text="歌曲名"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/imageView13"
-        app:layout_constraintTop_toTopOf="@+id/imageView13" />
-
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="112dp"
-        android:layout_marginTop="56dp"
-        android:text="歌手"
-        app:layout_constraintStart_toStartOf="@+id/imageView13"
-        app:layout_constraintTop_toTopOf="@+id/imageView13" />
-
-    <ImageView
-        android:id="@+id/imageView15"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="208dp"
-        android:layout_marginTop="33dp"
-        app:layout_constraintStart_toStartOf="@+id/imageView13"
-        app:layout_constraintTop_toTopOf="@+id/imageView13"
-        app:srcCompat="@drawable/a15" />
-
-    <ImageView
-        android:id="@+id/imageView16"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="272dp"
-        android:layout_marginTop="33dp"
-        app:layout_constraintStart_toStartOf="@+id/imageView13"
-        app:layout_constraintTop_toTopOf="@+id/imageView13"
-        app:srcCompat="@drawable/a16" />
-
-    <ImageView
-        android:id="@+id/imageView17"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="336dp"
-        android:layout_marginTop="33dp"
-        app:layout_constraintStart_toStartOf="@+id/imageView13"
-        app:layout_constraintTop_toTopOf="@+id/imageView13"
-        app:srcCompat="@drawable/a17" />
-
-    <ImageView
-        android:id="@+id/imageView9"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="38dp"
-        android:layout_marginBottom="12dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/a10" />
-
-    <ImageView
-        android:id="@+id/imageView10"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="60dp"
-        android:layout_marginBottom="12dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView9"
-        app:srcCompat="@drawable/a11" />
-
-    <ImageView
-        android:id="@+id/imageView11"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="60dp"
-        android:layout_marginBottom="12dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView10"
-        app:srcCompat="@drawable/a12" />
-
-    <ImageView
-        android:id="@+id/imageView12"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="60dp"
-        android:layout_marginBottom="12dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView11"
-        app:srcCompat="@drawable/a13" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
