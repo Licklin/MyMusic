@@ -1,23 +1,21 @@
-package com.lickling.mymusic.ui.home.test;
+package com.lickling.mymusic;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
+import android.app.Service;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
-import android.widget.EditText;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
-
-import com.lickling.mymusic.R;
-import com.lickling.mymusic.ui.load.LoadActivity;
+import com.lickling.mymusic.service.MusicService;
 import com.lickling.mymusic.utility.MyGlide;
 
-public class MainActivity extends AppCompatActivity {
+public class TestActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +28,16 @@ public class MainActivity extends AppCompatActivity {
         }
 
         ImageView imageView = findViewById(R.id.image_test);
+        Button testButton = findViewById(R.id.test_btn);
+        testButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MusicService testService = new MusicService();
+                testService.onPlay("https://music.163.com/song/media/outer/url?id=2046330392.mp3",false);
+                Toast.makeText(TestActivity.this, "ok", Toast.LENGTH_SHORT).show();
+            }
+        });
         MyGlide myGlide = new MyGlide();
         myGlide.setPicture(this,"https://p1.music.126.net/pleQjKOI26fSenkUGipDLw==/109951166537300832.jpg",imageView);
-
-
-
     }
 }
