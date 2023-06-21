@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
     tools:context=".ui.home.PQ.Desktop_one">
 
     <!-- TODO: Update blank fragment layout -->
@@ -35,25 +37,28 @@
 
             <LinearLayout
                 android:layout_width="260dp"
-                android:layout_height="30dp"
+                android:layout_height="35dp"
                 android:layout_weight="2"
                 android:gravity="center">
 
+
                 <ImageView
+                    android:id="@+id/imageview_input"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:background="@drawable/pq_input" />
+                    android:background="@drawable/pq_input">
+                </ImageView>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
+                android:layout_gravity="center"
                 android:gravity="center">
 
                 <ImageView
-                    android:onClick="llll"
                     android:id="@+id/imageview_scan"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
@@ -64,6 +69,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
+                android:layout_gravity="center"
                 android:gravity="center">
 
                 <ImageView
@@ -244,14 +250,24 @@
         </LinearLayout>
 
 
-        <!--    6-->
+        <!--    // 6-->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/desktop_item">
+            android:layout_height="wrap_content"
+            android:background="@drawable/desktop_item"
+            android:layout_marginTop="20dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp">
+            </androidx.recyclerview.widget.RecyclerView>
 
         </LinearLayout>
+
 
 
         <!--    7-->
@@ -273,9 +289,7 @@
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_gravity="center"
-                    android:background="@drawable/pq_cover">
-
-                </ImageView>
+                    android:background="@drawable/pq_cover"/>
             </LinearLayout>
 
             <LinearLayout
@@ -344,6 +358,8 @@
             </LinearLayout>
 
         </LinearLayout>
+
+
     </LinearLayout>
 
 </FrameLayout>

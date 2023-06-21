@@ -52,6 +52,7 @@
 
 
                     <ImageView
+                        android:id="@+id/imageview_input"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
@@ -94,7 +95,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="15dp"
                 android:background="@drawable/desktop_item">
 
                 <ImageView
@@ -112,7 +113,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="15dp"
                 android:background="@drawable/desktop_item"
                 android:orientation="horizontal">
 
@@ -223,7 +224,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="15dp"
                 android:background="@drawable/desktop_item"
                 android:orientation="horizontal">
 
@@ -261,18 +262,27 @@
             <!--    6-->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/desktop_item">
+                android:layout_height="wrap_content"
+                android:background="@drawable/desktop_item"
+                android:layout_marginTop="15dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view3"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="vertical"/>
 
             </LinearLayout>
+
 
 
             <!--    7-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="15dp"
                 android:background="@drawable/desktop_item"
                 android:orientation="horizontal">
 
@@ -358,7 +368,10 @@
                 </LinearLayout>
 
             </LinearLayout>
+
+
         </LinearLayout>
+
     </FrameLayout>
 
 
@@ -379,7 +392,7 @@
             <ImageView
                 android:id="@+id/bottom1"
                 android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_height="27dp"
                 android:background="@drawable/pq_bottom1_selector"
                 android:layout_gravity="center"/>
         </LinearLayout>
