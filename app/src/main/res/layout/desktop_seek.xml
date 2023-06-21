@@ -12,16 +12,32 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="horizontal">
-        <ImageView
+        android:layout_marginTop="60dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/pq_back"/>
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/imageview_back"
+                android:layout_width="15dp"
+                android:layout_height="20dp"
+                android:background="@drawable/pq_back"
+                android:layout_marginLeft="10dp"/>
+        </LinearLayout>
+
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/pq_input"/>
+            android:layout_width="260dp"
+            android:layout_height="35dp"
+            android:background="@drawable/pq_input"
+            android:layout_marginLeft="20dp"/>
+
+        <ImageView
+            android:id="@+id/imageview_seektext"
+            android:layout_width="35dp"
+            android:layout_height="17dp"
+            android:background="@drawable/pq_seektext"
+            android:layout_marginLeft="15dp"/>
 
 
 
@@ -36,11 +52,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="@drawable/desktop_item">
+        android:background="@drawable/desktop_item"
+        android:layout_marginTop="30dp">
 
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="300dp"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"/>
 
     </LinearLayout>
 
