@@ -38,7 +38,9 @@ public class TestActivity extends AppCompatActivity {
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
             MusicService.MyMusicBinder myMusicBinder = (MusicService.MyMusicBinder) iBinder;
             musicService = myMusicBinder.getMusicService();
-//            if(musicService == null) Toast.makeText(TestActivity.this, "null", Toast.LENGTH_SHORT).show();
+            if (musicService == null)
+                System.out.println("musicService null");
+            else System.out.println("musicService ok");
 
         }
 
@@ -68,6 +70,8 @@ public class TestActivity extends AppCompatActivity {
                 if (musicService == null) {
                     Toast.makeText(TestActivity.this, "null", Toast.LENGTH_SHORT).show();
                     return;
+                } else {
+                    Toast.makeText(TestActivity.this, "ok", Toast.LENGTH_SHORT).show();
                 }
 
 //                String path = "android.resource://" + getPackageName() + "/" + R.raw.jin_test;
@@ -75,7 +79,7 @@ public class TestActivity extends AppCompatActivity {
                 musicService.onPlay("https://music.163.com/song/media/outer/url?id=2046330392.mp3", true);
 //                Toast.makeText(musicService, "播放", Toast.LENGTH_SHORT).show();
 //                musicService.onPlay(path, false);
-                Toast.makeText(TestActivity.this, "ok", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(TestActivity.this, "ok", Toast.LENGTH_SHORT).show();
             }
         });
 //        MyGlide myGlide = new MyGlide();
@@ -85,9 +89,9 @@ public class TestActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        intent = new Intent(TestActivity.this, MusicService.class);
+        intent = new Intent(this, MusicService.class);
 //        this.startService(intent);
-        this.bindService(intent, serviceConnection, Context.BIND_ABOVE_CLIENT);
+        this.bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
     }
 
     @Override

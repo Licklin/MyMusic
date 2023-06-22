@@ -41,6 +41,7 @@ public class MusicService extends BaseService {
 
     public class MyMusicBinder extends Binder {
         public MusicService getMusicService() {
+            Log.e("getMusicService","ok");
             return MusicService.this;
         }
 
@@ -136,7 +137,7 @@ public class MusicService extends BaseService {
         if (mediaPlayer != null) {
             if (mediaPlayer.isPlaying())
                 mediaPlayer.pause();
-            if (!isFirstPlay) {
+            if (!isFirstPlay()) { // 不是第一次播放
                 currentPosition = 0;
                 mediaPlayer.seekTo(0);
                 mediaPlayer.stop();
@@ -180,7 +181,7 @@ public class MusicService extends BaseService {
         } else {
             Log.i(TAG, "mediaPlay为空（null）");
         }
-        if (idFirstPlay()) {
+        if (isFirstPlay()) { // 是第一次播放
             onErrorListener = new OnErrorListener();
             mediaPlayer.setOnErrorListener(onErrorListener);
             mediaPlayer.setOnCompletionListener(new OnCompletionListener());
@@ -188,7 +189,7 @@ public class MusicService extends BaseService {
         }
     }
 
-    public boolean idFirstPlay() {
+    public boolean isFirstPlay() {
         return isFirstPlay;
     }
 
