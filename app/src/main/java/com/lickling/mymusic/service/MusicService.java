@@ -8,6 +8,7 @@ import android.media.AudioAttributes;
 import android.media.AudioFocusRequest;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Binder;
 import android.os.Build;
@@ -41,7 +42,7 @@ public class MusicService extends BaseService {
 
     public class MyMusicBinder extends Binder {
         public MusicService getMusicService() {
-            Log.e("getMusicService","ok");
+            Log.e("getMusicService", "ok");
             return MusicService.this;
         }
 
@@ -68,6 +69,7 @@ public class MusicService extends BaseService {
     public void onTaskRemoved(Intent rootIntent) {
         super.onTaskRemoved(rootIntent);
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -77,6 +79,7 @@ public class MusicService extends BaseService {
     @Override
     public boolean onUnbind(Intent intent) {
         return super.onUnbind(intent);
+
     }
 
 
@@ -154,7 +157,10 @@ public class MusicService extends BaseService {
         stopMediaPlayer();
         if (mediaPlayer != null) {
             try {
-                mediaPlayer.setDataSource(path);
+                if (!isNetPlay) {
+                    mediaPlayer.setDataSource(this, Uri.parse(path));
+                } else
+                    mediaPlayer.setDataSource(path);
                 play(isNetPlay);
             } catch (IOException e) {
 //                throw new RuntimeException(e);
@@ -240,7 +246,7 @@ public class MusicService extends BaseService {
 
         @Override
         public void onPrepared(MediaPlayer mediaPlayer) {
-            if (isFirstPlay) {
+            if (isFirstPlay()) {
                 isFirstPlay = false;
             }
             if (currentPosition > 0) mediaPlayer.seekTo(currentPosition);
