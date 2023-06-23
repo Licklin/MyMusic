@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
@@ -19,6 +20,12 @@
         android:theme="@style/Theme.MyMusic"
         tools:targetApi="31">
 
+        <service android:name=".service.OurMusicService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.media.browse.MediaBrowseService"/>
+            </intent-filter>
+        </service>
 
         <activity
             android:name=".TestActivity"

@@ -36,6 +36,10 @@ public class TestActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        myConn = new MyConn();
+        intent = new Intent(this, MusicService.class);
+        this.bindService(intent, myConn, Context.BIND_AUTO_CREATE);
+
         setContentView(R.layout.test_layout);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Window window = getWindow();
@@ -43,7 +47,6 @@ public class TestActivity extends BaseActivity {
             window.setStatusBarColor(Color.TRANSPARENT);
         }
 
-        myConn = new MyConn();
         ImageView imageView = findViewById(R.id.image_test);
         Button testButton = findViewById(R.id.test_btn);
         testButton.setOnClickListener(new View.OnClickListener() {
@@ -78,19 +81,17 @@ public class TestActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        intent = new Intent(this, MusicService.class);
-        this.bindService(intent, myConn, Context.BIND_AUTO_CREATE);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        this.unbindService(myConn);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        this.unbindService(myConn);
         if (myConn != null) myConn = null;
         if (intent != null) intent = null;
         if (musicService != null) musicService = null;
