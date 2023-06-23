@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -18,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.lickling.mymusic.service.MusicService;
+
 import com.lickling.mymusic.ui.BaseActivity;
 import com.lickling.mymusic.utility.MyGlide;
 
@@ -29,7 +31,6 @@ public class TestActivity extends BaseActivity {
 
 
     protected void init() {
-//        if (!PerU)
     }
 
     @Override
@@ -42,18 +43,26 @@ public class TestActivity extends BaseActivity {
             window.setStatusBarColor(Color.TRANSPARENT);
         }
 
+        myConn = new MyConn();
         ImageView imageView = findViewById(R.id.image_test);
         Button testButton = findViewById(R.id.test_btn);
         testButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 //                MusicService service = new MusicService();
-                if (musicService == null) return;
-                intent = new Intent(TestActivity.this, MusicService.class);
+                if (musicService == null) {
+                    Toast.makeText(TestActivity.this, "null", Toast.LENGTH_SHORT).show();
+                    return;
+                } else {
+                    Toast.makeText(TestActivity.this, "ok", Toast.LENGTH_SHORT).show();
+                }
 
+                String path = "android.resource://" + getPackageName() + "/" + R.raw.jin_test;
 //                testService.onStartCommand(intent, 0, 1);
-                musicService.onPlay("https://music.163.com/song/media/outer/url?id=2046330392.mp3", false);
-                Toast.makeText(TestActivity.this, "ok", Toast.LENGTH_SHORT).show();
+//                musicService.onPlay("https://music.163.com/song/media/outer/url?id=2046330392.mp3", true);
+//                Toast.makeText(musicService, "播放", Toast.LENGTH_SHORT).show();
+                musicService.onPlay(path, false);
+//                Toast.makeText(TestActivity.this, "ok", Toast.LENGTH_SHORT).show();
             }
         });
         MyGlide myGlide = new MyGlide();
@@ -63,15 +72,17 @@ public class TestActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        this.startService(intent);
-        this.bindService(intent, myConn, Context.BIND_ABOVE_CLIENT);
+        intent = new Intent(this, MusicService.class);
+//        this.startService(intent);
+        this.bindService(intent, myConn, Context.BIND_AUTO_CREATE);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         this.unbindService(myConn);
-        this.stopService(intent);
+
+//        this.stopService(intent);
     }
 
     @Override
@@ -89,7 +100,7 @@ public class TestActivity extends BaseActivity {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
             MusicService.MyMusicBinder myMusicBinder = (MusicService.MyMusicBinder) iBinder;
-            musicService = ((MusicService.MyMusicBinder) iBinder).getMusicService();
+            musicService = myMusicBinder.getMusicService();
         }
 
         @Override

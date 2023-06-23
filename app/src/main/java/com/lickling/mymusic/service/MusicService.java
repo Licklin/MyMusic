@@ -8,6 +8,7 @@ import android.media.AudioAttributes;
 import android.media.AudioFocusRequest;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Binder;
 import android.os.Build;
@@ -15,6 +16,8 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.util.Log;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
 
 import java.io.IOException;
 
@@ -39,15 +42,16 @@ public class MusicService extends BaseService {
 
     public class MyMusicBinder extends Binder {
         public MusicService getMusicService() {
+            Log.e("getMusicService", "ok");
             return MusicService.this;
         }
 
     }
 
+    @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
-        throw new UnsupportedOperationException("Not yet implemented");
+        return binder;
     }
 
 
@@ -66,6 +70,7 @@ public class MusicService extends BaseService {
     public void onTaskRemoved(Intent rootIntent) {
         super.onTaskRemoved(rootIntent);
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -75,10 +80,9 @@ public class MusicService extends BaseService {
     @Override
     public boolean onUnbind(Intent intent) {
         return super.onUnbind(intent);
+
     }
-//    public class MyMusicBinder extends Binder{
-//
-//    }
+
 
     @Override
     protected void init() {
@@ -137,7 +141,7 @@ public class MusicService extends BaseService {
         if (mediaPlayer != null) {
             if (mediaPlayer.isPlaying())
                 mediaPlayer.pause();
-            if (!isFirstPlay) {
+            if (!isFirstPlay()) { // 不是第一次播放
                 currentPosition = 0;
                 mediaPlayer.seekTo(0);
                 mediaPlayer.stop();
@@ -154,7 +158,10 @@ public class MusicService extends BaseService {
         stopMediaPlayer();
         if (mediaPlayer != null) {
             try {
-                mediaPlayer.setDataSource(path);
+                if (!isNetPlay) {
+                    mediaPlayer.setDataSource(this, Uri.parse(path));
+                } else
+                    mediaPlayer.setDataSource(path);
                 play(isNetPlay);
             } catch (IOException e) {
 //                throw new RuntimeException(e);
@@ -181,7 +188,7 @@ public class MusicService extends BaseService {
         } else {
             Log.i(TAG, "mediaPlay为空（null）");
         }
-        if (idFirstPlay()) {
+        if (isFirstPlay()) { // 是第一次播放
             onErrorListener = new OnErrorListener();
             mediaPlayer.setOnErrorListener(onErrorListener);
             mediaPlayer.setOnCompletionListener(new OnCompletionListener());
@@ -189,7 +196,7 @@ public class MusicService extends BaseService {
         }
     }
 
-    public boolean idFirstPlay() {
+    public boolean isFirstPlay() {
         return isFirstPlay;
     }
 
@@ -240,7 +247,7 @@ public class MusicService extends BaseService {
 
         @Override
         public void onPrepared(MediaPlayer mediaPlayer) {
-            if (isFirstPlay) {
+            if (isFirstPlay()) {
                 isFirstPlay = false;
             }
             if (currentPosition > 0) mediaPlayer.seekTo(currentPosition);
