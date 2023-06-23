@@ -1,37 +1,29 @@
-package com.lickling.mymusic.ui.home.test;
+package com.lickling.mymusic.ui.home.PQ;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
-import android.widget.EditText;
-import android.widget.ImageView;
-
 
 import com.lickling.mymusic.R;
-import com.lickling.mymusic.ui.load.LoadActivity;
-import com.lickling.mymusic.utility.MyGlide;
 
-public class MainActivity extends AppCompatActivity {
+public class Desktop_seek extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.test_layout);
+        setContentView(R.layout.desktop_seek);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Window window = getWindow();
             window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             window.setStatusBarColor(Color.TRANSPARENT);
         }
 
-        ImageView imageView = findViewById(R.id.image_test);
-        MyGlide myGlide = new MyGlide();
-        myGlide.setPicture(this,"https://p1.music.126.net/pleQjKOI26fSenkUGipDLw==/109951166537300832.jpg",imageView);
+
 
 
 
