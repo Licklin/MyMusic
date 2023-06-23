@@ -1,10 +1,10 @@
 package com.lickling.mymusic.bean.musicBean;
 
-public class PlayMusicBean {
+public class MusicBean {
     private String title;
     private String subtitle;
 
-    public PlayMusicBean(String title, String subtitle) {
+    public MusicBean(String title, String subtitle) {
         this.title = title;
         this.subtitle = subtitle;
     }

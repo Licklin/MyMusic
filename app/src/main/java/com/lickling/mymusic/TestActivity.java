@@ -49,7 +49,6 @@ public class TestActivity extends BaseActivity {
         testButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                MusicService service = new MusicService();
                 if (musicService == null) {
                     Toast.makeText(TestActivity.this, "null", Toast.LENGTH_SHORT).show();
                     return;
@@ -59,8 +58,17 @@ public class TestActivity extends BaseActivity {
 
                 String path = "android.resource://" + getPackageName() + "/" + R.raw.jin_test;
 
-                musicService.onPlay("https://music.163.com/song/media/outer/url?id=2046330392.mp3", true);
-//                musicService.onPlay(path, false);
+//                musicService.onPlay("https://music.163.com/song/media/outer/url?id=2046330392.mp3", true);
+//                musicService.onPlay("http://m701.music.126.net/20230623112724/8189a4ad4376aeb755d9122c02345d66/jdymusic/obj/wo3DlMOGwrbDjj7DisKw/27590105925/72df/e26e/621b/8e74be9aea666c141b07ea0d4c4d59ab.mp3", true);
+                // 下一曲或者第一次播放
+                if (musicService.isFirstPlay()) musicService.onPlay(path, false);
+                else { // 暂停或继续播放
+                    if (musicService.isPlaying()) musicService.onPause();
+                    else
+                        musicService.onContinuePlay();
+                }
+
+
             }
         });
         MyGlide myGlide = new MyGlide();
@@ -71,7 +79,6 @@ public class TestActivity extends BaseActivity {
     protected void onStart() {
         super.onStart();
         intent = new Intent(this, MusicService.class);
-//        this.startService(intent);
         this.bindService(intent, myConn, Context.BIND_AUTO_CREATE);
     }
 
@@ -79,8 +86,6 @@ public class TestActivity extends BaseActivity {
     protected void onStop() {
         super.onStop();
         this.unbindService(myConn);
-
-//        this.stopService(intent);
     }
 
     @Override

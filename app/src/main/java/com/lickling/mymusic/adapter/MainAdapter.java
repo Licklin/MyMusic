@@ -11,14 +11,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lickling.mymusic.R;
-import com.lickling.mymusic.bean.musicBean.PlayMusicBean;
-import com.lickling.mymusic.ui.setting.api.ListAdapter;
+import com.lickling.mymusic.bean.musicBean.MusicBean;
 
 import java.util.List;
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     private Context context;
-    private List<PlayMusicBean> playMusicBeanList;
+    private List<MusicBean> playMusicBeanList;
     private int selectedItem = -1;
     private ClickListener clickListener;
     public interface ClickListener{
@@ -28,7 +27,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     }
 
-    public MainAdapter(List<PlayMusicBean> listItems, Context context) {
+    public MainAdapter(List<MusicBean> listItems, Context context) {
         this.playMusicBeanList = listItems;
         this.context = context;
     }
@@ -49,7 +48,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        PlayMusicBean listItem = playMusicBeanList.get(position);
+        MusicBean listItem = playMusicBeanList.get(position);
         holder.title.setText(listItem.getTitle());
         holder.subtitle.setText(listItem.getSubtitle());
         holder.customIcon.setVisibility(position == selectedItem ? View.VISIBLE : View.GONE);

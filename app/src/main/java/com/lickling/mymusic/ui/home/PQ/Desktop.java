@@ -69,7 +69,7 @@ public class Desktop extends AppCompatActivity {
                 Animation animation = AnimationUtils.loadAnimation(Desktop.this, R.anim.alpha);
                 imageview_input.startAnimation(animation);
 
-                startActivity(new Intent(Desktop.this,Desktop_Seek.class));
+                startActivity(new Intent(Desktop.this,Desktop_seek.class));
 
             }
         });
