@@ -19,6 +19,7 @@
         android:theme="@style/Theme.MyMusic"
         tools:targetApi="31">
 
+
         <activity
             android:name=".TestActivity"
             android:exported="true">
@@ -66,15 +67,6 @@
 
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
-        </activity>
-        <activity
-            android:name=".ui.home.test.MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 

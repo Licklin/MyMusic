@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.AudioAttributes;
 import android.media.AudioFocusRequest;
 import android.media.AudioManager;
@@ -19,7 +20,10 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.lickling.mymusic.bean.musicBean.MusicBean;
+
 import java.io.IOException;
+import java.util.List;
 
 public class MusicService extends BaseService {
     private final String TAG = MusicService.class.getCanonicalName();
@@ -34,8 +38,15 @@ public class MusicService extends BaseService {
     private OnErrorListener onErrorListener;
     private OnCompletionListener onCompletionListener;
     private OnPreparedListener onPreparedListener;
+    private List<MusicBean> playList;
+
+
+    //    歌曲信息
+    private String currentTitle, currentArtist, currentAlbum, currentAlbumPath, currentPath, currentPlaySource;
+    private long currentDuration;
     private boolean isFirstPlay = true;
     private int currentPosition = 0;
+    private SharedPreferences setting;
 
     public MusicService() {
     }
@@ -54,10 +65,12 @@ public class MusicService extends BaseService {
         return binder;
     }
 
+
     @Override
     public void onCreate() {
         super.onCreate();
         init();
+        getLastMusicInfo();
     }
 
     @Override
@@ -90,6 +103,9 @@ public class MusicService extends BaseService {
 
     private void initMediaPlayer() {
         mediaPlayer = new MediaPlayer();
+        onPreparedListener = new OnPreparedListener();
+//        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mediaPlayer.setOnPreparedListener(onPreparedListener);
 
 //        锁屏时不关闭CPU
         mediaPlayer.setWakeMode(this, PowerManager.PARTIAL_WAKE_LOCK);
@@ -102,7 +118,7 @@ public class MusicService extends BaseService {
         myOnAudioFocusChangeListener = new MyOnAudioFocusChangeListener();
         audioAttributes = new AudioAttributes.Builder()
                 .setUsage(AudioAttributes.USAGE_MEDIA)
-                .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
                 .build();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -185,7 +201,12 @@ public class MusicService extends BaseService {
                 }
             }
         } else {
-            Log.i(TAG, "mediaPlay为空（null）");
+            if (isFirstPlay()) {
+
+            } else { // 暂停再播放
+                mediaPlayer.seekTo(currentPosition);
+                requestFocus();//播放
+            }
         }
         if (isFirstPlay()) { // 是第一次播放
             onErrorListener = new OnErrorListener();
@@ -198,17 +219,61 @@ public class MusicService extends BaseService {
     public boolean isFirstPlay() {
         return isFirstPlay;
     }
+    public boolean isPlaying(){
+        return mediaPlayer.isPlaying();
+    }
 
     public void onPause() {
-
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+            //      释放音乐焦点
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                audioManager.abandonAudioFocusRequest(audioFocusRequest);
+                if (wifiLock.isHeld()) wifiLock.release(); // 释放wifi锁
+            }
+            currentPosition = mediaPlayer.getCurrentPosition();
+            mediaPlayer.pause();
+        }
     }
 
     public void onContinuePlay() {
+        requestFocus();
 
     }
 
     public void onPlay(String path, boolean isNetPlay) {
+
+        saveLastMusicInfo();
         setMediaPlayerResource(path, isNetPlay);
+
+    }
+
+    public void onPlay(int position) {
+        saveLastMusicInfo();
+        playListMusic(position);
+
+    }
+
+    private void playListMusic(int position) {
+        MusicBean music = playList.get(position);
+//        setMediaPlayerResource(music.get, isNetPlay);
+
+    }
+
+    private void requestFocus() {
+        if (currentPosition > 0) mediaPlayer.seekTo(currentPosition);
+//            申请焦点
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            int audioFocus = audioManager.requestAudioFocus(audioFocusRequest);
+            if (audioFocus == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {//            wifi锁
+                wifiLock.acquire();
+                mediaPlayer.start();
+            } else if (audioFocus == AudioManager.AUDIOFOCUS_REQUEST_FAILED) {
+                onErrorListener.onError(mediaPlayer, 0, 1);
+            } else if (audioFocus == AudioManager.AUDIOFOCUS_REQUEST_DELAYED) {
+//                onErrorListener.onError(mediaPlayer, 0, 1);
+            }
+
+        }
 
     }
 
@@ -249,14 +314,7 @@ public class MusicService extends BaseService {
             if (isFirstPlay()) {
                 isFirstPlay = false;
             }
-            if (currentPosition > 0) mediaPlayer.seekTo(currentPosition);
-//            wifi锁
-            wifiLock.acquire();
-//            申请焦点
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                audioManager.requestAudioFocus(audioFocusRequest);
-            }
-            mediaPlayer.start();
+            requestFocus();
         }
     }
 
@@ -279,6 +337,49 @@ public class MusicService extends BaseService {
 
             }
         }
+    }
+
+    private void getLastMusicInfo() {
+//        获取上次播放音乐的信息
+        setting = getSharedPreferences("UserLastMusicInfo", 0);
+        setting.getString("title", null);
+        setting.getString("artist", null);
+        setting.getString("album", null);
+        setting.getString("alumPath", null);
+        setting.getString("path", null);
+        setting.getLong("duration", 0);
+
+    }
+
+    private void saveLastMusicInfo() {
+        if (mediaPlayer.isPlaying()) {
+            currentPosition = mediaPlayer.getCurrentPosition();
+
+        }
+//        记录上次播放音乐的信息
+        setting = getSharedPreferences("UserLastMusicInfo", 0);
+        SharedPreferences.Editor editor = setting.edit();
+        editor.putString("title", currentTitle);
+        editor.putString("artist", currentArtist);
+        editor.putString("album", currentAlbum);
+        editor.putString("alumPath", currentAlbumPath);
+        editor.putString("path", currentPath);
+        editor.putLong("duration", currentDuration);
+//        editor.putString("title",currentTitle);
+//        editor.putString("title",currentTitle);
+
+        if (editor.commit()) {
+            Log.d(TAG, "save playing music info ok");
+        }
+        editor.apply();
+    }
+
+    public List<MusicBean> getPlayList() {
+        return playList;
+    }
+
+    public void setPlayList(List<MusicBean> playList) {
+        this.playList = playList;
     }
 
 }
