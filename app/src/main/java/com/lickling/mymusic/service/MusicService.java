@@ -50,6 +50,7 @@ public class MusicService extends BaseService {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -57,12 +58,33 @@ public class MusicService extends BaseService {
     }
 
     @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        super.onTaskRemoved(rootIntent);
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        releaseMediaPlay();
+    }
+
+    @Override
+    public boolean onUnbind(Intent intent) {
+        return super.onUnbind(intent);
+    }
+//    public class MyMusicBinder extends Binder{
+//
+//    }
+
+    @Override
     protected void init() {
-//        releaseMediaPlay();
         initMediaPlayer();
     }
 
-    //    @SuppressLint("ServiceCast")
     private void initMediaPlayer() {
         mediaPlayer = new MediaPlayer();
 
@@ -111,12 +133,6 @@ public class MusicService extends BaseService {
         }
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        releaseMediaPlay();
-    }
-
     private void stopMediaPlayer() {
         if (mediaPlayer != null) {
             if (mediaPlayer.isPlaying())
@@ -126,7 +142,7 @@ public class MusicService extends BaseService {
                 mediaPlayer.seekTo(0);
                 mediaPlayer.stop();
                 mediaPlayer.reset();
-                if(wifiLock.isHeld()) wifiLock.release(); // 解除WiFi锁
+                if (wifiLock.isHeld()) wifiLock.release(); // 解除WiFi锁
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     audioManager.abandonAudioFocusRequest(audioFocusRequest); // 释放焦点
                 }
@@ -185,10 +201,6 @@ public class MusicService extends BaseService {
 
     }
 
-//    public void onPlay(String path,boolean isNetPlay){
-//
-//    }
-
     public void onPlay(String path, boolean isNetPlay) {
         setMediaPlayerResource(path, isNetPlay);
 
@@ -204,12 +216,12 @@ public class MusicService extends BaseService {
             switch (i) {
                 case 1:
                     if (i1 == 1)
-                        Toast.makeText(MusicService.this, "播放错误，歌曲地址为空，请播放其他歌曲", Toast.LENGTH_SHORT).show();
-                    break;
+//                        Toast.makeText(MusicService.this, "播放错误，歌曲地址为空，请播放其他歌曲", Toast.LENGTH_SHORT).show();
+                        break;
                 case 2:
                     if (i1 == 2)
-                        Toast.makeText(MusicService.this, "播放错误，歌曲地址为空，请播放其他歌曲", Toast.LENGTH_SHORT).show();
-                    break;
+//                        Toast.makeText(MusicService.this, "播放错误，歌曲地址为空，请播放其他歌曲", Toast.LENGTH_SHORT).show();
+                        break;
             }
 
             return false;
@@ -243,7 +255,6 @@ public class MusicService extends BaseService {
     }
 
     private class MyOnAudioFocusChangeListener implements AudioManager.OnAudioFocusChangeListener {
-
         @Override
         public void onAudioFocusChange(int i) {
 //      获得长时间播放焦点，短暂失去焦点后触发此回调
@@ -265,4 +276,3 @@ public class MusicService extends BaseService {
     }
 
 }
-
