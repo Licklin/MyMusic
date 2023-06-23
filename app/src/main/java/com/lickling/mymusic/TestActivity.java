@@ -58,11 +58,9 @@ public class TestActivity extends BaseActivity {
                 }
 
                 String path = "android.resource://" + getPackageName() + "/" + R.raw.jin_test;
-//                testService.onStartCommand(intent, 0, 1);
-//                musicService.onPlay("https://music.163.com/song/media/outer/url?id=2046330392.mp3", true);
-//                Toast.makeText(musicService, "播放", Toast.LENGTH_SHORT).show();
-                musicService.onPlay(path, false);
-//                Toast.makeText(TestActivity.this, "ok", Toast.LENGTH_SHORT).show();
+
+                musicService.onPlay("https://music.163.com/song/media/outer/url?id=2046330392.mp3", true);
+//                musicService.onPlay(path, false);
             }
         });
         MyGlide myGlide = new MyGlide();
