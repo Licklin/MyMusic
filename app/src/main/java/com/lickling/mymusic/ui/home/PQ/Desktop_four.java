@@ -1,5 +1,6 @@
 package com.lickling.mymusic.ui.home.PQ;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,8 +8,12 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 
 import com.lickling.mymusic.R;
+import com.lickling.mymusic.ui.setting.home.SettingHomeActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -62,5 +67,20 @@ public class Desktop_four extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_desktop_four, container, false);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        ImageView set = getActivity().findViewById(R.id.imageview_setting);
+        set.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.alpha);
+                set.startAnimation(animation);
+                Intent intent = new Intent(getActivity(), SettingHomeActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
