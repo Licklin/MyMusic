@@ -153,7 +153,7 @@ public class OurMusicService extends BaseMusicService {
         // 设置会话的令牌，以便客户端活动可以与其通信。
         setSessionToken(mediaSession.getSessionToken());
 
-//        initMediaPlayerManager();
+        initMediaPlayerManager();
 
         //给MediaSession设置初始状态
         mediaSession.setPlaybackState(

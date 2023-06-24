@@ -29,7 +29,7 @@ import java.util.Timer;
 
 public class TestMediaSession extends BaseActivity<MusicViewModel> {
 
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "TestMediaSession";
 
     private ActivityMainBinding mMainBinding;
     private MusicViewModel mMusicViewModel;
@@ -45,9 +45,12 @@ public class TestMediaSession extends BaseActivity<MusicViewModel> {
     protected void onCreate(Bundle savedInstanceState) {
         if (PermissionUtil.IsPermissionNotObtained(this)) { PermissionUtil.getStorage(this);}
         super.onCreate(savedInstanceState);
+
+
         mMainBinding = DataBindingUtil.setContentView(this,R.layout.activity_main);
         mMusicViewModel = new MusicViewModel(getApplication());
         mMainBinding.setUserInfo(mMusicViewModel);
+
         super.setBackToDesktop();
 
         initView();

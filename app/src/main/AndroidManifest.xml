@@ -30,14 +30,16 @@
         </service>
 
         <activity
-            android:name=".TestActivity"
-            android:exported="true">
+            android:name=".TestMediaSession"
+            android:exported="true"
+            android:launchMode="standard">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
 
         <service
             android:name=".service.MusicService"
@@ -70,12 +72,6 @@
             android:name=".ui.load.LoadActivity"
             android:exported="false">
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
         </activity>
     </application>
 
