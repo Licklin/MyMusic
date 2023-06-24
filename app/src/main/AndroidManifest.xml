@@ -2,6 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -11,15 +18,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyMusic"
         tools:targetApi="31">
+
+
         <activity
-            android:name=".ui.home.PQ.Desktop2"
-            android:exported="false" />
-        <activity
-            android:name=".ui.home.PQ.Desktop3"
-            android:exported="false" />
-        <activity
-            android:name=".ui.home.PQ.Desktop4"
-            android:exported="false" />
+            android:name=".TestActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name=".service.MusicService"
+            android:enabled="true"
+            android:exported="true"
+            android:stopWithTask="false" />
+
         <activity
             android:name=".ui.setting.api.EditActivity"
             android:exported="false" />
@@ -33,18 +49,25 @@
             android:name=".ui.setting.sound_quality.SoundQualityActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.setting.home.SettingHomeActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.setting.password.PassWordActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.setting.home.SettingHomeActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:name=".ui.home.PQ.Desktop"
+            android:exported="false" />
+        <activity
+            android:name=".ui.load.LoadActivity"
+            android:exported="false">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
-
     </application>
 
 </manifest>
