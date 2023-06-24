@@ -3,12 +3,22 @@ package com.lickling.mymusic.ui.home.PQ;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 
 import com.lickling.mymusic.R;
+import com.lickling.mymusic.ui.load.ListAdapter;
+import com.lickling.mymusic.ui.load.ListItem;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +35,11 @@ public class Desktop_two extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+
+    private RecyclerView recyclerView;
+    private ListAdapter listAdapter;
+    private List<ListItem> listItems;
 
     public Desktop_two() {
         // Required empty public constructor
@@ -61,6 +76,59 @@ public class Desktop_two extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
+
         return inflater.inflate(R.layout.fragment_desktop_two, container, false);
     }
+
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        ImageView imageview_find = getActivity().findViewById(R.id.imageview_find);   // 发现按键
+        ImageView circle_find = getActivity().findViewById(R.id.circle_find);   // 发现圆圈
+        ImageView imageview_attention = getActivity().findViewById(R.id.imageview_attention);   // 关注按键
+        ImageView circle_attention = getActivity().findViewById(R.id.circle_attention);   // 关注圆圈
+
+        imageview_find.setSelected(true);
+        circle_find.setSelected(true);
+
+        // 发现按键
+        imageview_find.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.alpha);
+                imageview_find.startAnimation(animation);
+                circle_find.startAnimation(animation);
+                imageview_find.setSelected(true);
+                circle_find.setSelected(true);
+                imageview_attention.setSelected(false);
+                circle_attention.setSelected(false);
+            }
+        });
+
+        // 关注按键
+        imageview_attention.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.alpha);
+                imageview_attention.startAnimation(animation);
+                circle_attention.startAnimation(animation);
+                imageview_find.setSelected(false);
+                circle_find.setSelected(false);
+                imageview_attention.setSelected(true);
+                circle_attention.setSelected(true);
+            }
+        });
+
+
+
+    }
+
+
+
+
 }
+
+
