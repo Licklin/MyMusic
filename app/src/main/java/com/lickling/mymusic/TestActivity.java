@@ -20,10 +20,9 @@ import android.widget.Toast;
 
 import com.lickling.mymusic.service.MusicService;
 
-import com.lickling.mymusic.ui.BaseActivity;
 import com.lickling.mymusic.utility.MyGlide;
 
-public class TestActivity extends BaseActivity {
+public class TestActivity extends AppCompatActivity {
 
     private MusicService musicService;
     private MyConn myConn;
