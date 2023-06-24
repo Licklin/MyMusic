@@ -32,9 +32,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.lickling.mymusic.R;
-import com.lickling.mymusic.service.MusicService;
 import com.lickling.mymusic.service.OurMusicService;
-import com.lickling.mymusic.util.ImmersiveStatusBarUtil;
+import com.lickling.mymusic.utilty.ImmersiveStatusBarUtil;
 import com.lickling.mymusic.viewmodel.MusicViewModel;
 
 import java.lang.ref.SoftReference;

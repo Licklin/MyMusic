@@ -1,4 +1,4 @@
-package com.lickling.mymusic.utility;
+package com.lickling.mymusic.utilty;
 
 public class MusicPlayerController {
 }

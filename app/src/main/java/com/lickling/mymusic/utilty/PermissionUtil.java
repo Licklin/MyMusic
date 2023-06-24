@@ -1,4 +1,4 @@
-package com.lickling.mymusic.util;
+package com.lickling.mymusic.utilty;
 
 import android.Manifest;
 import android.app.Activity;

@@ -19,7 +19,7 @@ import com.lickling.mymusic.BR;
 import com.lickling.mymusic.R;
 import com.lickling.mymusic.adapter.MusicAdapter;
 import com.lickling.mymusic.service.BaseMusicService;
-import com.lickling.mymusic.util.HtmlStringUtil;
+import com.lickling.mymusic.utilty.HtmlStringUtil;
 
 import java.lang.ref.SoftReference;
 import java.util.TimerTask;

@@ -16,7 +16,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.lickling.mymusic.R;
 import com.lickling.mymusic.service.manager.MediaPlayerManager;
-import com.lickling.mymusic.util.PictureUtil;
+import com.lickling.mymusic.utilty.PictureUtil;
 
 import java.lang.ref.SoftReference;
 

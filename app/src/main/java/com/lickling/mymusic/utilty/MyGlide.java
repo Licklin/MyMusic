@@ -1,4 +1,4 @@
-package com.lickling.mymusic.utility;
+package com.lickling.mymusic.utilty;
 
 import android.content.Context;
 import android.view.View;
