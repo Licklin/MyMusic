@@ -18,9 +18,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.media.MediaBrowserServiceCompat;
 
+import com.lickling.mymusic.model.LocalMainModel;
+import com.lickling.mymusic.model.MusicModel;
 import com.lickling.mymusic.service.manager.LastMetaManager;
 import com.lickling.mymusic.service.manager.MediaPlayerManager;
 import com.lickling.mymusic.service.manager.MyAudioManager;
+import com.lickling.mymusic.utilty.PermissionUtil;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -33,7 +36,7 @@ import java.util.TimerTask;
 public class OurMusicService extends BaseMusicService {
 
 
-    private static final String TAG = "MusicService";
+    private static final String TAG = "OurMusicService";
     private static final String MY_MEDIA_ROOT_ID = "media_root_id";
     private static final String MY_EMPTY_MEDIA_ROOT_ID = "empty_root_id";
 
@@ -48,11 +51,21 @@ public class OurMusicService extends BaseMusicService {
 
     private LinkedHashMap<String, MediaMetadataCompat> musicList;
     private int currentPosition;
+    private LocalMainModel mModel;
+    private LastMetaManager mLastMetaManager;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        intiMediaSession();
+        Log.d(TAG, "onCreate: ");
+        init();
+    }
+    private void init(){
+        mModel = new MusicModel();
+        mLastMetaManager = new LastMetaManager(getApplication());
+        initLifeBackground();
+        initMediaSession();
+        GetLastMusicPlay();
     }
 
     @Override
@@ -125,14 +138,14 @@ public class OurMusicService extends BaseMusicService {
         }
         Log.d(TAG, "onLoadChildren: " + parentId);
 
-//        new MusicModel().getLocalMusicMetadata(musicMaps -> {
-//            musicList = musicMaps;
-//            result.sendResult(getMediaItems(musicMaps));
-//        }, getContentResolver());
+        new MusicModel().getLocalMusicMetadata(musicMaps -> {
+            musicList = musicMaps;
+            result.sendResult(getMediaItems(musicMaps));
+        }, getContentResolver());
         super.setMediaController(mediaSession.getController());
     }
 
-    private void intiMediaSession() {
+    private void initMediaSession() {
         //初始化MediaSession | 媒体会话
         mediaSession = new MediaSessionCompat(this, getPackageName());
         mediaSession.setActive(true);
@@ -206,12 +219,14 @@ public class OurMusicService extends BaseMusicService {
     //**********************************************Metadata元数据相关方法***************************/
     private List<MediaBrowserCompat.MediaItem> getMediaItems(LinkedHashMap<String, MediaMetadataCompat> musicMaps) {
         List<MediaBrowserCompat.MediaItem> result = new ArrayList<>();
+        Log.d(TAG,"getMediaItems musicMap:"+musicMaps.toString());
         for (MediaMetadataCompat metadata : musicMaps.values()) {
             result.add(
                     new MediaBrowserCompat.MediaItem(
                             metadata.getDescription(), MediaBrowserCompat.MediaItem.FLAG_PLAYABLE));
-            /*Log.d(TAG, "getMediaItems: "+metadata.getString(MediaMetadataCompat.METADATA_KEY_TITLE)+
-                    " 键值 "+metadata.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID));*/
+
+            Log.d(TAG, "getMediaItems: "+metadata.getString(MediaMetadataCompat.METADATA_KEY_TITLE)+
+                    " 键值 "+metadata.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID));
         }
         Log.d(TAG, "getMediaItems: "+result.size());
         return result;
@@ -222,7 +237,7 @@ public class OurMusicService extends BaseMusicService {
         @Override
         public void onAddQueueItem(MediaDescriptionCompat description) {
             super.onAddQueueItem(description);
-            //Log.d(TAG, "onAddQueueItem: ");
+//            Log.d(TAG, "onAddQueueItem: ");
             playList.add(new MediaSessionCompat.QueueItem(description, description.hashCode()));
 
             queueIndex = (queueIndex == -1) ? 0 : queueIndex;
@@ -273,18 +288,13 @@ public class OurMusicService extends BaseMusicService {
             stopNotification();
         }
 
-        private void stopNotification() {
-
-        }
 
         @Override
         public void onStop() {
-            releaseMediaPlayerManager();
-            stopNotification();
+            releaseMediaPlayerManager(); stopNotification();
         }
 
-        private void releaseMediaPlayerManager() {
-        }
+
 
         @Override
         public void onPrepare() {
@@ -518,11 +528,11 @@ public class OurMusicService extends BaseMusicService {
     private MediaMetadataCompat getMetadata(String mediaId) {
         MediaMetadataCompat metadata = musicList.get(mediaId);
         MediaMetadataCompat.Builder builder = new MediaMetadataCompat.Builder();
-//
-//        mModel.getLocalMusicAlbum(
-//                bitmap -> builder.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART,bitmap.get()),
-//                Objects.requireNonNull(metadata).getString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI),
-//                getResources());
+
+        mModel.getLocalMusicAlbum(
+                bitmap -> builder.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART,bitmap.get()),
+                Objects.requireNonNull(metadata).getString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI),
+                getResources());
 
         for (String key :
                 new String[]{
@@ -568,9 +578,9 @@ public class OurMusicService extends BaseMusicService {
                 //个性样式为0，系统样式为1
                 .putLong(BaseMusicService.MyMusic_NOTIFICATION_STYLE, lastMetaManager.getNotificationStyle() ? 0 : 1);
         //装载专辑图片 Bitmap
-//        mModel.getLocalMusicAlbum(bitmap -> mediaSession.setMetadata(
-//                        metadataBuilder.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART,bitmap.get()).build()),
-//                albumPath,getResources());
+        mModel.getLocalMusicAlbum(bitmap -> mediaSession.setMetadata(
+                        metadataBuilder.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART,bitmap.get()).build()),
+                albumPath,getResources());
 
     }
 

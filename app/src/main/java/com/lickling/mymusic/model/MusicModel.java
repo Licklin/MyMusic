@@ -16,7 +16,10 @@ import android.support.v4.media.MediaMetadataCompat;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.lickling.mymusic.R;
 import com.lickling.mymusic.bean.musicBean.MusicBean;
+import com.lickling.mymusic.utilty.PermissionUtil;
+import com.lickling.mymusic.utilty.PictureUtil;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -42,17 +45,15 @@ public class MusicModel implements LocalMainModel{
     @Override
     public void getLocalMusicAlbum(OnLoadPictureListener onLoadPictureListener, String path, Resources resource) {
         Bitmap bitmap = getAlbumBitmap(path);
-//        bitmap = bitmap == null ?
-//                PictureUtil.getResIdBitmap(R.drawable.icon_fate,500,resource,0) : bitmap;
+        // 如果bitmap为空说明没有专辑图片，则输出默认图片
+        bitmap = bitmap == null ?
+                PictureUtil.getResIdBitmap(R.drawable.icon_fate,500,resource,0) : bitmap;
         onLoadPictureListener.OnComplete(new WeakReference<>(bitmap));
     }
     /**
-     * 项目 Bilibili@喜闻人籁[MVVM|MediaSession]音频应用示例
      * 描述 获取本地音乐列表
      * @param resolver 内容访问器，这个类提供对内容模型的应用程序访问。
      * @return List<MusicBean>类型的本地音乐列表集合
-     * @author 喜闻人籁
-     * time 2021/11/07 21:01
      **/
     @SuppressLint("Range")
     private List<MusicBean> getLocalMusic(ContentResolver resolver){
@@ -106,16 +107,13 @@ public class MusicModel implements LocalMainModel{
                 .replaceAll("¨²","ú");
     }
     /**
-     * 项目 Bilibili@喜闻人籁[MVVM|MediaSession]音频应用示例
      * 描述 获取本地音乐列表
      * @param resolver 内容访问器，这个类提供对内容模型的应用程序访问。
      * @return LinkedHashMap<String, MediaMetadataCompat>类型的本地音乐列表集合
-     * @author 喜闻人籁
-     * time 2021/11/10 20:11
      **/
     @SuppressLint("Range")
     private LinkedHashMap<String, MediaMetadataCompat> getLocalMusicMetadata(ContentResolver resolver){
-        //Log.e(TAG, "getLocalMusicMetadata: "+(resolver == null));
+        Log.e(TAG, "getLocalMusicMetadata resolver == null: "+(resolver == null));
         if (resolver == null) return null;
 
         LinkedHashMap<String, MediaMetadataCompat> result = new LinkedHashMap<>();
@@ -123,16 +121,22 @@ public class MusicModel implements LocalMainModel{
         Cursor cursor = null;
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {  // 判断API
+                Log.d(TAG, "getLocalMusicMetadata 查询歌曲: "+uri);
                 cursor = resolver.query(uri,null,null,null);
+                Log.d(TAG, "getLocalMusicMetadata cursor: "+cursor.getCount());
             }
         }catch (Exception e){
             e.printStackTrace();
         }
+
+//        Log.d(TAG, "getLocalMusicMetadata cursor.moveToNext(): "+(cursor.moveToNext()));
         while (cursor != null && cursor.moveToNext()) {
             long duration = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION));
+
             if(duration < 90000) continue;
 
             String title = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE));
+//            Log.d(TAG, "getLocalMusicMetadata title: "+title);
             String artist = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST));
             String album = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM));
             String path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA));
@@ -157,7 +161,7 @@ public class MusicModel implements LocalMainModel{
                             MediaMetadataCompat.METADATA_KEY_MEDIA_URI, path)
                     .build();
             result.put(mediaId,metadata);
-            //Log.d(TAG, "getLocalMusicMetadata: "+artist);
+//            Log.d(TAG, "getLocalMusicMetadata artist: "+artist);
         }
         if (cursor != null){
             cursor.close();
@@ -171,8 +175,6 @@ public class MusicModel implements LocalMainModel{
      * description 返回一个本地音乐文件的专辑bitmap图片
      * @param Path 给定当前点击item音乐的外部存储路径，非content
      * @return Bitmap类型专辑图片
-     * @author 喜闻人籁
-     * time 2020/12/18 12:22
      **/
     private Bitmap getAlbumBitmap(String Path){
         if (Path.isEmpty()) return null;//返回默认的专辑封面
@@ -209,11 +211,7 @@ public class MusicModel implements LocalMainModel{
 
             /*每次拿到专辑图片后，关闭MediaMetadataRetriever对象，等待GC器回收内存
              *以便下一次再重新引用（new），避免内存泄漏*/
-            try {
-                metadataRetriever.release();//SDK > 26 才有close，且close与release是一样的
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            metadataRetriever.release();//SDK > 26 才有close，且close与release是一样的
             //返回默认的专辑封面
             return picture == null ? null :
                     BitmapFactory.decodeByteArray(picture, 0, picture.length);

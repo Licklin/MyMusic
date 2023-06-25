@@ -23,7 +23,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
-
     <string name="label_notification_close">关闭</string>
     <string name="label_notification_love">收藏至最近很喜欢</string>
     <string name="label_notification_previous">上一曲</string>
@@ -35,10 +34,6 @@
     <string name="label_notification_line">分割线</string>
     <string name="label_notification_cover">封面</string>
     <string name="label_notification_mode">播放模式</string>
-
-
-
-
 
 
 </resources>

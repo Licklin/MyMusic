@@ -17,9 +17,8 @@ import android.widget.Toast;
 
 import com.lickling.mymusic.databinding.ActivityMainBinding;
 import com.lickling.mymusic.service.BaseMusicService;
-import com.lickling.mymusic.service.MusicService;
+import com.lickling.mymusic.service.OurMusicService;
 import com.lickling.mymusic.ui.BaseActivity;
-import com.lickling.mymusic.ui.setting.home.SettingHomeActivity;
 import com.lickling.mymusic.utilty.PermissionUtil;
 import com.lickling.mymusic.utilty.PictureUtil;
 import com.lickling.mymusic.viewmodel.MusicViewModel;
@@ -43,10 +42,13 @@ public class TestMediaSession extends BaseActivity<MusicViewModel> {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         if (PermissionUtil.IsPermissionNotObtained(this)) { PermissionUtil.getStorage(this);}
+
         super.onCreate(savedInstanceState);
+        System.out.println("123");
 
-
+        Log.e(TAG, "IsPermissionNotObtained: "+ PermissionUtil.IsPermissionNotObtained(this));
         mMainBinding = DataBindingUtil.setContentView(this,R.layout.activity_main);
         mMusicViewModel = new MusicViewModel(getApplication());
         mMainBinding.setUserInfo(mMusicViewModel);
@@ -54,7 +56,7 @@ public class TestMediaSession extends BaseActivity<MusicViewModel> {
         super.setBackToDesktop();
 
         initView();
-        mIntentMusic = new Intent(this, MusicService.class);
+        mIntentMusic = new Intent(this, OurMusicService.class);
         this.startService(mIntentMusic);
     }
 
@@ -165,14 +167,14 @@ public class TestMediaSession extends BaseActivity<MusicViewModel> {
 
 
         mMainBinding.activityMainGridLayout.setOnClickListener(v ->
-                startActivity(new Intent(TestMediaSession.this, SettingHomeActivity.class))
+                startActivity(new Intent(TestMediaSession.this, MyTest.class))
         );
         mMainBinding.mainActivityBottomLayout.setOnClickListener(v -> {
-                    startActivity(new Intent(TestMediaSession.this, SettingHomeActivity.class));
+                    startActivity(new Intent(TestMediaSession.this, MyTest.class));
                     overridePendingTransition(R.anim.push_in,0);
                 }
         );
-
+//
 //        mMainBinding.mainActivityBottomProgressBar.setOnClickListener(v -> mMusicViewModel.playbackButton());
 
         super.initAnimation(mMainBinding.mainActivityBottomIvAlbum);
@@ -193,6 +195,7 @@ public class TestMediaSession extends BaseActivity<MusicViewModel> {
         //设置深色模式适配的颜色
         int color = super.getViewColor();;
         mMainBinding.mainActivityBottomIvList.getDrawable().setTint(color);
+//
 //        mMainBinding.mainActivityBottomProgressBar.setProgressColor(color);
     }
 
