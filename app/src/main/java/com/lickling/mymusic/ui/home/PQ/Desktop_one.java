@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +20,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.lickling.mymusic.R;
+import com.lickling.mymusic.databinding.FragmentDesktopOneBinding;
 import com.lickling.mymusic.ui.load.ListAdapter;
 import com.lickling.mymusic.ui.load.ListItem;
 
@@ -45,7 +48,7 @@ public class Desktop_one extends Fragment {
     private RecyclerView recyclerView;
     private ListAdapter listAdapter;
     private List<ListItem> listItems;
-
+    private FragmentDesktopOneBinding desktopOneBinding;
 
 
     public Desktop_one() {
@@ -86,11 +89,9 @@ public class Desktop_one extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
-        return inflater.inflate(R.layout.fragment_desktop_one, container, false);
+        desktopOneBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_desktop_one, container, false);
+        return desktopOneBinding.getRoot();
     }
-
 
 
     @Override
@@ -113,7 +114,6 @@ public class Desktop_one extends Fragment {
         recyclerView.setAdapter(listAdapter);
 
 
-
         // 搜索框
         ImageView imageview_input = getActivity().findViewById(R.id.imageview_input);
         imageview_input.setOnClickListener(new View.OnClickListener() {
@@ -121,7 +121,7 @@ public class Desktop_one extends Fragment {
             public void onClick(View v) {
                 Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.alpha);
                 imageview_input.startAnimation(animation);
-                startActivity(new Intent(getActivity(),Desktop_Seek.class));
+                startActivity(new Intent(getActivity(), Desktop_Seek.class));
 
             }
         });
@@ -327,7 +327,7 @@ public class Desktop_one extends Fragment {
         });
 
         // 我喜欢按钮
-        ImageView imageview_like = getActivity().findViewById(R.id.imageview_like);
+        ImageView imageview_like = getActivity().findViewById(R.id.image_view_like);
         imageview_like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -367,14 +367,12 @@ public class Desktop_one extends Fragment {
         });
 
 
-
-
-
     }
 
+    private void initView() {
 
-
-
+        
+    }
 
 
 }

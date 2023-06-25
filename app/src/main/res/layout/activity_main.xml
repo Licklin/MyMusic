@@ -74,7 +74,7 @@
                 android:id="@+id/activity_main_tv_label"
                 android:textColor="@color/color99White"
                 android:textSize="12sp"
-                android:text="label_MineFragment_user_label"
+                android:text="123"
                 android:ellipsize="end"
                 android:maxLines="1"
                 app:layout_constraintTop_toBottomOf="@id/activity_main_tv_user"
