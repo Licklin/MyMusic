@@ -14,72 +14,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         app:navigationIcon="@drawable/load_back_button"
-        app:title="下载" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="-15dp"
-        android:orientation="horizontal">
-
-        <RelativeLayout
-            android:id="@+id/loaded_head"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="50dp">
-
-            <Button
-                android:id="@+id/loaded_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="0dp"
-                android:background="@android:color/transparent"
-                android:text="已下载"
-                android:textSize="20sp"
-                android:textStyle="bold">
-
-            </Button>
-
-            <View
-                android:id="@+id/select_tag1"
-                android:layout_width="6dp"
-                android:layout_height="6dp"
-                android:layout_below="@id/loaded_btn"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="-10dp"
-                android:background="@drawable/load_red_point"
-                android:clipToOutline="true" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/loading_head"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-
-            <Button
-                android:id="@+id/loading_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:text="正在下载"
-                android:textSize="20sp">
-
-            </Button>
-
-            <View
-                android:id="@+id/select_tag2"
-                android:layout_width="6dp"
-                android:layout_height="6dp"
-                android:layout_below="@id/loading_btn"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="-10dp"
-                android:background="@drawable/load_red_point"
-                android:clipToOutline="true"
-                android:visibility="invisible" />
-        </RelativeLayout>
-    </LinearLayout>
+        app:title="我喜欢"
+        />
 
     <RelativeLayout
         android:id="@+id/load_head3"

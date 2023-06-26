@@ -15,4 +15,5 @@
     <color name="hint_text">#A4BFBFBF</color>
     <color name="gray">#A4BFBFBF</color>
     <color name="tianlan">#0AF2FA</color>
+    <color name="black_gray">#767676</color>
 </resources>
