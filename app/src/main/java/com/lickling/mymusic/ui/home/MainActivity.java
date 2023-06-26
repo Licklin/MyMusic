@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -192,55 +193,53 @@ public class MainActivity extends BaseActivity {
 
         mMainBinding.activityMainUiRoot.setOnApplyWindowInsetsListener(this);
 
-        mMainBinding.bottom1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Animation animation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.alpha);
-                mMainBinding.bottom1.startAnimation(animation);
-//                replaceFragment(new Desktop_one());
-                mMainBinding.bottom1.setSelected(true);
-                mMainBinding.bottom2.setSelected(false);
-                mMainBinding.bottom3.setSelected(false);
-                mMainBinding.bottom4.setSelected(false);
-            }
-        });
-        mMainBinding.bottom2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Animation animation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.alpha);
-                mMainBinding.bottom2.startAnimation(animation);
-//                replaceFragment(new Desktop_one());
-                mMainBinding.bottom1.setSelected(false);
-                mMainBinding.bottom2.setSelected(true);
-                mMainBinding.bottom3.setSelected(false);
-                mMainBinding.bottom4.setSelected(false);
-            }
-        });
-        mMainBinding.bottom3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Animation animation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.alpha);
-                mMainBinding.bottom3.startAnimation(animation);
-//                replaceFragment(new Desktop_one());
-                mMainBinding.bottom1.setSelected(false);
-                mMainBinding.bottom2.setSelected(false);
-                mMainBinding.bottom3.setSelected(true);
-                mMainBinding.bottom4.setSelected(false);
-            }
-        });
-        mMainBinding.bottom4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Animation animation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.alpha);
-                mMainBinding.bottom4.startAnimation(animation);
-//                replaceFragment(new Desktop_one());
-                mMainBinding.bottom1.setSelected(false);
-                mMainBinding.bottom2.setSelected(false);
-                mMainBinding.bottom3.setSelected(false);
-                mMainBinding.bottom4.setSelected(true);
-            }
-        });
 
+        mMainBinding.navigationBar.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                Animation animation = null;
+                switch (i) {
+                    case R.id.home_btn:
+                        animation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.alpha);
+                        mMainBinding.bottom1.startAnimation(animation);
+//                replaceFragment(new Desktop_one());
+                        mMainBinding.bottom1.setSelected(true);
+                        mMainBinding.bottom2.setSelected(false);
+                        mMainBinding.bottom3.setSelected(false);
+                        mMainBinding.bottom4.setSelected(false);
+                        break;
+                    case R.id.blog_btn:
+                        animation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.alpha);
+                        mMainBinding.bottom2.startAnimation(animation);
+//                replaceFragment(new Desktop_one());
+                        mMainBinding.bottom1.setSelected(false);
+                        mMainBinding.bottom2.setSelected(true);
+                        mMainBinding.bottom3.setSelected(false);
+                        mMainBinding.bottom4.setSelected(false);
+                        break;
+                    case R.id.class_btn:
+                        animation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.alpha);
+                        mMainBinding.bottom3.startAnimation(animation);
+//                replaceFragment(new Desktop_one());
+                        mMainBinding.bottom1.setSelected(false);
+                        mMainBinding.bottom2.setSelected(false);
+                        mMainBinding.bottom3.setSelected(true);
+                        mMainBinding.bottom4.setSelected(false);
+                        break;
+                    case R.id.user_btn:
+                        animation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.alpha);
+                        mMainBinding.bottom4.startAnimation(animation);
+//                replaceFragment(new Desktop_one());
+                        mMainBinding.bottom1.setSelected(false);
+                        mMainBinding.bottom2.setSelected(false);
+                        mMainBinding.bottom3.setSelected(false);
+                        mMainBinding.bottom4.setSelected(true);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
 
         mMainBinding.bottom1.setSelected(true);
 //        replaceFragment(new Desktop_one());

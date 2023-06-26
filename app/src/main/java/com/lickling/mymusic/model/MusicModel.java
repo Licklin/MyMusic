@@ -18,7 +18,6 @@ import android.util.Log;
 
 import com.lickling.mymusic.R;
 import com.lickling.mymusic.bean.musicBean.MusicBean;
-import com.lickling.mymusic.utilty.PermissionUtil;
 import com.lickling.mymusic.utilty.PictureUtil;
 
 import java.io.BufferedInputStream;
@@ -30,15 +29,15 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class MusicModel implements LocalMainModel{
+public class MusicModel implements LocalMusicModel {
     private static final String TAG = "MusicModel";
     @Override
-    public void getLocalMusic(LocalMainModel.OnMusicListener onMusicListener, ContentResolver resolver) {
+    public void getLocalMusic(LocalMusicModel.OnMusicListener onMusicListener, ContentResolver resolver) {
         onMusicListener.OnComplete(getLocalMusic(resolver));
     }
 
     @Override
-    public void getLocalMusicMetadata(LocalMainModel.OnMusicMetadataListener onMusicListener, ContentResolver resolver) {
+    public void getLocalMusicMetadata(LocalMusicModel.OnMusicMetadataListener onMusicListener, ContentResolver resolver) {
         onMusicListener.OnComplete(getLocalMusicMetadata(resolver));
     }
 

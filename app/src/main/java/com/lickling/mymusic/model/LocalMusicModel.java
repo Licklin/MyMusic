@@ -18,7 +18,7 @@ import java.util.List;
  *      不管是网络请求获得的数据，还是数据库获得的数据，统统写在Model里。
  *      Model层独立性相当强，它只用来提供数据，而不管数据是用来做什么的。
  */
-public interface LocalMainModel {
+public interface LocalMusicModel {
     //获得本地音乐元数据，返回List<customBean>集合数据
     void getLocalMusic(OnMusicListener onMusicListener, ContentResolver resolver);
     interface OnMusicListener{

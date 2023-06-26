@@ -18,12 +18,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.media.MediaBrowserServiceCompat;
 
-import com.lickling.mymusic.model.LocalMainModel;
+import com.lickling.mymusic.model.LocalMusicModel;
 import com.lickling.mymusic.model.MusicModel;
 import com.lickling.mymusic.service.manager.LastMetaManager;
 import com.lickling.mymusic.service.manager.MediaPlayerManager;
 import com.lickling.mymusic.service.manager.MyAudioManager;
-import com.lickling.mymusic.utilty.PermissionUtil;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -51,7 +50,7 @@ public class OurMusicService extends BaseMusicService {
 
     private LinkedHashMap<String, MediaMetadataCompat> musicList;
     private int currentPosition;
-    private LocalMainModel mModel;
+    private LocalMusicModel mModel;
     private LastMetaManager mLastMetaManager;
 
     @Override
