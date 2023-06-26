@@ -52,33 +52,123 @@
     </LinearLayout>
 
 
+<!--    2-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/loaded_head"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="50dp">
+
+            <Button
+                android:id="@+id/loaded_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:background="@android:color/transparent"
+                android:text="单曲"
+                android:textStyle="bold"
+                android:textSize="20sp">
+
+            </Button>
+
+            <View
+                android:id="@+id/select_tag1"
+                android:layout_width="6dp"
+                android:layout_height="6dp"
+                android:layout_below="@id/loaded_btn"
+                android:layout_marginTop="-10dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/load_red_point"
+                android:clipToOutline="true" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/loading_head"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/loading_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:text="歌单"
+                android:textSize="20sp">
+
+            </Button>
+
+            <View
+                android:id="@+id/select_tag2"
+                android:layout_width="6dp"
+                android:layout_height="6dp"
+                android:layout_below="@id/loading_btn"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="-10dp"
+                android:background="@drawable/load_red_point"
+                android:clipToOutline="true"
+                android:visibility="invisible" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <!--    3 -->
+    <RelativeLayout
+        android:id="@+id/load_head3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp">
+
+        <Button
+            android:id="@+id/play_btn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/load_red_play">
+
+        </Button>
+
+        <Button
+            android:id="@+id/multi_choice_btn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="20dp"
+            android:background="@android:color/transparent"
+            android:text="多选"
+            android:textSize="15sp"
+            android:textStyle="bold">
+        </Button>
+
+    </RelativeLayout>
 
 
-
-<!--    2 -->
+    <!--    4 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:layout_weight="1"
         android:background="@drawable/desktop_item"
-        android:layout_marginTop="30dp"
         android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view1"
+            android:id="@+id/recycler_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical" />
 
     </LinearLayout>
 
-
-
-
-
-<!--    3 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
