@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,9 +23,11 @@ import com.lickling.mymusic.R;
 import com.lickling.mymusic.databinding.FragmentDesktopOneBinding;
 import com.lickling.mymusic.ui.load.ListAdapter;
 import com.lickling.mymusic.ui.load.ListItem;
+import com.lickling.mymusic.viewmodel.MusicViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,14 +45,18 @@ public class HomeFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    private MusicViewModel musicViewModel;
     private ListAdapter listAdapter;
     private List<ListItem> listItems;
     private FragmentDesktopOneBinding desktopOneBinding;
 
 
-    public HomeFragment() {
+    public HomeFragment(){
+
+    }
+    public HomeFragment(MusicViewModel model) {
         // Required empty public constructor
+        this.musicViewModel=model;
     }
 
 
@@ -84,6 +91,8 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         desktopOneBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_desktop_one, container, false);
+//        MusicViewModel musicViewModel = new MusicViewModel(Objects.requireNonNull(getActivity()).getApplication());
+        desktopOneBinding.setHomeInfo(musicViewModel);
         return desktopOneBinding.getRoot();
     }
 
@@ -92,7 +101,12 @@ public class HomeFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-//        desktopOneBinding.homeRecyclerView
+
+
+        desktopOneBinding.songName.setSingleLine(true);
+        desktopOneBinding.songName.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+        desktopOneBinding.songName.setMarqueeRepeatLimit(-1);
+        desktopOneBinding.songName.setSelected(true);
         desktopOneBinding.homeRecyclerView.setHasFixedSize(true);
         desktopOneBinding.homeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 

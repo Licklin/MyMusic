@@ -306,17 +306,26 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/song_Name"
+                        android:layout_width="170dp"
                         android:layout_height="wrap_content"
                         android:text="@{homeInfo.playbackInfo,default=@string/label_default_title}"
-                        android:textSize="16dp"
+                        android:textSize="16sp"
+                        android:singleLine="true"
+                        android:ellipsize="marquee"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="@{homeInfo.playbackInfo,default=@string/label_default_title}" />
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:visibility="gone"
+                        android:text="@{homeInfo.subtitle,default=@string/label_default_title}" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -331,7 +340,8 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_gravity="center"
-                        android:background="@drawable/pq_play" />
+                        android:src="@{homeInfo.playbackResId,default=@drawable/play}"
+                         />
                 </LinearLayout>
 
                 <LinearLayout
@@ -343,7 +353,7 @@
 
                     <ImageView
                         android:id="@+id/image_view_next"
-                        android:layout_width="20dp"
+                        android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_gravity="center"
                         android:background="@drawable/pq_next"

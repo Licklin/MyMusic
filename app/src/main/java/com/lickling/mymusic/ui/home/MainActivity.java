@@ -40,7 +40,7 @@ import com.lickling.mymusic.viewmodel.MusicViewModel;
 import java.util.List;
 import java.util.Timer;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity<MusicViewModel> {
 
 
     private static final String TAG = "MainActivity";
@@ -74,6 +74,8 @@ public class MainActivity extends BaseActivity {
 
         mMainBinding = DataBindingUtil.setContentView(this, R.layout.desktop);
         mMusicViewModel = new MusicViewModel(getApplication());
+
+
         mMainBinding.setBaseInfo(mMusicViewModel);
 
         super.setBackToDesktop();
@@ -193,8 +195,6 @@ public class MainActivity extends BaseActivity {
     private void initView() {
 
         mMainBinding.activityMainUiRoot.setOnApplyWindowInsetsListener(this);
-
-
         mMainBinding.navigationBar.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -203,7 +203,7 @@ public class MainActivity extends BaseActivity {
                     case R.id.home_btn:
                         animation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.alpha);
                         mMainBinding.bottom1.startAnimation(animation);
-//                replaceFragment(new Desktop_one());
+                        replaceFragment(new HomeFragment(mMusicViewModel));
                         mMainBinding.bottom1.setSelected(true);
                         mMainBinding.bottom2.setSelected(false);
                         mMainBinding.bottom3.setSelected(false);
@@ -243,7 +243,7 @@ public class MainActivity extends BaseActivity {
         });
 
         mMainBinding.bottom1.setSelected(true);
-        replaceFragment(new HomeFragment());
+        replaceFragment(new HomeFragment(mMusicViewModel));
 
 
     }

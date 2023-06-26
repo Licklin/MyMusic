@@ -24,11 +24,13 @@ import com.lickling.mymusic.utilty.HtmlStringUtil;
 import java.lang.ref.SoftReference;
 import java.util.TimerTask;
 
-public class MusicViewModel extends BaseViewModel{
+public class MusicViewModel extends BaseViewModel {
 
     private static final String TAG = "MusicViewModel";
 
     private Application mApplication;
+    private Spanned title;
+    private Spanned subtitle;
     private Spanned playbackInfo;
     //设置初始drawable文件源id
     private int playbackDrawable;
@@ -48,10 +50,20 @@ public class MusicViewModel extends BaseViewModel{
     @Override
     protected void onCleared() {
         super.onCleared();
-        if (mApplication != null) { mApplication = null; }
-        if (playbackInfo != null) { playbackInfo = null; }
-        if (record != null) { record.clear(); record = null;}
-        if (mTextListener != null) { mTextListener.clear(); mTextListener = null;}
+        if (mApplication != null) {
+            mApplication = null;
+        }
+        if (playbackInfo != null) {
+            playbackInfo = null;
+        }
+        if (record != null) {
+            record.clear();
+            record = null;
+        }
+        if (mTextListener != null) {
+            mTextListener.clear();
+            mTextListener = null;
+        }
         clearAdapter();
     }
 
@@ -59,6 +71,7 @@ public class MusicViewModel extends BaseViewModel{
     public String getPhoneRefresh() {
         return phoneRefresh + "Hz";
     }
+
     public void setPhoneRefresh(int phoneRefresh) {
         this.phoneRefresh = phoneRefresh;
         notifyPropertyChanged(BR.phoneRefresh);
@@ -68,7 +81,8 @@ public class MusicViewModel extends BaseViewModel{
     public boolean isCustomStyle() {
         return isCustomStyle;
     }
-    public void setCustomStyle(boolean customStyle){
+
+    public void setCustomStyle(boolean customStyle) {
         this.isCustomStyle = customStyle;
         notifyPropertyChanged(BR.customStyle);
     }
@@ -77,6 +91,7 @@ public class MusicViewModel extends BaseViewModel{
     public boolean isShowSearchView() {
         return isShowSearchView;
     }
+
     public void setSearchGroupVisible(boolean showSearch) {
         this.isShowSearchView = showSearch;
         notifyPropertyChanged(BR.showSearchView);
@@ -87,6 +102,7 @@ public class MusicViewModel extends BaseViewModel{
     public LayerDrawable getRecord() {
         return record == null || record.get() == null ? null : record.get();
     }
+
     public void setRecord(LayerDrawable layerDrawable) {
         this.record = new SoftReference<>(layerDrawable);
         notifyPropertyChanged(BR.record);
@@ -96,14 +112,17 @@ public class MusicViewModel extends BaseViewModel{
     public int getProgress() {
         return progress;
     }
+
     @Bindable
     public int getMax() {
         return max;
     }
+
     public void setProgress(int progress) {
         this.progress = progress;
         notifyPropertyChanged(BR.progress);
     }
+
     public void setMax(int max) {
         this.max = max;
         notifyPropertyChanged(BR.max);
@@ -113,34 +132,49 @@ public class MusicViewModel extends BaseViewModel{
     public Spanned getPlaybackInfo() {
         return playbackInfo;
     }
-    public void setPlaybackInfo(Spanned playbackInfo) {
-        this.playbackInfo = playbackInfo;
+
+    public void setPlaybackInfo(Spanned t, Spanned a, Spanned info) {
+        this.playbackInfo = info;
+        this.title = t;
+        this.subtitle = a;
+        notifyPropertyChanged(BR.title);
+        notifyPropertyChanged(BR.subtitle);
         notifyPropertyChanged(BR.playbackInfo);
+    }
+
+    public void setPlaybackInfo(Spanned info) {
+        this.playbackInfo = info;
+        notifyPropertyChanged(BR.playbackInfo);
+
+
     }
 
     @Bindable
     public int getPlaybackResId() {
-        return playbackDrawable == 0 ? R.drawable.iv_main_play : playbackDrawable;
+        return playbackDrawable == 0 ? R.drawable.play : playbackDrawable;
     }
+
     public void setPlaybackState(@PlaybackStateCompat.State int playState) {
         boolean state = playState == PlaybackStateCompat.STATE_PLAYING ||
                 playState == PlaybackStateCompat.STATE_PAUSED ||
                 playState == PlaybackStateCompat.STATE_STOPPED ||
                 playState == PlaybackStateCompat.STATE_NONE;
-        if (!state) { return; }
+        if (!state) {
+            return;
+        }
         //Log.e(TAG, "setPlaybackState: "+playState);
         this.playbackDrawable = playState == PlaybackStateCompat.STATE_PLAYING ?
-                R.drawable.iv_main_pause : R.drawable.iv_main_play;
+                R.drawable.pq_play : R.drawable.play;
 
         notifyPropertyChanged(BR.playbackResId);
     }
 
-    public void playbackButton(){
+    public void playbackButton() {
         if (mMediaControllerCompat == null) return;
 
         // 因为这是一个播放/暂停按钮，所以需要测试当前状态，并相应地选择动作
         int pbState = mMediaControllerCompat.getPlaybackState().getState();
-        Log.d(TAG, "initView: 点击了播放暂停按钮, 播放状态代码: "+pbState);
+        Log.d(TAG, "initView: 点击了播放暂停按钮, 播放状态代码: " + pbState);
         if (pbState == PlaybackStateCompat.STATE_PLAYING) {
             mMediaControllerCompat.getTransportControls().pause();
             this.playbackDrawable = R.drawable.iv_main_play;
@@ -155,33 +189,39 @@ public class MusicViewModel extends BaseViewModel{
             String path = mMediaControllerCompat.getMetadata()
                     .getString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI);
             if (path == null || TextUtils.isEmpty(path)) return;
-            mMediaControllerCompat.getTransportControls().playFromUri(Uri.parse(path),null);
+            mMediaControllerCompat.getTransportControls().playFromUri(Uri.parse(path), null);
             this.playbackDrawable = R.drawable.iv_main_pause;
             notifyPropertyChanged(BR.playbackResId);
         }
     }
 
-    public void clearAdapter(){
-        if (adapter == null) { return; }
+    public void clearAdapter() {
+        if (adapter == null) {
+            return;
+        }
         adapter.get().release();
         adapter.clear();
         adapter = null;
     }
+
     public void setAdapter(MusicAdapter adapter) {
         clearAdapter();
         this.adapter = new SoftReference<>(adapter);
     }
 
-    public EditInputChangeListener getTextListener(){
+    public EditInputChangeListener getTextListener() {
         return mTextListener.get();
     }
+
     private class EditInputChangeListener implements TextWatcher {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
         }
+
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
         }
+
         @Override
         public void afterTextChanged(Editable s) {
             //Log.d(TAG, "输入了"+s);
@@ -189,33 +229,38 @@ public class MusicViewModel extends BaseViewModel{
             //拦截歧义查询字段
             if (adapter == null || adapter.get() == null || newText.equals("'")) return;
             if (newText.contains("'s")) return;
-            if (newText.length() > 0 && newText.substring(0,1).contains("'")) return;
-            if (newText.length() > 1 && newText.substring(newText.length()-2).contains("'")) return;
+            if (newText.length() > 0 && newText.substring(0, 1).contains("'")) return;
+            if (newText.length() > 1 && newText.substring(newText.length() - 2).contains("'"))
+                return;
             adapter.get().searchMediaItems(newText);
         }
     }
 
-    public MyCheckedListener getCheckedListener(){
+    public MyCheckedListener getCheckedListener() {
         return new SoftReference<>(new MyCheckedListener()).get();
     }
-    private class MyCheckedListener implements CompoundButton.OnCheckedChangeListener{
+
+    private class MyCheckedListener implements CompoundButton.OnCheckedChangeListener {
 
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            if (mMediaControllerCompat == null) { return; }
+            if (mMediaControllerCompat == null) {
+                return;
+            }
             //!!!注意。一定通过Bundle把isChecked的值传过去
             MusicViewModel.this.setCustomStyle(isChecked);
             Bundle bundle = new Bundle();
-            bundle.putBoolean(BaseMusicService.MyMusic_NOTIFICATION_STYLE,isChecked);
+            bundle.putBoolean(BaseMusicService.MyMusic_NOTIFICATION_STYLE, isChecked);
             mMediaControllerCompat.getTransportControls().sendCustomAction(
-                    BaseMusicService.MyMusic_NOTIFICATION_STYLE,bundle
+                    BaseMusicService.MyMusic_NOTIFICATION_STYLE, bundle
             );
         }
     }
 
-    public BarTimerTask getCircleBarTask(){
+    public BarTimerTask getCircleBarTask() {
         return getSoftReference(new BarTimerTask());
     }
+
     private class BarTimerTask extends TimerTask {
 
         @Override
@@ -240,29 +285,49 @@ public class MusicViewModel extends BaseViewModel{
             }
         }
     }
+    @Bindable
+    public Spanned getTitle() {
+        return title;
+    }
+    @Bindable
+    public void setTitle(Spanned title) {
+        this.title = title;
+    }
+    @Bindable
+    public Spanned getSubtitle() {
+        return subtitle;
+    }
+    @Bindable
+    public void setSubtitle(Spanned subtitle) {
+        this.subtitle = subtitle;
+    }
 
-    public void SyncMusicInformation(){
+    public void SyncMusicInformation() {
         if (mMediaControllerCompat == null) {
-            Log.e(TAG, "SyncMusicInformation: controller为空"); return;
+            Log.e(TAG, "SyncMusicInformation: controller为空");
+            return;
         }
         MediaMetadataCompat lastMetadata = mMediaControllerCompat.getMetadata();
-        if (lastMetadata == null) { return; }
+        if (lastMetadata == null) {
+            return;
+        }
         //歌名-歌手
         String title = lastMetadata.getString(MediaMetadataCompat.METADATA_KEY_TITLE),
                 artist = lastMetadata.getString(MediaMetadataCompat.METADATA_KEY_ARTIST);
-        //Log.d(TAG, "onChildrenLoaded: "+lastMetadata.getString(MediaMetadataCompat.METADATA_KEY_TITLE));
-        setPlaybackInfo(HtmlStringUtil.SongSingerName(title,artist));
+
+        setPlaybackInfo(HtmlStringUtil.songName(title), HtmlStringUtil.songName(artist), HtmlStringUtil.SongSingerName(title, artist));
+
         //时长
-        int position = mApplication.getSharedPreferences("UserLastMusicPlay",0)
-                .getInt("MusicPosition",0);
+        int position = mApplication.getSharedPreferences("UserLastMusicPlay", 0)
+                .getInt("MusicPosition", 0);
         long duration = lastMetadata.getLong(MediaMetadataCompat.METADATA_KEY_DURATION);
-        Log.e(TAG, "onChildrenLoaded: 当前进度 "+position+" 总时长 "+duration);
+        Log.e(TAG, "onChildrenLoaded: 当前进度 " + position + " 总时长 " + duration);
         setMax((int) duration);
         setProgress(position);
 
         //显示处理成唱片样式的歌曲封面图片
         setRecord(getRecord(
-                lastMetadata.getBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART),mApplication));
+                lastMetadata.getBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART), mApplication));
     }
 
 

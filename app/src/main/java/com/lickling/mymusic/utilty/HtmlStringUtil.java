@@ -11,15 +11,31 @@ public class HtmlStringUtil {
 
     public static Spanned SongSingerName(String title, String artist){
         if (TextUtils.isEmpty(title) && TextUtils.isEmpty(artist))
-            return Html.fromHtml("<font color = \"#EEEEEE\">快去听听音乐吧</font>",
+            return Html.fromHtml("<font color = \"#1e1e1e\">快去听听音乐吧</font>",
                                                 Html.FROM_HTML_OPTION_USE_CSS_COLORS);
         if (TextUtils.isEmpty(artist) || artist.equals("<unknown>")) artist = "Unknown";
-        String highColor = "#EEEEEE", lowColor = "#CDCDCD";
+        String highColor = "#1e1e1e", lowColor = "#34373d";
 
-        /*String SongInformation = "<font color = \"#EEEEEE\"><bold>"+title+"</bold></font>"+
-                "<font color = \"#888\"><small><bold> - </bold>"+artist+"</small></font>";*/
         String SongInformation = "<font color = "+highColor+"><bold>"+title+"</bold></font>"+
                 "<font color = "+lowColor+"><small><bold> - </bold>"+artist+"</small></font>";
+        return Html.fromHtml(SongInformation,Html.FROM_HTML_OPTION_USE_CSS_COLORS);
+    }
+
+    public static Spanned songName(String title){
+        if (TextUtils.isEmpty(title))
+            return Html.fromHtml("<font color = \"#EEEEEE\">快去听听音乐吧</font>",
+                    Html.FROM_HTML_OPTION_USE_CSS_COLORS);
+        String color = "#1e1e1e";
+        String SongInformation = "<font color = "+color+"><bold>"+title+"</bold></font>";
+        return Html.fromHtml(SongInformation,Html.FROM_HTML_OPTION_USE_CSS_COLORS);
+    }
+
+    public static Spanned songArtist(String artist) {
+        if (TextUtils.isEmpty(artist))
+            return Html.fromHtml("<font color = \"#EEEEEE\">快去听听音乐吧</font>",
+                    Html.FROM_HTML_OPTION_USE_CSS_COLORS);
+        String color = "#EEEEEE";
+        String SongInformation = "<font color = "+color+">"+artist+"</font>";
         return Html.fromHtml(SongInformation,Html.FROM_HTML_OPTION_USE_CSS_COLORS);
     }
     public static String SheetTips(int count){

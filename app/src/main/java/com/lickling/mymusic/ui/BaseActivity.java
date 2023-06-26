@@ -39,11 +39,6 @@ import com.lickling.mymusic.viewmodel.MusicViewModel;
 import java.lang.ref.SoftReference;
 import java.util.List;
 
-/**
- * @author : Bilibili喜闻人籁
- * @since : 2021/11/17
- * 作用:
- */
 public abstract class BaseActivity<M extends MusicViewModel> extends AppCompatActivity implements View.OnApplyWindowInsetsListener {
 
     private static final String TAG = "BaseActivity";
@@ -273,7 +268,8 @@ public abstract class BaseActivity<M extends MusicViewModel> extends AppCompatAc
     protected void playbackStateChanged(PlaybackStateCompat playbackState,
                                         @NonNull View loadingView){
         if (mRecordAnimator == null || playbackState == null) {
-            Toast.makeText(this,"未初始化唱片旋转动画",Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this,"未初始化唱片旋转动画",Toast.LENGTH_SHORT).show();
+            Log.d(TAG,"playbackStateChanged : 未初始化唱片旋转动画");
             return;
         }
         int state = playbackState.getState();
@@ -295,7 +291,7 @@ public abstract class BaseActivity<M extends MusicViewModel> extends AppCompatAc
      * 设置最大刷新率
      * 1.通过Activity 的Window对象获取到{@link Display.Mode[]} 所有的刷新率模式数组
      * 2.通过遍历判断出刷新率最大那一组，并获取此组引用{@link Display.Mode}
-     * 3.国际惯例首先判空，再获取{@link WindowManager.LayoutParams}引用，其成员变量preferredDisplayModeId是{@link Display.Mode}的ModeID
+     * 3.首先判空，再获取{@link WindowManager.LayoutParams}引用，其成员变量preferredDisplayModeId是{@link Display.Mode}的ModeID
      * 4.window.setAttributes(layoutParams);最后设置下，收工*/
     protected void HighHzAdaptation(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
