@@ -1,5 +1,4 @@
-package com.lickling.mymusic.ui.load;
-
+package com.lickling.mymusic.ui.myLike;
 
 
 import android.annotation.SuppressLint;
@@ -13,7 +12,7 @@ import android.widget.Button;
 
 import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +20,8 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lickling.mymusic.R;
+import com.lickling.mymusic.ui.load.ListItem;
+
 
 
 import java.util.List;
@@ -167,3 +168,4 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
 
 }
+
