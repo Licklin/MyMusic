@@ -1,13 +1,11 @@
 package com.lickling.mymusic.ui.home.PQ;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
-import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +17,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
+import com.lickling.mymusic.MyTest;
 import com.lickling.mymusic.R;
 import com.lickling.mymusic.databinding.FragmentDesktopOneBinding;
 import com.lickling.mymusic.ui.load.ListAdapter;
@@ -29,10 +28,10 @@ import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link Desktop_one#newInstance} factory method to
+ * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Desktop_one extends Fragment {
+public class HomeFragment extends Fragment {
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -44,14 +43,12 @@ public class Desktop_one extends Fragment {
     private String mParam1;
     private String mParam2;
 
-
-    private RecyclerView recyclerView;
     private ListAdapter listAdapter;
     private List<ListItem> listItems;
     private FragmentDesktopOneBinding desktopOneBinding;
 
 
-    public Desktop_one() {
+    public HomeFragment() {
         // Required empty public constructor
     }
 
@@ -62,11 +59,11 @@ public class Desktop_one extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment Desktop_one.
+     * @return A new instance of fragment HomeFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static Desktop_one newInstance(String param1, String param2) {
-        Desktop_one fragment = new Desktop_one();
+    public static HomeFragment newInstance(String param1, String param2) {
+        HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -83,9 +80,6 @@ public class Desktop_one extends Fragment {
         }
     }
 
-
-    private ImageView imageView_scan;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -98,9 +92,9 @@ public class Desktop_one extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-//        recyclerView = getActivity().findViewById(R.id.recycler_view4);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        desktopOneBinding.homeRecyclerView
+        desktopOneBinding.homeRecyclerView.setHasFixedSize(true);
+        desktopOneBinding.homeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         listItems = new ArrayList<>();
         // 在此处添加数据到listItems
@@ -111,48 +105,43 @@ public class Desktop_one extends Fragment {
         listItems.add(new ListItem("青花瓷", "jay潘"));
 
         listAdapter = new ListAdapter(listItems, getActivity());
-        recyclerView.setAdapter(listAdapter);
-
+        desktopOneBinding.homeRecyclerView.setAdapter(listAdapter);
 
         // 搜索框
-        ImageView imageview_input = getActivity().findViewById(R.id.imageview_input);
-        imageview_input.setOnClickListener(new View.OnClickListener() {
+        desktopOneBinding.imageviewInput.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.alpha);
-                imageview_input.startAnimation(animation);
+                desktopOneBinding.imageviewInput.startAnimation(animation);
                 startActivity(new Intent(getActivity(), Desktop_Seek.class));
 
             }
         });
 
         // 扫描按键
-        ImageView imageView_scan = getActivity().findViewById(R.id.imageview_scan);
-        imageView_scan.setOnClickListener(new View.OnClickListener() {
+        desktopOneBinding.imageviewScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.alpha);
-                imageView_scan.startAnimation(animation);
+                desktopOneBinding.imageviewScan.startAnimation(animation);
             }
         });
 
         // 识别按键
-        ImageView imageview_recognition = getActivity().findViewById(R.id.imageview_recognition);
-        imageview_recognition.setOnClickListener(new View.OnClickListener() {
+        desktopOneBinding.imageviewRecognition.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.alpha);
-                imageview_recognition.startAnimation(animation);
+                desktopOneBinding.imageviewRecognition.startAnimation(animation);
             }
         });
 
         //个人头像按键
-        ImageView imageview_personage = getActivity().findViewById(R.id.imageview_personage);
-        imageview_personage.setOnClickListener(new View.OnClickListener() {
+        desktopOneBinding.imageviewPersonage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.alpha);
-                imageview_personage.startAnimation(animation);
+                desktopOneBinding.imageviewPersonage.startAnimation(animation);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setIcon(R.drawable.baseline_lightbulb_24);
@@ -177,12 +166,11 @@ public class Desktop_one extends Fragment {
         });
 
         // 热门按键
-        ImageView imageview_hot = getActivity().findViewById(R.id.imageview_hot);
-        imageview_hot.setOnClickListener(new View.OnClickListener() {
+        desktopOneBinding.imageviewHot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.alpha);
-                imageview_hot.startAnimation(animation);
+                desktopOneBinding.imageviewHot.startAnimation(animation);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setIcon(R.drawable.baseline_lightbulb_24);
@@ -207,12 +195,11 @@ public class Desktop_one extends Fragment {
         });
 
         // 排行按键
-        ImageView imageview_rank = getActivity().findViewById(R.id.imageview_rank);
-        imageview_rank.setOnClickListener(new View.OnClickListener() {
+        desktopOneBinding.imageviewRank.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.alpha);
-                imageview_rank.startAnimation(animation);
+                desktopOneBinding.imageviewRank.startAnimation(animation);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setIcon(R.drawable.baseline_lightbulb_24);
@@ -237,12 +224,11 @@ public class Desktop_one extends Fragment {
         });
 
         // 电台按键
-        ImageView imageview_station = getActivity().findViewById(R.id.imageview_station);
-        imageview_station.setOnClickListener(new View.OnClickListener() {
+        desktopOneBinding.imageviewStation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.alpha);
-                imageview_station.startAnimation(animation);
+                desktopOneBinding.imageviewStation.startAnimation(animation);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setIcon(R.drawable.baseline_lightbulb_24);
@@ -297,12 +283,11 @@ public class Desktop_one extends Fragment {
         });
 
         // 歌手按键
-        ImageView imageview_singer = getActivity().findViewById(R.id.imageview_singer);
-        imageview_singer.setOnClickListener(new View.OnClickListener() {
+        desktopOneBinding.imageviewSinger.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.alpha);
-                imageview_singer.startAnimation(animation);
+                desktopOneBinding.imageviewSinger.startAnimation(animation);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setIcon(R.drawable.baseline_lightbulb_24);
@@ -327,42 +312,39 @@ public class Desktop_one extends Fragment {
         });
 
         // 我喜欢按钮
-        ImageView imageview_like = getActivity().findViewById(R.id.image_view_like);
-        imageview_like.setOnClickListener(new View.OnClickListener() {
+        desktopOneBinding.imageViewLike.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.alpha);
-                imageview_like.startAnimation(animation);
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), MyTest.class));
             }
         });
 
         // 播放按键
-        ImageView imageView_play = getActivity().findViewById(R.id.imageView_play);
-        imageView_play.setOnClickListener(new View.OnClickListener() {
+
+        desktopOneBinding.imageViewPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.alpha);
-                imageView_play.startAnimation(animation);
+                desktopOneBinding.imageViewPlay.startAnimation(animation);
             }
         });
 
         // 下一首按键
-        ImageView imageView_next = getActivity().findViewById(R.id.imageView_next);
-        imageView_next.setOnClickListener(new View.OnClickListener() {
+
+        desktopOneBinding.imageViewNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.alpha);
-                imageView_next.startAnimation(animation);
+                desktopOneBinding.imageViewNext.startAnimation(animation);
             }
         });
 
         // 队列按键
-        ImageView imageView_list = getActivity().findViewById(R.id.imageView_list);
-        imageView_list.setOnClickListener(new View.OnClickListener() {
+        desktopOneBinding.imageViewList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.alpha);
-                imageView_list.startAnimation(animation);
+                desktopOneBinding.imageViewList.startAnimation(animation);
             }
         });
 
@@ -371,7 +353,7 @@ public class Desktop_one extends Fragment {
 
     private void initView() {
 
-        
+
     }
 
 

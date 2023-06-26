@@ -4,20 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="homeInfo"
             type="com.lickling.mymusic.viewmodel.MusicViewModel" />
 
-        <import type="android.view.View" />
     </data>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
         android:layout_marginTop="30dp"
-        tools:context=".ui.home.PQ.Desktop_one">
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp">
 
         <!-- TODO: Update blank fragment layout -->
         <LinearLayout
@@ -59,7 +58,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:background="@drawable/pq_input"/>
+                        android:background="@drawable/pq_input" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -224,6 +223,7 @@
 
             <!--    // 5-->
             <LinearLayout
+                android:id="@+id/image_view_like"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="20dp"
@@ -237,13 +237,11 @@
                     android:layout_weight="1">
 
                     <ImageView
-                        android:id="@+id/image_view_like"
                         android:layout_width="45dp"
                         android:layout_height="45dp"
                         android:layout_marginLeft="15dp"
                         android:background="@drawable/pq_like" />
                 </LinearLayout>
-
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -257,9 +255,7 @@
                         android:textSize="16dp"
                         android:textStyle="bold" />
                 </LinearLayout>
-
             </LinearLayout>
-
 
             <!--    // 6-->
             <LinearLayout
@@ -269,12 +265,12 @@
                 android:background="@drawable/desktop_item">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_view4"
+                    android:id="@+id/home_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
-                    android:orientation="vertical"></androidx.recyclerview.widget.RecyclerView>
+                    android:orientation="vertical" />
 
             </LinearLayout>
 

@@ -32,13 +32,14 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:layout_marginTop="20dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:layout_marginTop="20dp"
                 android:background="@drawable/desktop_item"
+                android:layout_alignParentBottom="true"
                 android:orientation="horizontal">
 
 
@@ -103,11 +104,11 @@
                 </LinearLayout>
 
             </LinearLayout>
-
             <RadioGroup
                 android:id="@+id/navigation_bar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
                 android:orientation="horizontal"
                 android:layout_marginTop="10dp">
 

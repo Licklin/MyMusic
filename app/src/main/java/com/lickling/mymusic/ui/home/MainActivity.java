@@ -32,6 +32,7 @@ import com.lickling.mymusic.service.OurMusicService;
 import com.lickling.mymusic.ui.BaseActivity;
 import com.lickling.mymusic.ui.home.PQ.Desktop;
 import com.lickling.mymusic.ui.home.PQ.Desktop_one;
+import com.lickling.mymusic.ui.home.PQ.HomeFragment;
 import com.lickling.mymusic.utilty.PermissionUtil;
 import com.lickling.mymusic.utilty.PictureUtil;
 import com.lickling.mymusic.viewmodel.MusicViewModel;
@@ -242,7 +243,7 @@ public class MainActivity extends BaseActivity {
         });
 
         mMainBinding.bottom1.setSelected(true);
-//        replaceFragment(new Desktop_one());
+        replaceFragment(new HomeFragment());
 
 
     }
