@@ -1,21 +1,17 @@
 package com.lickling.mymusic.ui.home.test;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
-import android.widget.EditText;
 import android.widget.ImageView;
 
 
 import com.lickling.mymusic.R;
-import com.lickling.mymusic.ui.load.LoadActivity;
-import com.lickling.mymusic.utility.MyGlide;
+import com.lickling.mymusic.utilty.MyGlide;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -219,8 +219,11 @@ public class MusicService extends BaseService {
     public boolean isFirstPlay() {
         return isFirstPlay;
     }
-    public boolean isPlaying(){
-        return mediaPlayer.isPlaying();
+
+    public boolean isPlaying() {
+        if (mediaPlayer != null) return mediaPlayer.isPlaying();
+        else
+            return false;
     }
 
     public void onPause() {

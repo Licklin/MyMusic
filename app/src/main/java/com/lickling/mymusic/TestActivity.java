@@ -2,7 +2,6 @@ package com.lickling.mymusic;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -11,7 +10,6 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -20,10 +18,9 @@ import android.widget.Toast;
 
 import com.lickling.mymusic.service.MusicService;
 
-import com.lickling.mymusic.ui.BaseActivity;
-import com.lickling.mymusic.utility.MyGlide;
+import com.lickling.mymusic.utilty.MyGlide;
 
-public class TestActivity extends BaseActivity {
+public class TestActivity extends AppCompatActivity {
 
     private MusicService musicService;
     private MyConn myConn;
@@ -36,6 +33,10 @@ public class TestActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        myConn = new MyConn();
+        intent = new Intent(this, MusicService.class);
+        this.bindService(intent, myConn, Context.BIND_AUTO_CREATE);
+
         setContentView(R.layout.test_layout);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Window window = getWindow();
@@ -43,7 +44,6 @@ public class TestActivity extends BaseActivity {
             window.setStatusBarColor(Color.TRANSPARENT);
         }
 
-        myConn = new MyConn();
         ImageView imageView = findViewById(R.id.image_test);
         Button testButton = findViewById(R.id.test_btn);
         testButton.setOnClickListener(new View.OnClickListener() {
@@ -78,19 +78,17 @@ public class TestActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        intent = new Intent(this, MusicService.class);
-        this.bindService(intent, myConn, Context.BIND_AUTO_CREATE);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        this.unbindService(myConn);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        this.unbindService(myConn);
         if (myConn != null) myConn = null;
         if (intent != null) intent = null;
         if (musicService != null) musicService = null;

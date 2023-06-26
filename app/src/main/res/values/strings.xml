@@ -21,4 +21,19 @@
     <string name="setting_head">设置</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <string name="label_notification_close">关闭</string>
+    <string name="label_notification_love">收藏至最近很喜欢</string>
+    <string name="label_notification_previous">上一曲</string>
+    <string name="label_notification_next">下一曲</string>
+    <string name="label_notification_toggle">播放暂停切换</string>
+    <string name="label_notification_play">播放</string>
+    <string name="label_notification_pause">暂停</string>
+    <string name="label_notification_lyric">歌词</string>
+    <string name="label_notification_line">分割线</string>
+    <string name="label_notification_cover">封面</string>
+    <string name="label_notification_mode">播放模式</string>
+
+
 </resources>
