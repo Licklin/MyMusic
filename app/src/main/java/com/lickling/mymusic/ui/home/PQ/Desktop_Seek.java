@@ -1,5 +1,6 @@
 package com.lickling.mymusic.ui.home.PQ;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -9,10 +10,13 @@ import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,7 +28,8 @@ import com.lickling.mymusic.ui.load.ListItem;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Desktop_Seek extends AppCompatActivity {
+public class Desktop_Seek extends AppCompatActivity implements SearchView.OnQueryTextListener{
+
 
     private RecyclerView recyclerView;
     private ListAdapter listAdapter;
@@ -71,5 +76,24 @@ public class Desktop_Seek extends AppCompatActivity {
 
 
 
+        SearchView searchView = findViewById(R.id.search_view);
+        searchView.setOnQueryTextListener(this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(listAdapter);
+
+
+
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+
+        return false;
     }
 }

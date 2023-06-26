@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingLeft="8dp"
     android:paddingRight="8dp"
     android:background="@color/background_white"
@@ -26,11 +26,19 @@
                 android:layout_marginLeft="10dp"/>
         </LinearLayout>
 
-        <ImageView
+<!--        <ImageView-->
+<!--            android:layout_width="260dp"-->
+<!--            android:layout_height="35dp"-->
+<!--            android:background="@drawable/pq_input"-->
+<!--            android:layout_marginLeft="20dp"/>-->
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/search_view"
             android:layout_width="260dp"
             android:layout_height="35dp"
+            android:layout_marginLeft="20dp"
+            app:iconifiedByDefault="false"
             android:background="@drawable/pq_input"
-            android:layout_marginLeft="20dp"/>
+            app:queryHint="请输入搜索内容"/>
 
         <ImageView
             android:id="@+id/imageview_seektext"
@@ -53,7 +61,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:background="@drawable/desktop_item"
-        android:layout_marginTop="30dp">
+        android:layout_marginTop="30dp"
+        android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view1"

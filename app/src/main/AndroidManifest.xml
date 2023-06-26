@@ -21,7 +21,7 @@
 
 
         <activity
-            android:name=".TestActivity"
+            android:name=".ui.home.PQ.Desktop"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -55,7 +55,7 @@
             android:name=".ui.setting.password.PassWordActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.home.PQ.Desktop"
+            android:name=".ui.home.PQ.Desktop_Seek"
             android:exported="false" />
         <activity
             android:name=".ui.load.LoadActivity"

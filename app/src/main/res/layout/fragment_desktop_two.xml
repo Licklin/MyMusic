@@ -10,8 +10,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         android:orientation="vertical"
         android:background="@color/background_white">
 
@@ -58,7 +58,7 @@
         </LinearLayout>
 
 
-<!--        2-->
+        2
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -305,10 +305,6 @@
 
 
         </LinearLayout>
-
-
-
-
 
 
 

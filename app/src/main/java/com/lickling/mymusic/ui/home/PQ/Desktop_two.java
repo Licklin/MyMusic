@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import com.lickling.mymusic.R;
 import com.lickling.mymusic.ui.load.ListAdapter;
@@ -37,9 +38,10 @@ public class Desktop_two extends Fragment {
     private String mParam2;
 
 
-    private RecyclerView recyclerView;
-    private ListAdapter listAdapter;
-    private List<ListItem> listItems;
+    private List<Desktop_two_Listltem> data = new ArrayList<>();
+
+
+
 
     public Desktop_two() {
         // Required empty public constructor
@@ -94,6 +96,10 @@ public class Desktop_two extends Fragment {
         imageview_find.setSelected(true);
         circle_find.setSelected(true);
 
+
+
+
+
         // 发现按键
         imageview_find.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,10 +130,12 @@ public class Desktop_two extends Fragment {
 
 
 
+
+
+
+
+
     }
-
-
-
 
 }
 

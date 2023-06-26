@@ -18,12 +18,12 @@ import java.util.List;
 
 public class Desktop_ListAdapter extends RecyclerView.Adapter<Desktop_ListAdapter.ViewHolder> {
 
-    private List<Desktop_Listltem> listItems;
+    private List<Desktop_Listltem> Desktop_Listltem;
     private Context context;
     private int selectedItem = -1;
 
     public Desktop_ListAdapter(List<Desktop_Listltem> listItems, Context context) {
-        this.listItems = listItems;
+        this.Desktop_Listltem = listItems;
         this.context = context;
     }
 
@@ -37,14 +37,14 @@ public class Desktop_ListAdapter extends RecyclerView.Adapter<Desktop_ListAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Desktop_Listltem listItem = listItems.get(position);
+        Desktop_Listltem listItem = Desktop_Listltem.get(position);
         holder.title.setText(listItem.getTitle());
         holder.subtitle.setText(listItem.getSubtitle());
     }
 
     @Override
     public int getItemCount() {
-        return listItems.size();
+        return Desktop_Listltem.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
