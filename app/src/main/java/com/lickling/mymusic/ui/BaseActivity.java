@@ -269,7 +269,7 @@ public abstract class BaseActivity<M extends MusicViewModel> extends AppCompatAc
                                         @NonNull View loadingView){
         if (mRecordAnimator == null || playbackState == null) {
 //            Toast.makeText(this,"未初始化唱片旋转动画",Toast.LENGTH_SHORT).show();
-            Log.d(TAG,"playbackStateChanged : 未初始化唱片旋转动画");
+            Log.d(TAG,"playbackStateChanged : 未初始化唱片旋转动画"+(mRecordAnimator == null)+(playbackState == null));
             return;
         }
         int state = playbackState.getState();
@@ -342,8 +342,8 @@ public abstract class BaseActivity<M extends MusicViewModel> extends AppCompatAc
         //同步播放动画
         PlaybackStateCompat playbackState = mediaController.getPlaybackState();
         m.setPlaybackState(playbackState.getState());
-
         playbackStateChanged(playbackState, view);
+
         //添加列表
         updateMusicList(mediaController,children);
     }

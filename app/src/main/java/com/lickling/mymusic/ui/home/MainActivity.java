@@ -27,6 +27,7 @@ import com.lickling.mymusic.MyTest;
 import com.lickling.mymusic.R;
 import com.lickling.mymusic.databinding.ActivityMainBinding;
 import com.lickling.mymusic.databinding.DesktopBinding;
+import com.lickling.mymusic.databinding.FragmentDesktopOneBinding;
 import com.lickling.mymusic.service.BaseMusicService;
 import com.lickling.mymusic.service.OurMusicService;
 import com.lickling.mymusic.ui.BaseActivity;
@@ -49,6 +50,8 @@ public class MainActivity extends BaseActivity<MusicViewModel> {
     private MusicViewModel mMusicViewModel;
     private Timer mTimer;
     private Intent mIntentMusic;
+    private FragmentDesktopOneBinding desktopOneBinding;
+    private HomeFragment homeFragment;
 
     @Override
     protected MediaControllerCompat.Callback getControllerCallback() {
@@ -154,9 +157,9 @@ public class MainActivity extends BaseActivity<MusicViewModel> {
         public void onChildrenLoaded(@NonNull String parentId,
                                      @NonNull List<MediaBrowserCompat.MediaItem> children) {
             super.onChildrenLoaded(parentId, children);
-            activityOnChildrenLoad(mMusicViewModel,
-                    mMainBinding.bottom1,
-                    children);
+
+            activityOnChildrenLoad(mMusicViewModel, mMainBinding.homeBtn, children);
+
             mMusicViewModel.setPhoneRefresh(mRefreshRateMax);
             //！！！少更新样式状态
             mMusicViewModel.setCustomStyle(MediaControllerCompat.getMediaController(MainActivity.this)
@@ -195,6 +198,8 @@ public class MainActivity extends BaseActivity<MusicViewModel> {
     private void initView() {
 
         mMainBinding.activityMainUiRoot.setOnApplyWindowInsetsListener(this);
+        homeFragment = new HomeFragment(mMusicViewModel);
+
         mMainBinding.navigationBar.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -203,7 +208,7 @@ public class MainActivity extends BaseActivity<MusicViewModel> {
                     case R.id.home_btn:
                         animation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.alpha);
                         mMainBinding.bottom1.startAnimation(animation);
-                        replaceFragment(new HomeFragment(mMusicViewModel));
+                        replaceFragment(homeFragment);
                         mMainBinding.bottom1.setSelected(true);
                         mMainBinding.bottom2.setSelected(false);
                         mMainBinding.bottom3.setSelected(false);
@@ -243,8 +248,10 @@ public class MainActivity extends BaseActivity<MusicViewModel> {
         });
 
         mMainBinding.bottom1.setSelected(true);
-        replaceFragment(new HomeFragment(mMusicViewModel));
+        replaceFragment(homeFragment);
 
+//        if (homeFragment.getBinding().imageViewPlay == null)
+//            Toast.makeText(this, "null", Toast.LENGTH_SHORT).show();
 
     }
 

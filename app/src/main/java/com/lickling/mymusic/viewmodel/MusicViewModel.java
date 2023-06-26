@@ -162,7 +162,6 @@ public class MusicViewModel extends BaseViewModel {
         if (!state) {
             return;
         }
-        //Log.e(TAG, "setPlaybackState: "+playState);
         this.playbackDrawable = playState == PlaybackStateCompat.STATE_PLAYING ?
                 R.drawable.pq_play : R.drawable.play;
 

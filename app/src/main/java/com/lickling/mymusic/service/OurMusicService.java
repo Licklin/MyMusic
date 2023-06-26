@@ -218,14 +218,14 @@ public class OurMusicService extends BaseMusicService {
     //**********************************************Metadata元数据相关方法***************************/
     private List<MediaBrowserCompat.MediaItem> getMediaItems(LinkedHashMap<String, MediaMetadataCompat> musicMaps) {
         List<MediaBrowserCompat.MediaItem> result = new ArrayList<>();
-        Log.d(TAG,"getMediaItems musicMap:"+musicMaps.toString());
+//        Log.d(TAG,"getMediaItems musicMap:"+musicMaps.toString());
         for (MediaMetadataCompat metadata : musicMaps.values()) {
             result.add(
                     new MediaBrowserCompat.MediaItem(
                             metadata.getDescription(), MediaBrowserCompat.MediaItem.FLAG_PLAYABLE));
-
-            Log.d(TAG, "getMediaItems: "+metadata.getString(MediaMetadataCompat.METADATA_KEY_TITLE)+
-                    " 键值 "+metadata.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID));
+//
+//            Log.d(TAG, "getMediaItems: "+metadata.getString(MediaMetadataCompat.METADATA_KEY_TITLE)+
+//                    " 键值 "+metadata.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID));
         }
         Log.d(TAG, "getMediaItems: "+result.size());
         return result;
@@ -246,7 +246,7 @@ public class OurMusicService extends BaseMusicService {
         @Override
         public void onRemoveQueueItem(MediaDescriptionCompat description) {
             super.onRemoveQueueItem(description);
-            Log.d(TAG, "onRemoveQueueItem: ");
+//            Log.d(TAG, "onRemoveQueueItem: ");
             playList.remove(new MediaSessionCompat.QueueItem(description, description.hashCode()));
             queueIndex = (playList.isEmpty()) ? -1 : queueIndex;
             mediaSession.setQueue(playList);

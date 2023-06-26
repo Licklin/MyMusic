@@ -22,7 +22,7 @@
         <FrameLayout
             android:id="@+id/framelayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="797dp"
             android:layout_weight="100"
             android:background="@color/background_white"
             android:orientation="vertical">
@@ -32,8 +32,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:layout_weight="1"
-            android:layout_marginTop="20dp">
+            android:layout_weight="1">
 
             <LinearLayout
                 android:layout_width="match_parent"
