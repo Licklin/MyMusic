@@ -24,9 +24,7 @@ import com.lickling.mymusic.R;
 
 public class SongOperationPopup extends BottomSheetDialogFragment{
 
-
     private String singer_name;
-
     private String singer_info;
     private String song_title;
     private Context context;

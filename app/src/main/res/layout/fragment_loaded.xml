@@ -36,8 +36,8 @@
                 android:layout_marginLeft="0dp"
                 android:background="@android:color/transparent"
                 android:text="已下载"
-                android:textStyle="bold"
-                android:textSize="20sp">
+                android:textSize="20sp"
+                android:textStyle="bold">
 
             </Button>
 
@@ -46,8 +46,8 @@
                 android:layout_width="6dp"
                 android:layout_height="6dp"
                 android:layout_below="@id/loaded_btn"
-                android:layout_marginTop="-10dp"
                 android:layout_centerHorizontal="true"
+                android:layout_marginTop="-10dp"
                 android:background="@drawable/load_red_point"
                 android:clipToOutline="true" />
 
@@ -74,10 +74,10 @@
                 android:layout_height="6dp"
                 android:layout_below="@id/loading_btn"
                 android:layout_centerInParent="true"
-                android:background="@drawable/load_red_point"
-                android:visibility="invisible"
                 android:layout_marginTop="-10dp"
-                android:clipToOutline="true" />
+                android:background="@drawable/load_red_point"
+                android:clipToOutline="true"
+                android:visibility="invisible" />
         </RelativeLayout>
     </LinearLayout>
 
@@ -91,10 +91,56 @@
             android:id="@+id/play_btn"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginLeft="20dp"
-            android:background="@drawable/load_red_play">
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="15dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/load_red_play"
+            android:visibility="visible">
 
         </Button>
+
+        <CheckBox
+            android:id="@+id/all_choice_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="5dp"
+            android:text="全选"
+            android:visibility="gone">
+
+        </CheckBox>
+
+        <TextView
+            android:id="@+id/checked_item_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_toLeftOf="@+id/cancel_choice_btn"
+            android:layout_toRightOf="@+id/all_choice_btn"
+            android:gravity="center"
+            android:text="已选0首"
+            android:visibility="gone"></TextView>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf ="@id/multi_choice_btn"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="5dp"
+            >
+            <SearchView
+                android:id="@+id/search_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:iconifiedByDefault="true"
+                android:queryBackground="@drawable/load_search_bar"
+                app:showAsAction="collapseActionView|ifRoom"
+                android:queryHint="搜索此歌单的歌曲">
+            </SearchView>
+
+        </LinearLayout>
 
         <Button
             android:id="@+id/multi_choice_btn"
@@ -106,19 +152,23 @@
             android:background="@android:color/transparent"
             android:text="多选"
             android:textSize="15sp"
-            android:textStyle="bold">
+            android:textStyle="bold"
+            android:visibility="visible">
 
         </Button>
 
         <Button
-            android:id="@+id/serach_btn"
+            android:id="@+id/cancel_choice_btn"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
-            android:layout_marginRight="15dp"
-            android:layout_toLeftOf="@id/multi_choice_btn"
-            android:background="@drawable/baseline_search_24">
-
+            android:layout_marginRight="20dp"
+            android:background="@android:color/transparent"
+            android:text="取消"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:visibility="gone">
         </Button>
 
     </RelativeLayout>

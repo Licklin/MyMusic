@@ -21,7 +21,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.lickling.mymusic.R;
-import com.lickling.mymusic.ui.home.test.MainActivity;
+
 import com.lickling.mymusic.ui.load.ListAdapter;
 import com.lickling.mymusic.ui.load.ListItem;
 
