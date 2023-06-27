@@ -73,9 +73,6 @@ public class MainActivity extends BaseActivity<MusicViewModel> {
         if (PermissionUtil.IsPermissionNotObtained(this)) {
             PermissionUtil.getStorage(this);
         }
-//        Window window = getWindow();
-//        window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-//        window.setStatusBarColor(Color.TRANSPARENT);
         super.onCreate(savedInstanceState);
 
         mMainBinding = DataBindingUtil.setContentView(this, R.layout.desktop);
