@@ -267,6 +267,7 @@ public abstract class BaseActivity<M extends MusicViewModel> extends AppCompatAc
 
     protected void playbackStateChanged(PlaybackStateCompat playbackState,
                                         @NonNull View loadingView){
+
         if (mRecordAnimator == null || playbackState == null) {
 //            Toast.makeText(this,"未初始化唱片旋转动画",Toast.LENGTH_SHORT).show();
             Log.d(TAG,"playbackStateChanged : 未初始化唱片旋转动画"+(mRecordAnimator == null)+(playbackState == null));
@@ -276,13 +277,9 @@ public abstract class BaseActivity<M extends MusicViewModel> extends AppCompatAc
         Bundle bundle = playbackState.getExtras();
         if (state == PlaybackStateCompat.STATE_PLAYING) {
             Log.w(TAG, "playbackStateChanged: ");
-            loadingView.clearAnimation();
-            loadingView.setVisibility(View.GONE);
             if (bundle == null || !mRecordAnimator.isStarted()) mRecordAnimator.start();//动画开始
             else if (bundle.getBoolean("Continue_Playing_Tips")) mRecordAnimator.resume();
         }else if (state == PlaybackStateCompat.STATE_BUFFERING){
-            loadingView.startAnimation(mLoadingAnimation);
-            loadingView.setVisibility(View.VISIBLE);
         }else if (state == PlaybackStateCompat.STATE_PAUSED){
             mRecordAnimator.pause();
         }

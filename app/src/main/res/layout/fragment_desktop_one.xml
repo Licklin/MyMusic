@@ -11,379 +11,386 @@
 
     </data>
 
-    <FrameLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="30dp"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp">
-
-        <!-- TODO: Update blank fragment layout -->
-        <LinearLayout
+        android:layout_height="match_parent">
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/background_white"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp">
 
-            <!--    1-->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_marginLeft="10dp"
-                    android:text="Mymusic"
-                    android:textSize="25dp" />
-            </LinearLayout>
-
-
-            <!--    2-->
+            <!-- TODO: Update blank fragment layout -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:background="@color/background_white"
+                android:orientation="vertical">
 
+                <!--    1-->
                 <LinearLayout
-                    android:layout_width="260dp"
-                    android:layout_height="35dp"
-                    android:layout_weight="2"
-                    android:gravity="center">
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
 
-
-                    <ImageView
-                        android:id="@+id/imageview_input"
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:background="@drawable/pq_input" />
+                        android:text="Mymusic"
+                        android:textSize="25dp"
+                        android:textStyle="bold"/>
                 </LinearLayout>
 
+
+                <!--    2-->
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="2"
-                    android:gravity="center">
-
-                    <ImageView
-                        android:id="@+id/imageview_scan"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:background="@drawable/pq_scan" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="2"
-                    android:gravity="center">
-
-                    <ImageView
-                        android:id="@+id/imageview_recognition"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:background="@drawable/pq_recognition" />
-                </LinearLayout>
-
-            </LinearLayout>
-
-
-            <!--    // 3-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/desktop_item">
-
-                <ImageView
-                    android:id="@+id/imageview_personage"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginLeft="15dp"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/baseline_person_24" />
-
-            </LinearLayout>
-
-
-            <!--    // 4-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/desktop_item"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/imageview_hot"
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
-                        android:background="@drawable/pq_hot" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="热门" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/imageview_rank"
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
-                        android:background="@drawable/pq_rank" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="排行榜" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/imageview_station"
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
-                        android:background="@drawable/pq_station" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="电台" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/imageview_recommend"
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
-                        android:background="@drawable/pq_recommend" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="推荐" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/imageview_singer"
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
-                        android:background="@drawable/pq_personage" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="歌手" />
-                </LinearLayout>
-
-            </LinearLayout>
-
-
-            <!--    // 5-->
-            <LinearLayout
-                android:id="@+id/image_view_like"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/desktop_item"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1">
-
-                    <ImageView
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
-                        android:layout_marginLeft="15dp"
-                        android:background="@drawable/pq_like" />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="9">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="我喜欢"
-                        android:textSize="16dp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <!--    // 6-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/desktop_item">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/home_recycler_view"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:orientation="vertical" />
-
-            </LinearLayout>
-
-
-            <!--    7-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/desktop_item"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:gravity="center">
+                    android:orientation="horizontal">
 
-                    <ImageView
-                        android:id="@+id/image_view_playing"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
+                    <LinearLayout
+                        android:layout_width="260dp"
+                        android:layout_height="35dp"
+                        android:layout_weight="2"
+                        android:gravity="center">
+
+
+                        <ImageView
+                            android:id="@+id/imageview_input"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:background="@drawable/pq_input" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:background="@drawable/pq_cover" />
+                        android:layout_weight="2"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:id="@+id/imageview_scan"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:background="@drawable/pq_scan" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="2"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:id="@+id/imageview_recognition"
+                            android:layout_width="33dp"
+                            android:layout_height="33dp"
+                            android:background="@drawable/pq_recognition" />
+                    </LinearLayout>
+
                 </LinearLayout>
 
+
+                <!--    // 3-->
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="3"
-                    android:orientation="vertical">
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/desktop_item">
 
-                    <TextView
-                        android:id="@+id/song_Name"
-                        android:layout_width="170dp"
+                    <ImageView
+                        android:id="@+id/imageview_personage"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/baseline_person_24" />
+
+                </LinearLayout>
+
+
+                <!--    // 4-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/desktop_item"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{homeInfo.playbackInfo,default=@string/label_default_title}"
-                        android:textSize="16sp"
-                        android:singleLine="true"
-                        android:ellipsize="marquee"
-                        android:marqueeRepeatLimit="marquee_forever"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:textStyle="bold" />
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="150dp"
+                        <ImageView
+                            android:id="@+id/imageview_hot"
+                            android:layout_width="55dp"
+                            android:layout_height="55dp"
+                            android:background="@drawable/pq_hot" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="热门" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/imageview_rank"
+                            android:layout_width="55dp"
+                            android:layout_height="55dp"
+                            android:background="@drawable/pq_rank" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="排行榜" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/imageview_station"
+                            android:layout_width="55dp"
+                            android:layout_height="55dp"
+                            android:background="@drawable/pq_station" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="电台" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/imageview_recommend"
+                            android:layout_width="55dp"
+                            android:layout_height="55dp"
+                            android:background="@drawable/pq_recommend" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="推荐" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/imageview_singer"
+                            android:layout_width="55dp"
+                            android:layout_height="55dp"
+                            android:background="@drawable/pq_personage" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="歌手" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+                <!--    // 5-->
+                <LinearLayout
+                    android:id="@+id/image_view_like"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/desktop_item"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:layout_marginLeft="15dp"
+                            android:background="@drawable/pq_like" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="9">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="我喜欢"
+                            android:textSize="16dp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!--    // 6-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/desktop_item">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/home_recycler_view"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:visibility="gone"
-                        android:text="@{homeInfo.subtitle,default=@string/label_default_title}" />
+                        android:layout_marginBottom="10dp"
+                        android:orientation="vertical" />
+
                 </LinearLayout>
 
+
+                <!--    7-->
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:layout_marginTop="2dp"
-                    android:gravity="center">
+                    android:layout_width="match_parent"
+                    android:layout_height="190dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/desktop_item"
+                    android:visibility="invisible"
+                    android:orientation="horizontal">
 
-                    <ImageView
-                        android:id="@+id/image_view_play"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:src="@{homeInfo.playbackResId,default=@drawable/play}"
-                         />
+                        android:layout_weight="1"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:id="@+id/image_view_playing"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/pq_cover" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="3"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/song_Name"
+                            android:layout_width="170dp"
+                            android:layout_height="wrap_content"
+                            android:text="@{homeInfo.playbackInfo,default=@string/label_default_title}"
+                            android:textSize="16sp"
+                            android:singleLine="true"
+                            android:ellipsize="marquee"
+                            android:marqueeRepeatLimit="marquee_forever"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:visibility="gone"
+                            android:text="@{homeInfo.subtitle,default=@string/label_default_title}" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:layout_marginTop="2dp"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:id="@+id/image_view_play"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_gravity="center"
+                            android:src="@{homeInfo.playbackResId,default=@drawable/play}"
+                            />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:layout_marginTop="2dp"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:id="@+id/image_view_next"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/pq_next"
+                            android:foregroundGravity="center" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:layout_marginTop="2dp"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:id="@+id/image_view_list"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/pq_list" />
+                    </LinearLayout>
+
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:layout_marginTop="2dp"
-                    android:gravity="center">
-
-                    <ImageView
-                        android:id="@+id/image_view_next"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_gravity="center"
-                        android:background="@drawable/pq_next"
-                        android:foregroundGravity="center" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:layout_marginTop="2dp"
-                    android:gravity="center">
-
-                    <ImageView
-                        android:id="@+id/image_view_list"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_gravity="center"
-                        android:background="@drawable/pq_list" />
-                </LinearLayout>
 
             </LinearLayout>
 
+        </FrameLayout>
+    </ScrollView>
 
-        </LinearLayout>
-
-    </FrameLayout>
 
 </layout>

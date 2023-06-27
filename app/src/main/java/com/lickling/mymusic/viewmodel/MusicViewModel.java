@@ -194,6 +194,9 @@ public class MusicViewModel extends BaseViewModel {
         }
     }
 
+    public void skipToNextPlayBack(){
+        mMediaControllerCompat.getTransportControls().skipToNext();
+    }
     public void clearAdapter() {
         if (adapter == null) {
             return;

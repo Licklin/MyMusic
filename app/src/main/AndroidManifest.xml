@@ -13,12 +13,14 @@
     <uses-permission android:name="android.permission.WAKE_LOCK"/><!--唤醒锁定权限，防止设备休眠-->
     <application
         android:allowBackup="false"
-        android:dataExtractionRules="@xml/data_extraction_rules"
-        android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/app_icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyMusic"
+        android:forceDarkAllowed="true"
+        android:fitsSystemWindows="true"
+        android:statusBarColor="@android:color/transparent"
+        android:windowLightStatusBar="true"
         android:requestLegacyExternalStorage="true">
         <activity
             android:name=".MyTest"
@@ -75,8 +77,7 @@
             android:exported="false" />
         <activity
             android:name=".ui.home.MainActivity"
-            android:exported="true"
-            android:launchMode="standard">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

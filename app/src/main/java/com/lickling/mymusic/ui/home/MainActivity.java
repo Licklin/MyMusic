@@ -9,6 +9,7 @@ import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -22,6 +23,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.lickling.mymusic.MyTest;
 import com.lickling.mymusic.R;
@@ -50,7 +52,6 @@ public class MainActivity extends BaseActivity<MusicViewModel> {
     private MusicViewModel mMusicViewModel;
     private Timer mTimer;
     private Intent mIntentMusic;
-    private FragmentDesktopOneBinding desktopOneBinding;
     private HomeFragment homeFragment;
 
     @Override
@@ -68,11 +69,9 @@ public class MainActivity extends BaseActivity<MusicViewModel> {
         if (PermissionUtil.IsPermissionNotObtained(this)) {
             PermissionUtil.getStorage(this);
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Window window = getWindow();
-            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-            window.setStatusBarColor(Color.TRANSPARENT);
-        }
+//        Window window = getWindow();
+//        window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+//        window.setStatusBarColor(Color.TRANSPARENT);
         super.onCreate(savedInstanceState);
 
         mMainBinding = DataBindingUtil.setContentView(this, R.layout.desktop);
@@ -91,6 +90,7 @@ public class MainActivity extends BaseActivity<MusicViewModel> {
     @Override
     protected void onStart() {
         super.onStart();
+
 //
 //        UpdateProgressBar();
     }
@@ -158,7 +158,7 @@ public class MainActivity extends BaseActivity<MusicViewModel> {
                                      @NonNull List<MediaBrowserCompat.MediaItem> children) {
             super.onChildrenLoaded(parentId, children);
 
-            activityOnChildrenLoad(mMusicViewModel, mMainBinding.homeBtn, children);
+            activityOnChildrenLoad(mMusicViewModel, mMainBinding.imageViewPlaying, children);
 
             mMusicViewModel.setPhoneRefresh(mRefreshRateMax);
             //！！！少更新样式状态
@@ -200,6 +200,44 @@ public class MainActivity extends BaseActivity<MusicViewModel> {
         mMainBinding.activityMainUiRoot.setOnApplyWindowInsetsListener(this);
         homeFragment = new HomeFragment(mMusicViewModel);
 
+        super.initAnimation(mMainBinding.imageViewPlaying);
+
+        // 设置文字自动滚动
+        mMainBinding.songName.setSingleLine(true);
+        mMainBinding.songName.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+        mMainBinding.songName.setMarqueeRepeatLimit(-1);
+        mMainBinding.songName.setSelected(true);
+
+        // 播放按键
+        mMainBinding.imageViewPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Animation animation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.alpha);
+                mMainBinding.imageViewPlay.startAnimation(animation);
+                mMusicViewModel.playbackButton();
+
+            }
+        });
+
+        // 下一首按键
+        mMainBinding.imageViewNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Animation animation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.alpha);
+                mMainBinding.imageViewNext.startAnimation(animation);
+                mMusicViewModel.skipToNextPlayBack();
+            }
+        });
+
+        // 队列按键
+        mMainBinding.imageViewList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Animation animation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.alpha);
+                mMainBinding.imageViewList.startAnimation(animation);
+            }
+        });
+        // 底部导航栏
         mMainBinding.navigationBar.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -250,24 +288,13 @@ public class MainActivity extends BaseActivity<MusicViewModel> {
         mMainBinding.bottom1.setSelected(true);
         replaceFragment(homeFragment);
 
-//        if (homeFragment.getBinding().imageViewPlay == null)
-//            Toast.makeText(this, "null", Toast.LENGTH_SHORT).show();
-
     }
 
 
     private void replaceFragment(Fragment fragment) {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        if (fragmentManager == null) {
-            Log.e(TAG, "fragmentManager = null");
-            return;
-        }
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        if (transaction == null) {
-            Log.e(TAG, "transaction = null");
-            return;
-        }
         transaction.replace(R.id.framelayout, fragment);
         transaction.commit();
     }

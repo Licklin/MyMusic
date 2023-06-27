@@ -116,8 +116,8 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.alpha);
-                desktopOneBinding.imageviewInput.startAnimation(animation);
-                startActivity(new Intent(getActivity(), Desktop_Seek.class));
+                v.startAnimation(animation);
+//                startActivity(new Intent(getActivity(), Desktop_Seek.class));
 
             }
         });
