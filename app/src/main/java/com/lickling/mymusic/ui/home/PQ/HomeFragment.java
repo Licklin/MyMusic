@@ -28,6 +28,7 @@ import com.lickling.mymusic.viewmodel.MusicViewModel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.zip.Inflater;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -90,6 +91,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         desktopOneBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_desktop_one, container, false);
 //        MusicViewModel musicViewModel = new MusicViewModel(Objects.requireNonNull(getActivity()).getApplication());
         desktopOneBinding.setHomeInfo(musicViewModel);
