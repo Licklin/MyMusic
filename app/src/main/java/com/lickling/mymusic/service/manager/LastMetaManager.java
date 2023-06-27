@@ -9,11 +9,6 @@ import androidx.annotation.NonNull;
 
 import java.lang.ref.SoftReference;
 
-/**
- * @author : Bilibili喜闻人籁
- * @since : 2021/11/5
- * 作用:
- */
 public class LastMetaManager {
     private static final String TAG = "LastMetaManager";
     private final SoftReference<SharedPreferences> settings;

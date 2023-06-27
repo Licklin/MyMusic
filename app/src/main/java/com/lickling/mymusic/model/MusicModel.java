@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class MusicModel implements LocalMusicModel {
+public class MusicModel  implements LocalMusicModel {
     private static final String TAG = "MusicModel";
     @Override
     public void getLocalMusic(LocalMusicModel.OnMusicListener onMusicListener, ContentResolver resolver) {

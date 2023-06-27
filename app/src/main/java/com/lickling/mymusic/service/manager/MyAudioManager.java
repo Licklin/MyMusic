@@ -16,12 +16,10 @@ import java.util.Optional;
 import java.util.function.Function;
 
 /**
- * @author : Bilibili喜闻人籁
- * @since : 2021/11/3
  * 作用: 系统声音服务 所需 代码和方法  管理帮助类
  * 1.音频焦点管理、 顺便管理下Wifi锁
- * 2.调节系统音量、
- * 3.播放声音增强、
+ * 2.调节系统音量
+ * 3.播放声音增强
  */
 public class MyAudioManager {
 

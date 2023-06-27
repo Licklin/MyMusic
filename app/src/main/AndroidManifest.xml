@@ -22,6 +22,21 @@
         android:statusBarColor="@android:color/transparent"
         android:windowLightStatusBar="true"
         android:requestLegacyExternalStorage="true">
+
+        <meta-data
+            android:name="DATABASE"
+            android:value="sugar_example.db" />
+        <meta-data
+            android:name="VERSION"
+            android:value="2" />
+        <meta-data
+            android:name="QUERY_LOG"
+            android:value="true" />
+        <meta-data
+            android:name="DOMAIN_PACKAGE_NAME"
+
+            android:value="com.lickling.mymusic.bean" />
+
         <activity
             android:name=".MyTest"
             android:exported="false"

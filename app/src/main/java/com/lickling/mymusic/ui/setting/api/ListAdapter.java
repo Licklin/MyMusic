@@ -1,33 +1,35 @@
 package com.lickling.mymusic.ui.setting.api;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lickling.mymusic.R;
+import com.lickling.mymusic.bean.APIListItem;
 
 import java.util.List;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
-    private List<ListItem> listItems;
+    private List<APIListItem> APIListItems;
     private Context context;
     private int selectedItem = -1;
     private MenuDialogFragment dialogFragment;
+    private  onItemClick save;
 
-    public ListAdapter(List<ListItem> listItems, Context context) {
-        this.listItems = listItems;
+    public interface onItemClick {
+        void saveSelectId(int selectedItem);
+    }
+
+    public ListAdapter(List<APIListItem> APIListItems, Context context) {
+        this.APIListItems = APIListItems;
         this.context = context;
     }
 
@@ -40,21 +42,22 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
         return holder;
     }
-    public void setDialog(MenuDialogFragment dialog){
-        dialogFragment=dialog;
+
+    public void setDialog(MenuDialogFragment dialog) {
+        dialogFragment = dialog;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        ListItem listItem = listItems.get(position);
-        holder.title.setText(listItem.getTitle());
-        holder.subtitle.setText(listItem.getSubtitle());
+        APIListItem APIListItem = APIListItems.get(position);
+        holder.title.setText(APIListItem.getTitle());
+        holder.subtitle.setText(APIListItem.getSubtitle());
         holder.customIcon.setVisibility(position == selectedItem ? View.VISIBLE : View.GONE);
     }
 
     @Override
     public int getItemCount() {
-        return listItems.size();
+        return APIListItems.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
@@ -78,6 +81,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
             if (previousSelected != -1) {
                 notifyItemChanged(previousSelected);
             }
+            save.saveSelectId(selectedItem);
             notifyItemChanged(selectedItem);
         }
 
@@ -85,18 +89,19 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         public boolean onLongClick(View v) {
             // 跳转到编辑页面
             // Intent intent = new Intent(context, EditActivity.class);
-            // intent.putExtra("item", listItems.get(getAdapterPosition()));
+            // intent.putExtra("item", APIListItems.get(getAdapterPosition()));
             // context.startActivity(intent);
 //            selectedItem = getAdapterPosition();
 
-            showMenu(v,getAdapterPosition());  // 长按列表项时触发弹出菜单
+            showMenu(v, getAdapterPosition());  // 长按列表项时触发弹出菜单
             return true;
         }
 
 
     }
-    private void showMenu(View v,int selectedItem) {
-        dialogFragment.setData(v,selectedItem);//把长按的item的数据给dialog
+
+    private void showMenu(View v, int selectedItem) {
+        dialogFragment.setData(v, selectedItem);//把长按的item的数据给dialog
         dialogFragment.show(((AppCompatActivity) v.getContext()).getSupportFragmentManager(), "menu");
     }
 

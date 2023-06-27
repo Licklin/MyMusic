@@ -1,6 +1,8 @@
 package com.lickling.mymusic.ui.home;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
@@ -30,6 +32,7 @@ import com.lickling.mymusic.R;
 import com.lickling.mymusic.databinding.ActivityMainBinding;
 import com.lickling.mymusic.databinding.DesktopBinding;
 import com.lickling.mymusic.databinding.FragmentDesktopOneBinding;
+import com.lickling.mymusic.model.MainModel;
 import com.lickling.mymusic.service.BaseMusicService;
 import com.lickling.mymusic.service.OurMusicService;
 import com.lickling.mymusic.ui.BaseActivity;
@@ -41,6 +44,7 @@ import com.lickling.mymusic.utilty.PermissionUtil;
 import com.lickling.mymusic.utilty.PictureUtil;
 import com.lickling.mymusic.viewmodel.MusicViewModel;
 import com.lickling.mymusic.viewmodel.UserViewModel;
+import com.orm.SugarContext;
 
 import java.util.List;
 import java.util.Timer;
@@ -52,6 +56,7 @@ public class MainActivity extends BaseActivity<MusicViewModel> {
 
     private DesktopBinding mMainBinding;
     private MusicViewModel mMusicViewModel;
+    private MainModel mainModel;
     private UserViewModel userViewModel;
     private Timer mTimer;
     private Intent mIntentMusic;
@@ -74,6 +79,22 @@ public class MainActivity extends BaseActivity<MusicViewModel> {
             PermissionUtil.getStorage(this);
         }
         super.onCreate(savedInstanceState);
+
+        // 获取 SharedPreferences 对象
+        SharedPreferences prefs = getSharedPreferences("userId", Context.MODE_PRIVATE);
+
+        long saveKeyOfUser = prefs.getLong("saveKeyOfUser", -1);
+        long saveKeyOfSetting = prefs.getLong("saveKeyOfSetting", -1);
+
+        SugarContext.init(this);
+
+        mainModel = new MainModel(saveKeyOfUser,saveKeyOfSetting);
+
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putLong("saveKeyOfUser", mainModel.getUserSaveID());
+        editor.putLong("saveKeyOfSetting", mainModel.getSettingInfoSaveID());
+        editor.apply();
+
 
         mMainBinding = DataBindingUtil.setContentView(this, R.layout.desktop);
         mMusicViewModel = new MusicViewModel(getApplication());
@@ -126,6 +147,7 @@ public class MainActivity extends BaseActivity<MusicViewModel> {
             mMainBinding.unbind();
             mMainBinding = null;
         }
+        SugarContext.terminate();
     }
 
     @Override

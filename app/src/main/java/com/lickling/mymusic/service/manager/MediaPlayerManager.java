@@ -22,11 +22,6 @@ import com.lickling.mymusic.R;
 import java.io.IOException;
 import java.util.Locale;
 
-/**
- * @author : Bilibili喜闻人籁
- * @since : 2021/11/6
- * 作用:
- */
 public class MediaPlayerManager {
     private static final String TAG = "MediaPlayManager";
     //
