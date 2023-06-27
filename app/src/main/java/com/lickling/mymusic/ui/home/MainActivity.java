@@ -9,6 +9,7 @@ import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -22,20 +23,24 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.lickling.mymusic.MyTest;
 import com.lickling.mymusic.R;
 import com.lickling.mymusic.databinding.ActivityMainBinding;
 import com.lickling.mymusic.databinding.DesktopBinding;
+import com.lickling.mymusic.databinding.FragmentDesktopOneBinding;
 import com.lickling.mymusic.service.BaseMusicService;
 import com.lickling.mymusic.service.OurMusicService;
 import com.lickling.mymusic.ui.BaseActivity;
 import com.lickling.mymusic.ui.home.PQ.Desktop;
 import com.lickling.mymusic.ui.home.PQ.Desktop_one;
 import com.lickling.mymusic.ui.home.PQ.HomeFragment;
+import com.lickling.mymusic.ui.home.PQ.UserFragment;
 import com.lickling.mymusic.utilty.PermissionUtil;
 import com.lickling.mymusic.utilty.PictureUtil;
 import com.lickling.mymusic.viewmodel.MusicViewModel;
+import com.lickling.mymusic.viewmodel.UserViewModel;
 
 import java.util.List;
 import java.util.Timer;
@@ -47,8 +52,11 @@ public class MainActivity extends BaseActivity<MusicViewModel> {
 
     private DesktopBinding mMainBinding;
     private MusicViewModel mMusicViewModel;
+    private UserViewModel userViewModel;
     private Timer mTimer;
     private Intent mIntentMusic;
+    private HomeFragment homeFragment;
+    private UserFragment userFragment;
 
     @Override
     protected MediaControllerCompat.Callback getControllerCallback() {
@@ -65,16 +73,11 @@ public class MainActivity extends BaseActivity<MusicViewModel> {
         if (PermissionUtil.IsPermissionNotObtained(this)) {
             PermissionUtil.getStorage(this);
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Window window = getWindow();
-            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-            window.setStatusBarColor(Color.TRANSPARENT);
-        }
         super.onCreate(savedInstanceState);
 
         mMainBinding = DataBindingUtil.setContentView(this, R.layout.desktop);
         mMusicViewModel = new MusicViewModel(getApplication());
-
+        userViewModel = new UserViewModel(getApplication());
 
         mMainBinding.setBaseInfo(mMusicViewModel);
 
@@ -88,6 +91,7 @@ public class MainActivity extends BaseActivity<MusicViewModel> {
     @Override
     protected void onStart() {
         super.onStart();
+
 //
 //        UpdateProgressBar();
     }
@@ -154,9 +158,9 @@ public class MainActivity extends BaseActivity<MusicViewModel> {
         public void onChildrenLoaded(@NonNull String parentId,
                                      @NonNull List<MediaBrowserCompat.MediaItem> children) {
             super.onChildrenLoaded(parentId, children);
-            activityOnChildrenLoad(mMusicViewModel,
-                    mMainBinding.bottom1,
-                    children);
+
+            activityOnChildrenLoad(mMusicViewModel, mMainBinding.imageViewPlaying, children);
+
             mMusicViewModel.setPhoneRefresh(mRefreshRateMax);
             //！！！少更新样式状态
             mMusicViewModel.setCustomStyle(MediaControllerCompat.getMediaController(MainActivity.this)
@@ -195,6 +199,47 @@ public class MainActivity extends BaseActivity<MusicViewModel> {
     private void initView() {
 
         mMainBinding.activityMainUiRoot.setOnApplyWindowInsetsListener(this);
+        homeFragment = new HomeFragment(mMusicViewModel);
+        userFragment = new UserFragment(userViewModel);
+
+        super.initAnimation(mMainBinding.imageViewPlaying);
+
+        // 设置文字自动滚动
+        mMainBinding.songName.setSingleLine(true);
+        mMainBinding.songName.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+        mMainBinding.songName.setMarqueeRepeatLimit(-1);
+        mMainBinding.songName.setSelected(true);
+
+        // 播放按键
+        mMainBinding.imageViewPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Animation animation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.alpha);
+                mMainBinding.imageViewPlay.startAnimation(animation);
+                mMusicViewModel.playbackButton();
+
+            }
+        });
+
+        // 下一首按键
+        mMainBinding.imageViewNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Animation animation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.alpha);
+                mMainBinding.imageViewNext.startAnimation(animation);
+                mMusicViewModel.skipToNextPlayBack();
+            }
+        });
+
+        // 队列按键
+        mMainBinding.imageViewList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Animation animation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.alpha);
+                mMainBinding.imageViewList.startAnimation(animation);
+            }
+        });
+        // 底部导航栏
         mMainBinding.navigationBar.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -203,7 +248,7 @@ public class MainActivity extends BaseActivity<MusicViewModel> {
                     case R.id.home_btn:
                         animation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.alpha);
                         mMainBinding.bottom1.startAnimation(animation);
-                        replaceFragment(new HomeFragment(mMusicViewModel));
+                        replaceFragment(homeFragment);
                         mMainBinding.bottom1.setSelected(true);
                         mMainBinding.bottom2.setSelected(false);
                         mMainBinding.bottom3.setSelected(false);
@@ -230,7 +275,7 @@ public class MainActivity extends BaseActivity<MusicViewModel> {
                     case R.id.user_btn:
                         animation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.alpha);
                         mMainBinding.bottom4.startAnimation(animation);
-//                replaceFragment(new Desktop_one());
+                        replaceFragment(userFragment);
                         mMainBinding.bottom1.setSelected(false);
                         mMainBinding.bottom2.setSelected(false);
                         mMainBinding.bottom3.setSelected(false);
@@ -243,8 +288,7 @@ public class MainActivity extends BaseActivity<MusicViewModel> {
         });
 
         mMainBinding.bottom1.setSelected(true);
-        replaceFragment(new HomeFragment(mMusicViewModel));
-
+        replaceFragment(homeFragment);
 
     }
 
@@ -252,15 +296,7 @@ public class MainActivity extends BaseActivity<MusicViewModel> {
     private void replaceFragment(Fragment fragment) {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        if (fragmentManager == null) {
-            Log.e(TAG, "fragmentManager = null");
-            return;
-        }
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        if (transaction == null) {
-            Log.e(TAG, "transaction = null");
-            return;
-        }
         transaction.replace(R.id.framelayout, fragment);
         transaction.commit();
     }

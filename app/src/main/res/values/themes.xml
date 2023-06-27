@@ -9,11 +9,9 @@
         <item name="colorSecondary">@color/qq_green</item>
         <item name="colorSecondaryVariant">@color/qq_green</item>
         <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
-        <item name="android:windowLightStatusBar">true</item>
         <item name="actionMenuTextAppearance">@style/MyActionMenuTextAppearance</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
