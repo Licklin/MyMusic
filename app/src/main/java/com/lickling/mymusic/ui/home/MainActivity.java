@@ -36,9 +36,11 @@ import com.lickling.mymusic.ui.BaseActivity;
 import com.lickling.mymusic.ui.home.PQ.Desktop;
 import com.lickling.mymusic.ui.home.PQ.Desktop_one;
 import com.lickling.mymusic.ui.home.PQ.HomeFragment;
+import com.lickling.mymusic.ui.home.PQ.UserFragment;
 import com.lickling.mymusic.utilty.PermissionUtil;
 import com.lickling.mymusic.utilty.PictureUtil;
 import com.lickling.mymusic.viewmodel.MusicViewModel;
+import com.lickling.mymusic.viewmodel.UserViewModel;
 
 import java.util.List;
 import java.util.Timer;
@@ -50,9 +52,11 @@ public class MainActivity extends BaseActivity<MusicViewModel> {
 
     private DesktopBinding mMainBinding;
     private MusicViewModel mMusicViewModel;
+    private UserViewModel userViewModel;
     private Timer mTimer;
     private Intent mIntentMusic;
     private HomeFragment homeFragment;
+    private UserFragment userFragment;
 
     @Override
     protected MediaControllerCompat.Callback getControllerCallback() {
@@ -76,7 +80,7 @@ public class MainActivity extends BaseActivity<MusicViewModel> {
 
         mMainBinding = DataBindingUtil.setContentView(this, R.layout.desktop);
         mMusicViewModel = new MusicViewModel(getApplication());
-
+        userViewModel = new UserViewModel(getApplication());
 
         mMainBinding.setBaseInfo(mMusicViewModel);
 
@@ -199,6 +203,7 @@ public class MainActivity extends BaseActivity<MusicViewModel> {
 
         mMainBinding.activityMainUiRoot.setOnApplyWindowInsetsListener(this);
         homeFragment = new HomeFragment(mMusicViewModel);
+        userFragment = new UserFragment(userViewModel);
 
         super.initAnimation(mMainBinding.imageViewPlaying);
 
@@ -273,7 +278,7 @@ public class MainActivity extends BaseActivity<MusicViewModel> {
                     case R.id.user_btn:
                         animation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.alpha);
                         mMainBinding.bottom4.startAnimation(animation);
-//                replaceFragment(new Desktop_one());
+                        replaceFragment(userFragment);
                         mMainBinding.bottom1.setSelected(false);
                         mMainBinding.bottom2.setSelected(false);
                         mMainBinding.bottom3.setSelected(false);
