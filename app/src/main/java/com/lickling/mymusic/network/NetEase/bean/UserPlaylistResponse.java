@@ -191,6 +191,7 @@ public class UserPlaylistResponse {
     }
 
     public List<String> getPlayListId() {
+        if (playlist == null) return null;
         List<String> ret = new ArrayList<>();
         for (Playlist item : playlist) {
             ret.add(item.getId());

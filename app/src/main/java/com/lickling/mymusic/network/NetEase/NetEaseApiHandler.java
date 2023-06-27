@@ -5,24 +5,23 @@ import android.annotation.SuppressLint;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.lickling.mymusic.network.NetEase.bean.CloudSearchPlayListResponse;
+import com.lickling.mymusic.network.NetEase.bean.CloudSearchSingleSongResponse;
+import com.lickling.mymusic.network.NetEase.bean.LikeListResponse;
 import com.lickling.mymusic.network.NetEase.bean.LoginStatusResponse;
 import com.lickling.mymusic.network.NetEase.bean.QrCodeCheckResponse;
 import com.lickling.mymusic.network.NetEase.bean.QrCodeKeyRespone;
 import com.lickling.mymusic.network.NetEase.bean.QrCodeObtainResponse;
+import com.lickling.mymusic.network.NetEase.bean.SongUrlResponse;
 import com.lickling.mymusic.network.NetEase.bean.UserPlaylistResponse;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -39,7 +38,6 @@ import okhttp3.Cookie;
 import okhttp3.CookieJar;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
-import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -50,11 +48,15 @@ public class NetEaseApiHandler {
     private String _qrCodeKey = null;
     private OkHttpClient _httpClient;
     private Retrofit _retrofit;
+    private final int DEF_TIME_OUT_MILLISECOND = 10000;
 
     protected String _BASE_URL = "http://localhost:4000";
 
     public boolean __DEBUG__ = true;
     public NetEaseApiService _client;
+
+    public final String SINGLE_SONG = "1";
+    public final String PLAY_LIST = "1000";
 
     public NetEaseApiHandler() {
         this.__init__(_BASE_URL);
@@ -173,12 +175,14 @@ public class NetEaseApiHandler {
         System.out.println(_cookies.toString());
     }
 
+    //----异步方法----
+
     @SuppressLint("CheckResult")
     public Flowable<String> getQrCode() {
         // 异步获取二维码的函数的部分, 需要在主线程订阅.
         long timestamp = System.currentTimeMillis();
         return _client.getQrKey(timestamp)
-                .timeout(7000, TimeUnit.MILLISECONDS)
+                .timeout(DEF_TIME_OUT_MILLISECOND, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.computation())
                 .flatMap(new Function<QrCodeKeyRespone, Flowable<QrCodeObtainResponse>>() {
@@ -223,17 +227,57 @@ public class NetEaseApiHandler {
         }
 
         return _client.checkQrCodeStatus(qrCodeKey, timestamp)
+                .timeout(DEF_TIME_OUT_MILLISECOND, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(Schedulers.computation());
     }
 
     public Flowable<LoginStatusResponse> getLoginStatus() {
-        return _client.getLoginStatus(System.currentTimeMillis());
+        return _client.getLoginStatus(System.currentTimeMillis())
+                .timeout(DEF_TIME_OUT_MILLISECOND, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(Schedulers.computation());
+    }
+
+    public Flowable<LikeListResponse> getLikeList(String uid) {
+        return _client.getLikeList(uid)
+                .timeout(DEF_TIME_OUT_MILLISECOND, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(Schedulers.computation());
     }
 
     public Flowable<UserPlaylistResponse> getUserPlaylist(String uid, int limit, int offset) {
-        return _client.getUserPlayList(uid, limit, offset, System.currentTimeMillis());
+        return _client.getUserPlayList(uid, limit, offset, System.currentTimeMillis())
+                .timeout(DEF_TIME_OUT_MILLISECOND, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(Schedulers.computation());
     }
 
+    public Flowable<CloudSearchSingleSongResponse> getCloudSearchSingleSong(String keywords, int limit, int offset) {
+        return _client.getCloudSearchSingleSong(keywords, limit, offset, this.SINGLE_SONG)
+                .timeout(DEF_TIME_OUT_MILLISECOND, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(Schedulers.computation());
+    }
 
+    public Flowable<CloudSearchPlayListResponse> getCloudSearchPlayList(String keywords, int limit, int offset) {
+        return _client.getCloudSearchPlayList(keywords, limit, offset, this.PLAY_LIST)
+                .timeout(DEF_TIME_OUT_MILLISECOND, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(Schedulers.computation());
+    }
+
+    public Flowable<SongUrlResponse> getSongUrl(String id, String br) {
+        return _client.getSongUrl(id, br)
+                .timeout(DEF_TIME_OUT_MILLISECOND, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(Schedulers.computation());
+    }
+
+    public Flowable<SongUrlResponse> getSongUrl(String id) {
+        return _client.getSongUrl(id)
+                .timeout(DEF_TIME_OUT_MILLISECOND, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(Schedulers.computation());
+    }
 }

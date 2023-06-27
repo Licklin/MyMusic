@@ -6,13 +6,13 @@ public class LoginStatusResponse {
 
     public Data data;
 
-    public static class Data {
+    private static class Data {
         public int code;
         public Account account;
         public Profile profile;
 
         public static class Account {
-            public int id;
+            public String id;
             public String userName;
             public int type;
             public int status;
@@ -50,9 +50,9 @@ public class LoginStatusResponse {
             public String userId;
             public int userType;
             public String nickname;
-            public long avatarImgId;
+            public String avatarImgId;
             public String avatarUrl;
-            public long backgroundImgId;
+            public String backgroundImgId;
             public String backgroundUrl;
             public String signature;
             public long createTime;
@@ -140,6 +140,8 @@ public class LoginStatusResponse {
     }
 
     public String getUserId() {
+        if (data == null || data.profile == null || data.profile.userId == null)
+            return null;
         return data.profile.userId;
     }
 

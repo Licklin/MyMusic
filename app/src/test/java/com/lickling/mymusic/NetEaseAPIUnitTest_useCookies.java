@@ -22,7 +22,7 @@ public class NetEaseAPIUnitTest_useCookies {
         }
     }
 
-    public boolean waitUiu() {
+    public boolean waitUid() {
         synchronized (this) {
             if (_uid != null)
                 return false;
@@ -41,22 +41,54 @@ public class NetEaseAPIUnitTest_useCookies {
         client.loadCookiesStringFromFile(PATH);
 
         client.getLoginStatus()
-                .subscribe(loginStatusResponse -> {
-                    if (loginStatusResponse != null) {
-                        set_uid(loginStatusResponse.getUserId());
-                        System.out.println(loginStatusResponse.getUserId());
+                .subscribe(result -> {
+                    if (result != null) {
+                        set_uid(result.getUserId());
+                        System.out.println(result.getUserId());
                     }
-                });
+                }, client.defErrorHandler());
 
-        while (waitUiu()) ;
+        while (waitUid()) ;
 
         client.getUserPlaylist(_uid, 3, 0)
-                .subscribe(userPlaylistResponse -> {
-                    if (userPlaylistResponse != null) {
-                        client.saveStringAsJsonFile(userPlaylistResponse, PLAYLIST_PATH);
-                        System.out.println(userPlaylistResponse.getPlayListId());
+                .subscribe(result -> {
+                    if (result != null) {
+                        client.saveStringAsJsonFile(result, PLAYLIST_PATH);
+                        System.out.println(result.getPlayListId());
                     }
-                });
+                }, client.defErrorHandler());
+
+        client.getCloudSearchSingleSong("周杰伦 搁浅", 5, 0)
+                .subscribe(result -> {
+                    if (result != null) {
+                        System.out.println(result.getSongsList().get(0).name);
+                        System.out.println(result.getSongsList().size());
+                    }
+                }, client.defErrorHandler());
+
+        client.getCloudSearchPlayList("周杰伦 搁浅", 5, 0)
+                .subscribe(result -> {
+                    if (result != null) {
+                        System.out.println(result.getPlayList().get(0).name);
+                        System.out.println(result.getPlayList().size());
+                    }
+                }, client.defErrorHandler());
+
+        client.getLikeList(_uid)
+                .subscribe(result -> {
+                    if (result != null) {
+                        System.out.println(result.ids);
+                        System.out.println(result.ids.size());
+                    }
+                }, client.defErrorHandler());
+
+        client.getSongUrl("1403774122")
+                .subscribe(result -> {
+                    if (result != null) {
+                        System.out.println(result.getSongUrl());
+                    }
+                }, client.defErrorHandler());
+
 
         System.out.println("Alive");
         while (true) ;
