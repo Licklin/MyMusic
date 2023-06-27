@@ -2,12 +2,29 @@ package com.lickling.mymusic.network.NetEase;
 
 import android.annotation.SuppressLint;
 
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import com.lickling.mymusic.network.NetEase.bean.LoginStatusResponse;
+import com.lickling.mymusic.network.NetEase.bean.QrCodeCheckResponse;
 import com.lickling.mymusic.network.NetEase.bean.QrCodeKeyRespone;
 import com.lickling.mymusic.network.NetEase.bean.QrCodeObtainResponse;
+import com.lickling.mymusic.network.NetEase.bean.UserPlaylistResponse;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -88,20 +105,72 @@ public class NetEaseApiHandler {
         _client = _retrofit.create(NetEaseApiService.class);
     }
 
-    //----类方法----
+    //----类内方法----
 
     private void setQrCodeKey(String qrCodeKey) {
         // 只使用这个来设置this._qrCodeKey
-        this._qrCodeKey = qrCodeKey;
+        synchronized (this) {
+            this._qrCodeKey = qrCodeKey;
+        }
     }
 
     private String getQrCodeKey() {
-        // 只使用这个来获取this._qrCodeKey, 用完就设为空
-        if (this._qrCodeKey == null)
-            return null;
-        String tmp = this._qrCodeKey;
-//        this._qrCodeKey = null;
-        return tmp;
+        // 只使用这个来获取this._qrCodeKey
+        synchronized (this) {
+            if (this._qrCodeKey != null) {
+                String tmp = this._qrCodeKey;
+//                this._qrCodeKey = null;
+                return tmp;
+            }
+        }
+        return null;
+    }
+
+    //----类方法----
+
+    public void saveStringAsJsonFile(UserPlaylistResponse jsonString, String filePath) {
+        Gson gson = new Gson();
+        String json = gson.toJson(jsonString);
+        try {
+            FileWriter fileWriter = new FileWriter(filePath);
+            fileWriter.write(json);
+            fileWriter.close();
+            System.out.println("[saveStringAsJsonFile Saved] " + filePath);
+        } catch (IOException e) {
+            System.out.println("[saveStringAsJsonFile Error] " + e.getMessage());
+        }
+    }
+
+    public void saveCookiesVarToFile(String fileName) {
+        Gson gson = new Gson();
+        String json = gson.toJson(this._cookies);
+
+        try (PrintWriter out = new PrintWriter(fileName)) {
+            out.println(json);
+            System.out.println("[saveCookiesVarToFile Should be done...] ");
+        } catch (FileNotFoundException e) {
+            System.out.println("[saveCookiesVarToFile Error] " + e.getMessage());
+        }
+    }
+
+    public void loadCookiesStringFromFile(String fileName) {
+        Gson gson = new Gson();
+        Type mapType = new TypeToken<Map<String, List<Cookie>>>() {
+        }.getType();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            String json = reader.readLine();
+            this._cookies = gson.fromJson(json, mapType);
+        } catch (FileNotFoundException e) {
+            System.out.println("[loadCookiesStringFromFile No file error] " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("[loadCookiesStringFromFile Error] " + e.getMessage());
+        }
+
+    }
+
+    public void printCookies() {
+        System.out.println(_cookies.toString());
     }
 
     @SuppressLint("CheckResult")
@@ -145,7 +214,7 @@ public class NetEaseApiHandler {
                 ;
     }
 
-    public Flowable<ResponseBody> checkQrCodeStatus_rawReturn() {
+    public Flowable<QrCodeCheckResponse> checkQrCodeStatus() {
         long timestamp = System.currentTimeMillis();
         String qrCodeKey = null;
 
@@ -153,8 +222,18 @@ public class NetEaseApiHandler {
             qrCodeKey = getQrCodeKey();
         }
 
-        System.out.println("[qrCodeKey] " + qrCodeKey);
-        return _client.checkQrCodeStatus_rawReturn(qrCodeKey, timestamp);
+        return _client.checkQrCodeStatus(qrCodeKey, timestamp)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(Schedulers.computation());
     }
+
+    public Flowable<LoginStatusResponse> getLoginStatus() {
+        return _client.getLoginStatus(System.currentTimeMillis());
+    }
+
+    public Flowable<UserPlaylistResponse> getUserPlaylist(String uid, int limit, int offset) {
+        return _client.getUserPlayList(uid, limit, offset, System.currentTimeMillis());
+    }
+
 
 }
