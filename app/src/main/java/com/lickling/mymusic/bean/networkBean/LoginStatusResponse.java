@@ -1,4 +1,4 @@
-package com.lickling.mymusic.network.NetEase.bean;
+package com.lickling.mymusic.bean.networkBean;
 
 //'http://localhost:4000/'+'login/status'
 

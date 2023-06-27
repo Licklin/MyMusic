@@ -1,4 +1,4 @@
-package com.lickling.mymusic.network.NetEase.bean;
+package com.lickling.mymusic.bean.networkBean;
 
 import androidx.annotation.Nullable;
 

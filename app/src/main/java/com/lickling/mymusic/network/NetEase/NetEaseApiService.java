@@ -1,14 +1,14 @@
 package com.lickling.mymusic.network.NetEase;
 
-import com.lickling.mymusic.network.NetEase.bean.CloudSearchPlayListResponse;
-import com.lickling.mymusic.network.NetEase.bean.CloudSearchSingleSongResponse;
-import com.lickling.mymusic.network.NetEase.bean.LikeListResponse;
-import com.lickling.mymusic.network.NetEase.bean.LoginStatusResponse;
-import com.lickling.mymusic.network.NetEase.bean.QrCodeCheckResponse;
-import com.lickling.mymusic.network.NetEase.bean.QrCodeKeyRespone;
-import com.lickling.mymusic.network.NetEase.bean.QrCodeObtainResponse;
-import com.lickling.mymusic.network.NetEase.bean.SongUrlResponse;
-import com.lickling.mymusic.network.NetEase.bean.UserPlaylistResponse;
+import com.lickling.mymusic.bean.networkBean.CloudSearchPlayListResponse;
+import com.lickling.mymusic.bean.networkBean.CloudSearchSingleSongResponse;
+import com.lickling.mymusic.bean.networkBean.LikeListResponse;
+import com.lickling.mymusic.bean.networkBean.LoginStatusResponse;
+import com.lickling.mymusic.bean.networkBean.QrCodeCheckResponse;
+import com.lickling.mymusic.bean.networkBean.QrCodeKeyRespone;
+import com.lickling.mymusic.bean.networkBean.QrCodeObtainResponse;
+import com.lickling.mymusic.bean.networkBean.SongUrlResponse;
+import com.lickling.mymusic.bean.networkBean.UserPlaylistResponse;
 
 import io.reactivex.rxjava3.core.Flowable;
 import retrofit2.http.GET;
