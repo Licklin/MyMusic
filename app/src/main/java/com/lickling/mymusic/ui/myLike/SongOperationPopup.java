@@ -1,10 +1,9 @@
-package com.lickling.mymusic.ui.load;
+package com.lickling.mymusic.ui.myLike;
+
 
 import android.app.Dialog;
-import android.content.ClipData;
-import android.content.ClipboardManager;
+
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +18,7 @@ import androidx.annotation.Nullable;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.lickling.mymusic.R;
-
+import com.lickling.mymusic.ui.load.ListItem;
 
 
 public class SongOperationPopup extends BottomSheetDialogFragment{
@@ -50,7 +49,7 @@ public class SongOperationPopup extends BottomSheetDialogFragment{
         deleteItemListener = listener;
     }
 
-    public void setData(ListItem item,int selectedItem) {
+    public void setData(ListItem item, int selectedItem) {
         this.selectedItem = selectedItem;
 
         this.singer_name = item.getTitle();
@@ -92,7 +91,7 @@ public class SongOperationPopup extends BottomSheetDialogFragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.loaded_song_op_popup, container, false);
+        View view = inflater.inflate(R.layout.my_like_op_popup, container, false);
 
         TextView sn = view.findViewById(R.id.title);
         assert sn != null;
@@ -108,7 +107,11 @@ public class SongOperationPopup extends BottomSheetDialogFragment{
 
         Button next_play_btn = view.findViewById(R.id.next_play_btn);
         Button delete_btn = view.findViewById(R.id.delete_btn);
+        Button add_btn = view.findViewById(R.id.add_btn);
+        Button load_btn = view.findViewById(R.id.load_btn);
+        Button remark_btn = view.findViewById(R.id.remark_btn);
 
+        //下一曲播放
         next_play_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,6 +119,22 @@ public class SongOperationPopup extends BottomSheetDialogFragment{
             }
         });
 
+        //添加收藏
+        add_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        //下载歌曲
+        load_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        //删除
         delete_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,6 +147,16 @@ public class SongOperationPopup extends BottomSheetDialogFragment{
                 dismiss();
             }
         });
+
+        //评论
+        remark_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
         return view;
     }
 }
+
