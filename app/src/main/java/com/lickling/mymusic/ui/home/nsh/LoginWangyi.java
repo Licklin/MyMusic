@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,22 +12,29 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.UnderlineSpan;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lickling.mymusic.R;
+import com.lickling.mymusic.ui.home.MainActivity;
+import com.lickling.mymusic.ui.home.nsh.dao.UserDao;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -52,7 +60,7 @@ public class LoginWangyi extends AppCompatActivity {
                 finish();}
         });
         TextView account = findViewById(R.id.account);
-        EditText code = findViewById(R.id.code);
+        EditText code = findViewById(R.id.password);
 
         account.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -195,8 +203,43 @@ public class LoginWangyi extends AppCompatActivity {
             }
         });
 
-//返回本地界面
-
 
     }
+    //登录验证
+    public void login(View view){
+
+        EditText EditTextAccount = findViewById(R.id.account);
+        EditText EditTextPassword = findViewById(R.id.password);
+
+        new Thread(){
+            @Override
+            public void run() {
+                UserDao userDao = new UserDao();
+                int msg = userDao.login(EditTextAccount.getText().toString(),EditTextPassword.getText().toString());
+                hand1.sendEmptyMessage(msg);
+            }
+        }.start();
+
+    }
+
+    @SuppressLint("HandlerLeak")
+    final Handler hand1 = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == 0){
+                Toast.makeText(getApplicationContext(), "登录失败", Toast.LENGTH_LONG).show();
+            } else if (msg.what == 1) {
+                Toast.makeText(getApplicationContext(), "登录成功", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent();
+                intent.setClass(LoginWangyi.this,MainActivity.class);
+                startActivity(intent);
+            } else if (msg.what == 2){
+                Toast.makeText(getApplicationContext(), "密码错误", Toast.LENGTH_LONG).show();
+            } else if (msg.what == 3){
+                Toast.makeText(getApplicationContext(), "账号不存在", Toast.LENGTH_LONG).show();
+            }
+        }
+    };
+
+
 }

@@ -8,7 +8,7 @@ import org.junit.Test;
 
 
 public class NetEaseAPIUnitTest_useCookies {
-    private static final String BASE_URL = "http://localhost:4000";
+    private static final String BASE_URL = "http://localhost:3000";
     boolean _temp = false;
     String _uid = null;
 
@@ -33,9 +33,9 @@ public class NetEaseAPIUnitTest_useCookies {
     @SuppressLint("CheckResult")
     @Test
     public void NetEaseAPIUnitTestMain() {
-        String PATH = "F:\\Large_Machines\\Repos\\Android_Studio_Repos\\mi-ho-li_temp\\java_cookies";
+        String PATH = "D:\\Documents\\Learn\\APP_Android\\1\\java_cookies";
         String PLAYLIST_PATH = "F:\\Large_Machines\\Repos\\Android_Studio_Repos\\mi-ho-li_temp\\xx.json";
-        NetEaseApiHandler client = new NetEaseApiHandler();
+        NetEaseApiHandler client = new NetEaseApiHandler(BASE_URL);
 
 
         client.loadCookiesStringFromFile(PATH);

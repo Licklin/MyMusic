@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.lickling.mymusic.R;
 import com.lickling.mymusic.bean.APIListItem;
@@ -23,7 +24,7 @@ import com.orm.SugarContext;
 
 import java.util.List;
 
-public class APIActivity extends AppCompatActivity implements MenuDialogFragment.OnDeleteItemListener,ListAdapter.onItemClick{
+public class APIActivity extends AppCompatActivity implements MenuDialogFragment.OnDeleteItemListener, ListAdapter.OnItemClickListener {
 
     private static final String EDIT_CODE = "1";
     private Toolbar toolbar;
@@ -33,7 +34,7 @@ public class APIActivity extends AppCompatActivity implements MenuDialogFragment
     private SettingInfo settingInfo;
     private MainModel mainModel;
 
-    private List<APIListItem> APIListItems;
+    private List<APIListItem> apiListItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,12 +60,12 @@ public class APIActivity extends AppCompatActivity implements MenuDialogFragment
         editor.putLong("saveKeyOfSetting", mainModel.getSettingInfoSaveID());
         editor.apply();
 
-        APIListItems = APIListItem.listAll(APIListItem.class);
-        if (APIListItems == null) {
-            Log.e("APIListItems", "null");
+        apiListItems = APIListItem.listAll(APIListItem.class);
+        if (apiListItems == null) {
+            Log.e("apiListItems", "null");
             APIListItem item = new APIListItem("腾讯云", "https://service-hrf5csss-1318703950.gz.apigw.tencentcs.com/release/");
             item.save();
-            APIListItems = APIListItem.listAll(APIListItem.class);
+            apiListItems = APIListItem.listAll(APIListItem.class);
         }
 
         toolbar = findViewById(R.id.setting_navigation_api);
@@ -98,11 +99,13 @@ public class APIActivity extends AppCompatActivity implements MenuDialogFragment
 
         FragmentManager manager = getSupportFragmentManager();
 
-        listAdapter = new ListAdapter(APIListItems, this);
+        listAdapter = new ListAdapter(apiListItems, this);
 
         dialog = new MenuDialogFragment(this);
         dialog.setOnDeleteItemListener(this);
+        listAdapter.setItemClickListener(this);
         listAdapter.setDialog(dialog);
+        listAdapter.setSelectedItem(settingInfo.getApiPosition());
         recyclerView.setAdapter(listAdapter);
     }
 
@@ -115,20 +118,27 @@ public class APIActivity extends AppCompatActivity implements MenuDialogFragment
             if (dataBundle.getString("mode").equals(EDIT_CODE)) {
                 String name = dataBundle.getString("resultName");
                 String URL = dataBundle.getString("resultURL");
-                Integer num = dataBundle.getInt("resultNum");
-                APIListItems.get(num).setTitle(name);
-                APIListItems.get(num).setSubtitle(URL);
-                APIListItems.get(num).save();
+                int num = dataBundle.getInt("resultNum");
+                apiListItems.get(num).setTitle(name);
+                apiListItems.get(num).setSubtitle(URL);
+                apiListItems.get(num).save(); // 保存api
+                if (settingInfo.getApiPosition() == num) {
+                    settingInfo.setApiUrl(apiListItems.get(num).getSubtitle());
+                    settingInfo.save(); // 保存设置修改
+                }
+
             } else {
                 String name = dataBundle.getString("resultName");
                 String URL = dataBundle.getString("resultURL");
                 APIListItem item = new APIListItem(name, URL);
                 item.save();
-                APIListItems.add(item);
+                apiListItems.add(item);
             }
-            listAdapter = new ListAdapter(APIListItems, this);
+            listAdapter = new ListAdapter(apiListItems, this);
             dialog.setOnDeleteItemListener(this);
+            listAdapter.setItemClickListener(this);
             listAdapter.setDialog(dialog);
+            listAdapter.setSelectedItem(settingInfo.getApiPosition());
             recyclerView.setAdapter(listAdapter);
         }
 
@@ -136,11 +146,25 @@ public class APIActivity extends AppCompatActivity implements MenuDialogFragment
 
     @Override
     public void onDeleteItem(int position) {//删除list的item
-        APIListItem item = APIListItem.findById(APIListItem.class, APIListItems.get(position).getId());
+        APIListItem item = APIListItem.findById(APIListItem.class, apiListItems.get(position).getId());
         if (item == null) Log.e(" API onDeleteItem", "item  is null");
         else
             item.delete();
-        APIListItems.remove(position);
+        apiListItems.remove(position);
+
+        if (settingInfo.getApiPosition() == position) {
+            if (apiListItems.size() == 0) {
+                settingInfo.setApiPosition(-1);
+                settingInfo.setApiPositionId(-1);
+                settingInfo.setApiUrl("");
+            } else {
+                settingInfo.setApiPosition(0);
+                settingInfo.setApiPositionId(0);
+                settingInfo.setApiUrl(apiListItems.get(0).getSubtitle());
+            }
+            settingInfo.save();
+        }
+        listAdapter.setSelectedItem(settingInfo.getApiPosition());
         listAdapter.notifyItemRemoved(position);
         listAdapter.notifyItemRangeChanged(position, listAdapter.getItemCount() - position);
         recyclerView.setAdapter(listAdapter);
@@ -149,6 +173,10 @@ public class APIActivity extends AppCompatActivity implements MenuDialogFragment
 
     @Override
     public void saveSelectId(int selectedItem) {
-
+        settingInfo.setApiPosition(selectedItem);
+        settingInfo.setApiPositionId(apiListItems.get(selectedItem).getId());
+        settingInfo.setApiUrl(apiListItems.get(selectedItem).getSubtitle());
+        settingInfo.save();
+        Toast.makeText(this, "选择" + apiListItems.get(selectedItem).getTitle(), Toast.LENGTH_SHORT).show();
     }
 }

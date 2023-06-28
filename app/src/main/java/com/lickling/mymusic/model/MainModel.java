@@ -6,9 +6,6 @@ import android.util.Log;
 
 import com.lickling.mymusic.bean.SettingInfo;
 import com.lickling.mymusic.bean.User;
-import com.orm.SugarRecord;
-import com.orm.dsl.Table;
-
 
 public class MainModel {
     protected long userSaveID = 1;
@@ -27,6 +24,7 @@ public class MainModel {
 
         this.user = User.findById(User.class, userSaveID);
         this.settingInfo = SettingInfo.findById(SettingInfo.class, settingInfoSaveID);
+
         if (user == null) {
             user = new User();
             Log.e("user","null");
@@ -56,12 +54,6 @@ public class MainModel {
         settingInfo = s;
         settingInfo.save();
         settingInfoSaveID = settingInfo.getId();
-
-        Log.d("settingInfoSaveID:", String.valueOf(settingInfoSaveID));
-
-
-
-
     }
 
     public void saveLogin(User user) {

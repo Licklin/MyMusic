@@ -90,6 +90,7 @@ public abstract class BaseMusicService extends MediaBrowserServiceCompat {
         registerReceiver(blueToothReceiver, filter);
     }
 
+    // 启动通知栏控制器
     protected void StartForeground(MediaSessionCompat.Token token,
                                    @NonNull PlaybackStateCompat state){
 

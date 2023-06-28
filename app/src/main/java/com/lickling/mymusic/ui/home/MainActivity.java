@@ -97,7 +97,7 @@ public class MainActivity extends BaseActivity<MusicViewModel> {
         editor.putLong("saveKeyOfSetting", mainModel.getSettingInfoSaveID());
         editor.apply();
 
-
+//        Toast.makeText(this, mainModel.getSettingInfo().getApiUrl(), Toast.LENGTH_SHORT).show();
         mMainBinding = DataBindingUtil.setContentView(this, R.layout.desktop);
         mMusicViewModel = new MusicViewModel(getApplication());
         userViewModel = new UserViewModel(getApplication());

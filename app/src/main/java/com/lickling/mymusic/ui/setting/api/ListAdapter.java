@@ -22,10 +22,14 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     private Context context;
     private int selectedItem = -1;
     private MenuDialogFragment dialogFragment;
-    private  onItemClick save;
+    private  OnItemClickListener save;
 
-    public interface onItemClick {
+    public interface OnItemClickListener {
         void saveSelectId(int selectedItem);
+    }
+    
+    public void setItemClickListener(OnItemClickListener listener){
+        save = listener;
     }
 
     public ListAdapter(List<APIListItem> APIListItems, Context context) {
@@ -60,6 +64,10 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         return APIListItems.size();
     }
 
+    public void setSelectedItem(int selectedItem) {
+        this.selectedItem = selectedItem;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         public TextView title;
         public TextView subtitle;
@@ -87,17 +95,9 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
         @Override
         public boolean onLongClick(View v) {
-            // 跳转到编辑页面
-            // Intent intent = new Intent(context, EditActivity.class);
-            // intent.putExtra("item", APIListItems.get(getAdapterPosition()));
-            // context.startActivity(intent);
-//            selectedItem = getAdapterPosition();
-
             showMenu(v, getAdapterPosition());  // 长按列表项时触发弹出菜单
             return true;
         }
-
-
     }
 
     private void showMenu(View v, int selectedItem) {

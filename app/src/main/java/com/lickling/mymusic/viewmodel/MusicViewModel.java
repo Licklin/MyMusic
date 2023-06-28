@@ -304,6 +304,7 @@ public class MusicViewModel extends BaseViewModel {
         this.subtitle = subtitle;
     }
 
+    // 从媒体控制器中同步数据到view上
     public void SyncMusicInformation() {
         if (mMediaControllerCompat == null) {
             Log.e(TAG, "SyncMusicInformation: controller为空");
