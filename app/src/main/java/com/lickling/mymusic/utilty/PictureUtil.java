@@ -232,8 +232,8 @@ public class PictureUtil {
                                                      int stokeWidth, @ColorInt int color){
         if (application == null) return null;
         Resources resources = application.getResources();
-        if (bitmap == null) bitmap = BitmapFactory.decodeResource(resources, R.drawable.icon_fate);
-        Drawable[] layers = new Drawable[3];
+        if (bitmap == null) bitmap = BitmapFactory.decodeResource(resources, R.drawable.default_record);
+        Drawable[] layers = new Drawable[2];
         //最外部的半透明边线
         OvalShape ovalShape0 = new OvalShape();
         ShapeDrawable drawable0 = new ShapeDrawable(ovalShape0);
@@ -241,22 +241,22 @@ public class PictureUtil {
         drawable0.getPaint().setStyle(Paint.Style.FILL);
         drawable0.getPaint().setAntiAlias(true);
         layers[0] = drawable0;
-
-        Bitmap record = BitmapFactory.decodeResource(resources, R.drawable.iv_record_128);
-        RoundedBitmapDrawable drawable1 = RoundedBitmapDrawableFactory.create(resources, record);
-        drawable1.setCircular(true);
-        layers[1] = drawable1;
+//
+//        Bitmap record = BitmapFactory.decodeResource(resources, R.drawable.iv_record_128);
+//        RoundedBitmapDrawable drawable1 = RoundedBitmapDrawableFactory.create(resources, record);
+//        drawable1.setCircular(true);
+//        layers[1] = drawable1;
 
         bitmap = zoomImg(bitmap,bitmapSize,bitmapSize);
         RoundedBitmapDrawable drawable2 = RoundedBitmapDrawableFactory.create(resources, bitmap);
         drawable2.setCircular(true);
-        layers[2] = drawable2;
+        layers[1] = drawable2;
 
         int recordSize = (int) (viewSize * 0.21);
         LayerDrawable layerDrawable = new LayerDrawable(layers);
         layerDrawable.setLayerInset(0,0,0,0,0);
-        layerDrawable.setLayerInset(1,stokeWidth,stokeWidth,stokeWidth,stokeWidth);
-        layerDrawable.setLayerInset(2,recordSize,recordSize,recordSize,recordSize);
+//        layerDrawable.setLayerInset(1,stokeWidth,stokeWidth,stokeWidth,stokeWidth);
+        layerDrawable.setLayerInset(1,recordSize,recordSize,recordSize,recordSize);
         return new WeakReference<>(layerDrawable).get();
     }
 
@@ -266,7 +266,7 @@ public class PictureUtil {
         if (application == null) return null;
         Resources resources = application.getResources();
         if (target == null)
-            target = getItWeakReference(BitmapFactory.decodeResource(resources,R.drawable.icon_fate));
+            target = getItWeakReference(BitmapFactory.decodeResource(resources,R.drawable.default_record));
         Drawable[] layers = new Drawable[2];
 
         Bitmap record = getItWeakReference(
@@ -317,7 +317,7 @@ public class PictureUtil {
         if (application == null || width <= 0 || height <= 0) return null;
         Resources resources = application.getResources();
         if (targetBitmap == null)
-            targetBitmap = BitmapFactory.decodeResource(resources,R.drawable.icon_fate);
+            targetBitmap = BitmapFactory.decodeResource(resources,R.drawable.default_record);
 
         Drawable[] layers = new Drawable[2];
 
@@ -347,7 +347,7 @@ public class PictureUtil {
         if (application == null) return null;
         Resources resources = application.getResources();
         if (target == null)
-            target = getItWeakReference(BitmapFactory.decodeResource(resources,R.drawable.icon_fate));
+            target = getItWeakReference(BitmapFactory.decodeResource(resources,R.drawable.default_record));
         Drawable[] layers = new Drawable[2];
 
         RoundedBitmapDrawable colorBg = getItWeakReference(

@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 app:navigationIcon="@drawable/load_back_button"
-                app:title="我喜欢" />
+                app:title="本地音乐" />
 
             <RelativeLayout
                 android:id="@+id/load_head3"

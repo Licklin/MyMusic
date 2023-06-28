@@ -1,4 +1,5 @@
-package com.lickling.mymusic.ui.myLike;
+package com.lickling.mymusic.ui.local;
+
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -18,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.lickling.mymusic.R;
 import com.lickling.mymusic.databinding.MylikeFragmentBinding;
-import com.lickling.mymusic.ui.load.ListItem;
 
 
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MyLikeActivity extends AppCompatActivity implements SongOperationPopup.OnDeleteItemListener,
+public class LocalActivity extends AppCompatActivity implements SongOperationPopup.OnDeleteItemListener,
         ListAdapter.OnCheckItemListener, MulOperationPopup.OnDeleteMulItemListener {
     private ListAdapter listAdapter;
     private List<ListItem> listItems;
@@ -52,7 +52,7 @@ public class MyLikeActivity extends AppCompatActivity implements SongOperationPo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.mylike_fragment);
+        setContentView(R.layout.local_music_fragment);
         mylike_view = getWindow().getDecorView();
         context = mylike_view.getContext();
         positions = new ArrayList<>();
@@ -79,7 +79,7 @@ public class MyLikeActivity extends AppCompatActivity implements SongOperationPo
         play_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listItems.add(new ListItem("歌曲名", "歌手"));
+                listItems.add(new ListItem("歌曲名", "歌手","128kp/s","3.3MB"));
                 recyclerView.setAdapter(listAdapter);
             }
         });
@@ -217,9 +217,9 @@ public class MyLikeActivity extends AppCompatActivity implements SongOperationPo
 
         listItems = new ArrayList<>();
         // 在此处添加数据到listItems
-        listItems.add(new ListItem("歌曲11", "歌手21"));
-        listItems.add(new ListItem("歌曲12", "歌手22"));
-        listItems.add(new ListItem("歌曲13", "歌手23"));
+        listItems.add(new ListItem("歌曲11", "歌手21","128kp/s","3.3MB"));
+        listItems.add(new ListItem("歌曲12", "歌手22","128kp/s","3.3MB"));
+        listItems.add(new ListItem("歌曲13", "歌手23","128kp/s","3.3MB"));
 
         dialog = new SongOperationPopup(this);
         dialog.setOnDeleteItemListener(this);
@@ -329,3 +329,4 @@ public class MyLikeActivity extends AppCompatActivity implements SongOperationPo
         find_tag = true;
     }
 }
+

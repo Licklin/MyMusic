@@ -99,6 +99,13 @@ public class UserFragment extends Fragment {
         desktopFourBinding.local.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                startActivity(new Intent(getActivity(), LoadActivity.class));
+            }
+        });
+        desktopFourBinding.downLoad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 startActivity(new Intent(getActivity(), LoadActivity.class));
             }
         });

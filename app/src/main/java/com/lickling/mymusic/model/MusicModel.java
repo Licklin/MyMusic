@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class MusicModel implements LocalMusicModel {
+public class MusicModel  implements LocalMusicModel {
     private static final String TAG = "MusicModel";
     @Override
     public void getLocalMusic(LocalMusicModel.OnMusicListener onMusicListener, ContentResolver resolver) {
@@ -46,7 +46,7 @@ public class MusicModel implements LocalMusicModel {
         Bitmap bitmap = getAlbumBitmap(path);
         // 如果bitmap为空说明没有专辑图片，则输出默认图片
         bitmap = bitmap == null ?
-                PictureUtil.getResIdBitmap(R.drawable.icon_fate,500,resource,0) : bitmap;
+                PictureUtil.getResIdBitmap(R.drawable.default_record,500,resource,0) : bitmap;
         onLoadPictureListener.OnComplete(new WeakReference<>(bitmap));
     }
     /**

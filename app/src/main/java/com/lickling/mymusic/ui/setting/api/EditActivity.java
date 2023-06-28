@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.lickling.mymusic.R;
+import com.lickling.mymusic.bean.APIListItem;
 
 public class EditActivity extends AppCompatActivity {
 
@@ -22,7 +23,7 @@ public class EditActivity extends AppCompatActivity {
     private Intent intent;
     private EditText apiName;
     private EditText URL;
-    private ListItem item;
+    private APIListItem item;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
