@@ -6,55 +6,74 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.lickling.mymusic.R;
-import com.lickling.mymusic.ui.home.PQ.Desktop;
-import com.lickling.mymusic.ui.setting.home.SettingHomeActivity;
-import com.lickling.mymusic.ui.setting.sound_quality.SoundQualityActivity;
+import com.lickling.mymusic.bean.APIListItem;
+import com.lickling.mymusic.bean.SettingInfo;
+import com.lickling.mymusic.model.MainModel;
+import com.lickling.mymusic.utilty.ImmersiveStatusBarUtil;
+import com.orm.SugarContext;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
-public class APIActivity extends AppCompatActivity implements MenuDialogFragment.OnDeleteItemListener {
+public class APIActivity extends AppCompatActivity implements MenuDialogFragment.OnDeleteItemListener, ListAdapter.OnItemClickListener {
 
     private static final String EDIT_CODE = "1";
     private Toolbar toolbar;
     private RecyclerView recyclerView;
     private ListAdapter listAdapter;
-    private List<ListItem> listItems;
     private MenuDialogFragment dialog;
+    private SettingInfo settingInfo;
+    private MainModel mainModel;
+
+    private List<APIListItem> apiListItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_api);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Window window = getWindow();
-            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-            window.setStatusBarColor(Color.TRANSPARENT);
+        ImmersiveStatusBarUtil.transparentBar(this, false);
+
+        // 获取 SharedPreferences 对象
+        SharedPreferences prefs = getSharedPreferences("userId", Context.MODE_PRIVATE);
+
+        long saveKeyOfUser = prefs.getLong("saveKeyOfUser", -1);
+        long saveKeyOfSetting = prefs.getLong("saveKeyOfSetting", -1);
+
+
+        SugarContext.init(this);
+
+        mainModel = new MainModel(saveKeyOfUser, saveKeyOfSetting);
+
+
+        settingInfo = mainModel.getSettingInfo();
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putLong("saveKeyOfUser", mainModel.getUserSaveID());
+        editor.putLong("saveKeyOfSetting", mainModel.getSettingInfoSaveID());
+        editor.apply();
+
+        apiListItems = APIListItem.listAll(APIListItem.class);
+        if (apiListItems == null) {
+            Log.e("apiListItems", "null");
+            APIListItem item = new APIListItem("腾讯云", "https://service-hrf5csss-1318703950.gz.apigw.tencentcs.com/release/");
+            item.save();
+            apiListItems = APIListItem.listAll(APIListItem.class);
         }
+
         toolbar = findViewById(R.id.setting_navigation_api);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
+
             }
         });
 
@@ -77,16 +96,16 @@ public class APIActivity extends AppCompatActivity implements MenuDialogFragment
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        listItems = new ArrayList<>();
-
-        listItems.add(new ListItem("腾讯云", "https://service-hrf5csss-1318703950.gz.apigw.tencentcs.com/release/"));
 
         FragmentManager manager = getSupportFragmentManager();
-        listAdapter = new ListAdapter(listItems, this);
+
+        listAdapter = new ListAdapter(apiListItems, this);
 
         dialog = new MenuDialogFragment(this);
         dialog.setOnDeleteItemListener(this);
+        listAdapter.setItemClickListener(this);
         listAdapter.setDialog(dialog);
+        listAdapter.setSelectedItem(settingInfo.getApiPosition());
         recyclerView.setAdapter(listAdapter);
     }
 
@@ -99,30 +118,65 @@ public class APIActivity extends AppCompatActivity implements MenuDialogFragment
             if (dataBundle.getString("mode").equals(EDIT_CODE)) {
                 String name = dataBundle.getString("resultName");
                 String URL = dataBundle.getString("resultURL");
-                Integer num = dataBundle.getInt("resultNum");
-                listItems.get(num).setTitle(name);
-                listItems.get(num).setSubtitle(URL);
+                int num = dataBundle.getInt("resultNum");
+                apiListItems.get(num).setTitle(name);
+                apiListItems.get(num).setSubtitle(URL);
+                apiListItems.get(num).save(); // 保存api
+                if (settingInfo.getApiPosition() == num) {
+                    settingInfo.setApiUrl(apiListItems.get(num).getSubtitle());
+                    settingInfo.save(); // 保存设置修改
+                }
+
             } else {
                 String name = dataBundle.getString("resultName");
                 String URL = dataBundle.getString("resultURL");
-                listItems.add(new ListItem(name, URL));
+                APIListItem item = new APIListItem(name, URL);
+                item.save();
+                apiListItems.add(item);
             }
-            listAdapter = new ListAdapter(listItems, this);
+            listAdapter = new ListAdapter(apiListItems, this);
             dialog.setOnDeleteItemListener(this);
+            listAdapter.setItemClickListener(this);
             listAdapter.setDialog(dialog);
+            listAdapter.setSelectedItem(settingInfo.getApiPosition());
             recyclerView.setAdapter(listAdapter);
-
         }
 
     }
 
     @Override
     public void onDeleteItem(int position) {//删除list的item
-        listItems.remove(position);
+        APIListItem item = APIListItem.findById(APIListItem.class, apiListItems.get(position).getId());
+        if (item == null) Log.e(" API onDeleteItem", "item  is null");
+        else
+            item.delete();
+        apiListItems.remove(position);
+
+        if (settingInfo.getApiPosition() == position) {
+            if (apiListItems.size() == 0) {
+                settingInfo.setApiPosition(-1);
+                settingInfo.setApiPositionId(-1);
+                settingInfo.setApiUrl("");
+            } else {
+                settingInfo.setApiPosition(0);
+                settingInfo.setApiPositionId(0);
+                settingInfo.setApiUrl(apiListItems.get(0).getSubtitle());
+            }
+            settingInfo.save();
+        }
+        listAdapter.setSelectedItem(settingInfo.getApiPosition());
         listAdapter.notifyItemRemoved(position);
         listAdapter.notifyItemRangeChanged(position, listAdapter.getItemCount() - position);
         recyclerView.setAdapter(listAdapter);
     }
 
 
+    @Override
+    public void saveSelectId(int selectedItem) {
+        settingInfo.setApiPosition(selectedItem);
+        settingInfo.setApiPositionId(apiListItems.get(selectedItem).getId());
+        settingInfo.setApiUrl(apiListItems.get(selectedItem).getSubtitle());
+        settingInfo.save();
+        Toast.makeText(this, "选择" + apiListItems.get(selectedItem).getTitle(), Toast.LENGTH_SHORT).show();
+    }
 }

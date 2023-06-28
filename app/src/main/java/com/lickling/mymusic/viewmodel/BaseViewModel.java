@@ -105,8 +105,8 @@ public abstract class BaseViewModel extends AndroidViewModel implements Observab
     protected LayerDrawable getRecord(Bitmap bitmap, Application application){
 
         return PictureUtil.createCircleDrawable(application, bitmap,
-                dpToPx(42,application),100, 1,
-                Color.argb(32,255,255,255));
+                dpToPx(8,application),100, 16,
+                Color.argb(255,229, 64, 79));
     }
     //绘制SongLrc页面的大唱片
     protected LayerDrawable getRecordBig(Bitmap bitmap, Application application, int size){

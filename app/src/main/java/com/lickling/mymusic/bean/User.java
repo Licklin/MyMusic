@@ -1,9 +1,24 @@
 package com.lickling.mymusic.bean;
 
-public class User {
+import com.orm.SugarRecord;
+import com.orm.dsl.Ignore;
+import com.orm.dsl.Table;
+
+@Table(name = "user")
+public class User extends SugarRecord {
     private String ourUserID;
     private String ourUserName;
     private String ourUserPWD;
+    @Ignore
+    private SettingInfo settingInfo;
+
+    public SettingInfo getSettingInfo() {
+        return settingInfo;
+    }
+
+    public void setSettingInfo(SettingInfo settingInfo) {
+        this.settingInfo = settingInfo;
+    }
 
     public String getOurUserID() {
         return ourUserID;
@@ -34,7 +49,7 @@ public class User {
         private String usrName;
         private String usrPWD;
         private String cookie;
-        private String avatarURL;
+        private String avatarURL; // 头像url
 
         public String getUserID() {
             return usrID;
@@ -76,7 +91,5 @@ public class User {
             this.avatarURL = avatarURL;
         }
     }
-    private class Setting{
-//        private int
-    }
+
 }

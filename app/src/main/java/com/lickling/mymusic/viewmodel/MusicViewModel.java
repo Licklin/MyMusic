@@ -162,7 +162,6 @@ public class MusicViewModel extends BaseViewModel {
         if (!state) {
             return;
         }
-        //Log.e(TAG, "setPlaybackState: "+playState);
         this.playbackDrawable = playState == PlaybackStateCompat.STATE_PLAYING ?
                 R.drawable.pq_play : R.drawable.play;
 
@@ -195,6 +194,9 @@ public class MusicViewModel extends BaseViewModel {
         }
     }
 
+    public void skipToNextPlayBack(){
+        mMediaControllerCompat.getTransportControls().skipToNext();
+    }
     public void clearAdapter() {
         if (adapter == null) {
             return;
@@ -302,6 +304,7 @@ public class MusicViewModel extends BaseViewModel {
         this.subtitle = subtitle;
     }
 
+    // 从媒体控制器中同步数据到view上
     public void SyncMusicInformation() {
         if (mMediaControllerCompat == null) {
             Log.e(TAG, "SyncMusicInformation: controller为空");

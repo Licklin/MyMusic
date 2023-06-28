@@ -12,7 +12,7 @@
             type="com.lickling.mymusic.viewmodel.MusicViewModel" />
     </data>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/activity_main_ui_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,27 +22,27 @@
         <FrameLayout
             android:id="@+id/framelayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="100"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
             android:background="@color/background_white"
             android:orientation="vertical">
 
         </FrameLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:layout_weight="1"
-            android:layout_marginTop="20dp">
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:background="@drawable/desktop_item"
+                android:layout_height="80dp"
                 android:layout_alignParentBottom="true"
+                android:layout_margin="10dp"
+                android:background="@drawable/desktop_item"
                 android:orientation="horizontal">
 
-
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -51,104 +51,218 @@
                     android:gravity="center">
 
                     <ImageView
-                        android:id="@+id/bottom1"
-                        android:layout_width="25dp"
-                        android:layout_height="27dp"
+                        android:id="@+id/image_view_playing"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
                         android:layout_gravity="center"
-                        android:background="@drawable/pq_bottom1_selector" />
+                        android:src="@{baseInfo.record,default=@drawable/default_record}" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:gravity="center">
+                    android:layout_weight="3"
+                    android:orientation="vertical">
 
-                    <ImageView
-                        android:id="@+id/bottom2"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_gravity="center"
-                        android:background="@drawable/pq_bottom2_selector" />
+                    <TextView
+                        android:id="@+id/song_Name"
+                        android:layout_width="170dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:ellipsize="marquee"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:singleLine="true"
+                        android:text="@{baseInfo.playbackInfo,default=@string/label_default_title}"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="@{baseInfo.subtitle,default=@string/label_default_title}"
+                        android:visibility="gone" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginTop="2dp"
                     android:layout_weight="1"
                     android:gravity="center">
 
                     <ImageView
-                        android:id="@+id/bottom3"
+                        android:id="@+id/image_view_play"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_gravity="center"
-                        android:background="@drawable/pq_bottom3_selector" />
+                        android:src="@{baseInfo.playbackResId,default=@drawable/play}" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginTop="2dp"
                     android:layout_weight="1"
                     android:gravity="center">
 
                     <ImageView
-                        android:id="@+id/bottom4"
+                        android:id="@+id/image_view_next"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_gravity="center"
-                        android:background="@drawable/pq_bottom4_selector" />
+                        android:background="@drawable/pq_next"
+                        android:foregroundGravity="center" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="2dp"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/image_view_list"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/pq_list" />
                 </LinearLayout>
 
             </LinearLayout>
-            <RadioGroup
-                android:id="@+id/navigation_bar"
+
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentBottom="true"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp">
+                android:layout_height="60dp"
+                android:layout_weight="1">
 
-                <RadioButton
-                    android:id="@+id/home_btn"
-                    android:layout_width="0dp"
-                    android:layout_height="80dp"
-                    android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    android:button="@null" />
-
-                <RadioButton
-                    android:id="@+id/blog_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="80dp"
-                    android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    android:button="@null" />
-
-                <RadioButton
-                    android:id="@+id/class_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="80dp"
-                    android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    android:button="@null" />
-
-                <RadioButton
-                    android:id="@+id/user_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="80dp"
-                    android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    android:button="@null" />
-
-            </RadioGroup>
-        </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/desktop_item"
+                    android:orientation="horizontal">
 
 
-    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:id="@+id/bottom1"
+                            android:layout_width="25dp"
+                            android:layout_height="27dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/pq_bottom1_selector" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:id="@+id/bottom2"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/pq_bottom2_selector" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:id="@+id/bottom3"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/pq_bottom3_selector" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:id="@+id/bottom4"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/pq_bottom4_selector" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <RadioGroup
+                    android:id="@+id/navigation_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/home_btn"
+                        android:layout_width="0dp"
+                        android:layout_height="80dp"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:button="@null" />
+
+                    <RadioButton
+                        android:id="@+id/blog_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="80dp"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:button="@null" />
+
+                    <RadioButton
+                        android:id="@+id/class_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="80dp"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:button="@null" />
+
+                    <RadioButton
+                        android:id="@+id/user_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="80dp"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:button="@null" />
+
+                </RadioGroup>
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
 
 </layout>
 

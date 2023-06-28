@@ -148,7 +148,7 @@ public class OurMusicService extends BaseMusicService {
         //初始化MediaSession | 媒体会话
         mediaSession = new MediaSessionCompat(this, getPackageName());
         mediaSession.setActive(true);
-        mediaSession.setQueue(playList);
+        mediaSession.setQueue(playList); // 设置播放队列，此时应该为空的列表
 
         // !!!启用来自MediaButtons和TransportControl的回调
         // 1.允许媒体按钮回调：其他蓝牙设备或者安卓智能设备 通过 媒体响应按钮 发送 播放控制消息 给 Service服务
@@ -162,7 +162,7 @@ public class OurMusicService extends BaseMusicService {
         //给MediaSession设置来自MediaController的回调内部类
         mediaSession.setCallback(new MyMediaSessionCallback());
 
-        // 设置会话的令牌，以便客户端活动可以与其通信。
+        // 给Service设置会话的令牌，以便客户端活动可以与其通信。
         setSessionToken(mediaSession.getSessionToken());
 
         initMediaPlayerManager();
@@ -218,14 +218,14 @@ public class OurMusicService extends BaseMusicService {
     //**********************************************Metadata元数据相关方法***************************/
     private List<MediaBrowserCompat.MediaItem> getMediaItems(LinkedHashMap<String, MediaMetadataCompat> musicMaps) {
         List<MediaBrowserCompat.MediaItem> result = new ArrayList<>();
-        Log.d(TAG,"getMediaItems musicMap:"+musicMaps.toString());
+//        Log.d(TAG,"getMediaItems musicMap:"+musicMaps.toString());
         for (MediaMetadataCompat metadata : musicMaps.values()) {
             result.add(
                     new MediaBrowserCompat.MediaItem(
                             metadata.getDescription(), MediaBrowserCompat.MediaItem.FLAG_PLAYABLE));
-
-            Log.d(TAG, "getMediaItems: "+metadata.getString(MediaMetadataCompat.METADATA_KEY_TITLE)+
-                    " 键值 "+metadata.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID));
+//
+//            Log.d(TAG, "getMediaItems: "+metadata.getString(MediaMetadataCompat.METADATA_KEY_TITLE)+
+//                    " 键值 "+metadata.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID));
         }
         Log.d(TAG, "getMediaItems: "+result.size());
         return result;
@@ -246,20 +246,24 @@ public class OurMusicService extends BaseMusicService {
         @Override
         public void onRemoveQueueItem(MediaDescriptionCompat description) {
             super.onRemoveQueueItem(description);
-            Log.d(TAG, "onRemoveQueueItem: ");
+//            Log.d(TAG, "onRemoveQueueItem: ");
             playList.remove(new MediaSessionCompat.QueueItem(description, description.hashCode()));
             queueIndex = (playList.isEmpty()) ? -1 : queueIndex;
             mediaSession.setQueue(playList);
         }
 
         @Override
-        public void onSetShuffleMode(int shuffleMode) {//设置随机播放模式
+        public void onSetShuffleMode(int shuffleMode) { // 设置随机播放模式
             //super.onSetShuffleMode(shuffleMode);
+            // 使用Bundle封装数据
             Bundle bundle = new Bundle();
             bundle.putInt(MediaPlayerManager.MyMusic_CUSTOM_ACTION_PLAYBACK_MODE_CHANGE,
+                    // 改变播放器的播放模式
                     mediaPlayerManager.playbackModeChange());
+            // 向媒体会话发送事件
             mediaSession.sendSessionEvent(
                     MediaPlayerManager.MyMusic_CUSTOM_ACTION_PLAYBACK_MODE_CHANGE, bundle);
+
             StartForeground(mediaSession.getSessionToken(),
                     mediaPlayerManager.newPlaybackState(
                             mediaSession.getController().getPlaybackState().getState(), null));
@@ -271,7 +275,7 @@ public class OurMusicService extends BaseMusicService {
         }
 
         @Override
-        public void onPlay() {
+        public void onPlay() { // 播放
             if (mediaPlayerManager == null && !mediaSession.isActive()) {
                 initMediaPlayerManager();
                 //播放上次记录的播放进度.第一次播放且拖动音乐进度条
@@ -281,7 +285,7 @@ public class OurMusicService extends BaseMusicService {
 
 
         @Override
-        public void onPause() {
+        public void onPause() { // 暂停时关闭通知栏控制器
             mediaPlayerManager.OnPause(IS_AUDIO_FOCUS_LOSS_TRANSIENT);
             IS_AUDIO_FOCUS_LOSS_TRANSIENT = false;
             stopNotification();
@@ -296,19 +300,20 @@ public class OurMusicService extends BaseMusicService {
 
 
         @Override
-        public void onPrepare() {
+        public void onPrepare() { // 媒体准备好后确定初始队列位置
             if (playList.size() == 0) {
                 Log.e(TAG, "onPrepare: 确定初始队列位置失败！");
                 return;
             }
 
-            MediaMetadataCompat metadata = mediaSession.getController().getMetadata();
+            MediaMetadataCompat metadata = mediaSession.getController().getMetadata(); // 获取播放器（媒体会话）的数据元
             String mediaId = metadata.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID);
             int i = 0;
-            for (MediaSessionCompat.QueueItem item : playList) {
+            for (MediaSessionCompat.QueueItem item : playList) { // 确定初始队列位置
                 //Log.d(TAG, "onPrepare: "+mediaId+", "+item.getDescription().getMediaId());
                 if (mediaId.equals(item.getDescription().getMediaId())) {
                     queueIndex = i;
+                    break;
                 }
                 i++;
             }
@@ -408,12 +413,12 @@ public class OurMusicService extends BaseMusicService {
                 }
                 queueIndex = 0;
             } else {
-                if (mode == MediaPlayerManager.getPlaybackModeOrder()) {
+                if (mode == MediaPlayerManager.getPlaybackModeOrder()) { // 顺序播放
                     nextQueueOrder(isSkipNext, musicCount);
-                } else if (mode == MediaPlayerManager.getPlaybackModeRandom()) {
+                } else if (mode == MediaPlayerManager.getPlaybackModeRandom()) { // 随机播放
                     if (musicCount <= 3) {
                         nextQueueOrder(isSkipNext, musicCount);
-                    } else {
+                    } else { // 随机生成播放歌曲的位置
                         int index = new Random().nextInt(musicCount - 1);
                         while (index == queueIndex) {
                             //当音乐列表里有至少5首时才能随机到不同的歌曲
