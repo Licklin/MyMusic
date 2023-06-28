@@ -1,4 +1,4 @@
-package com.lickling.mymusic.ui.load;
+package com.lickling.mymusic.ui.home.PQ;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -6,14 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lickling.mymusic.R;
+import com.lickling.mymusic.ui.load.ListAdapter2;
+import com.lickling.mymusic.ui.load.SongOperationPopup2;
 
 import java.util.List;
 
@@ -34,16 +34,14 @@ public class ListAdapter3 extends RecyclerView.Adapter<ListAdapter3.ViewHolder>{
 
     }
 
-    public interface OnCheckItemListener2 {
-        void onCheckItem2(int position ,boolean tag);
+    public interface OnCheckItemListener3 {
+
     }
 
-    public void setOnCheckItemListener2(ListAdapter2.OnCheckItemListener2 listener) {
-        checkItemListener2 = listener;
+    public void setOnCheckItemListener3(ListAdapter3.OnCheckItemListener3 listener) {
+        OnCheckItemListener3 checkItemListener3 = listener;
     }
-    public void setDialog(SongOperationPopup2 dialog) {
-        this.songOperationPopup2 = dialog;
-    }
+
 
     @NonNull
     @Override
@@ -62,55 +60,19 @@ public class ListAdapter3 extends RecyclerView.Adapter<ListAdapter3.ViewHolder>{
         holder.subtitle3.setText(listItem.getSubtitle3());
 
 
-        holder.suspend_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
 
     }
 
 
-//    @Override
-//    public void onBindViewHolder(@NonNull ListAdapter2.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-//        ListItem3 listItem = listItems3.get(position);
-//        holder.title.setText(listItem.getTitle());
-//        holder.subtitle.setText(listItem.getSubtitle());
-//        holder.subtitle2.setText(listItem.getSubtitle2());
-//        holder.subtitle3.setText(listItem.getSubtitle3());
-//        holder.extend_btn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                songOperationPopup2.setData(listItem,position);//把点击的item的数据给dialog
-//                songOperationPopup2.show(((AppCompatActivity) context).getSupportFragmentManager(), "menu");
-//            }
-//        });
-//
-//
-//        holder.suspend_btn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//            }
-//        });
-//
-//        holder.check_box.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (holder.check_box.isChecked())
-//                    checkItemListener2.onCheckItem2(position,true);
-//                else
-//                    checkItemListener2.onCheckItem2(position,false);
-//            }
-//        });
-//    }
+
 
     @Override
     public int getItemCount() {
         return listItems3.size();
     }
+
+
+
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView title;
@@ -121,7 +83,6 @@ public class ListAdapter3 extends RecyclerView.Adapter<ListAdapter3.ViewHolder>{
 
         public View album_cover;
 
-        public Button suspend_btn;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -131,7 +92,6 @@ public class ListAdapter3 extends RecyclerView.Adapter<ListAdapter3.ViewHolder>{
             subtitle2 = itemView.findViewById(R.id.subtitle2);
             subtitle3 = itemView.findViewById(R.id.subtitle3);
             album_cover = itemView.findViewById(R.id.album_cover);
-            suspend_btn = itemView.findViewById(R.id.suspend_btn);
             itemView.setOnClickListener(this);
         }
 

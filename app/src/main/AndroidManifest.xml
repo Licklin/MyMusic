@@ -24,7 +24,7 @@
         android:requestLegacyExternalStorage="true">
         <activity
             android:name=".ui.home.PQ.Desktop"
-            android:exported="true">
+            android:exported="false">
             <intent-filter>
                 <action android:name="musicList" />
 
@@ -74,7 +74,7 @@
             android:name=".ui.setting.password.PassWordActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.home.MainActivity"
+            android:name=".ui.home.PQ.Desktop_Seek"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

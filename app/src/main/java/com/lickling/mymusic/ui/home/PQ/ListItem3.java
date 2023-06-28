@@ -1,4 +1,4 @@
-package com.lickling.mymusic.ui.load;
+package com.lickling.mymusic.ui.home.PQ;
 
 public class ListItem3 {
     private String title;

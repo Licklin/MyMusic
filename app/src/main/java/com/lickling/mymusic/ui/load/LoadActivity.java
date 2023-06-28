@@ -87,6 +87,7 @@ public class LoadActivity extends AppCompatActivity implements SongOperationPopu
                     recyclerView.setAdapter(listAdapter);
             }
         });
+
         // 在此处添加菜单项的添加按钮到Toolbar上
         getMenuInflater().inflate(R.menu.load_toolbar_menu, back_btn.getMenu());
 

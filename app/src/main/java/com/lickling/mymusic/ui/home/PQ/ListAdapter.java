@@ -1,5 +1,23 @@
-package com.lickling.mymusic.ui.load;
+package com.lickling.mymusic.ui.home.PQ;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+
+import android.widget.CheckBox;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.lickling.mymusic.R;
 
 
 import android.annotation.SuppressLint;
@@ -23,6 +41,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.lickling.mymusic.R;
 
 
+
 import java.util.List;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
@@ -34,8 +53,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
     private int selectedItem = -1;
 
-    private ViewHolder pre_holder;
-    private OnCheckItemListener checkItemListener;
+    private ListAdapter.ViewHolder pre_holder;
+    private ListAdapter.OnCheckItemListener checkItemListener;
 
     public ListAdapter(List<ListItem> listItems, Context context) {
         this.listItems = listItems;
@@ -49,7 +68,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         listItems = Items;
         notifyDataSetChanged();
     }
-    public void setOnCheckItemListener(OnCheckItemListener listener) {
+    public void setOnCheckItemListener(ListAdapter.OnCheckItemListener listener) {
         checkItemListener = listener;
     }
     public void setDialog(SongOperationPopup dialog) {
@@ -58,7 +77,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.load_song_list_item, parent, false);
         return new ViewHolder(itemView);
@@ -126,6 +145,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         });
     }
 
+
+
     @Override
     public int getItemCount() {
         return listItems.size();
@@ -167,3 +188,6 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
 
 }
+
+
+
