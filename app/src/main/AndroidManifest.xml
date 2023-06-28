@@ -75,8 +75,14 @@
             android:exported="false" />
         <activity
             android:name=".ui.home.MainActivity"
-            android:exported="true"
-            android:launchMode="standard">
+            android:exported="false"
+            android:launchMode="standard"/>
+        <activity
+            android:name=".ui.home.nsh.Register"
+            android:exported="false" />
+        <activity
+            android:name=".ui.home.nsh.LoginWangyi"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -87,5 +93,5 @@
             android:name=".ui.load.LoadActivity"
             android:exported="false"/>
     </application>
-
+    <uses-permission android:name="android.permission.INTERNET"/>
 </manifest>

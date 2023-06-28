@@ -32,6 +32,40 @@
             android:src="@drawable/edit_text_back" />
 
         <EditText
+            android:id="@+id/username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="10dp"
+            android:backgroundTint="@color/hint_text"
+            android:cursorVisible="true"
+            android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@_#*"
+            android:hint="用户名"
+            android:inputType="text"
+            android:maxLength="16"
+            android:maxLines="1"
+            android:textColorHint="@color/hint_text"
+            android:textCursorDrawable="@drawable/setting_edittext_cursor"
+            android:textIsSelectable="true"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="0dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/edit_text_back" />
+
+        <EditText
             android:id="@+id/account"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -49,6 +83,8 @@
             android:textIsSelectable="true"
             android:maxLines="1"
             android:textSize="16sp" />
+
+
     </RelativeLayout>
 
     <RelativeLayout
@@ -66,7 +102,7 @@
             android:src="@drawable/edit_text_back" />
 
         <EditText
-            android:id="@+id/set_code"
+            android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -76,42 +112,6 @@
             android:cursorVisible="true"
             android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@_#*"
             android:hint="密码"
-            android:inputType="textPassword"
-            android:maxLength="16"
-            android:textColorHint="@color/hint_text"
-            android:textCursorDrawable="@drawable/setting_edittext_cursor"
-            android:textIsSelectable="true"
-            android:maxLines="1"
-            android:textSize="16sp" />
-
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="0dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/edit_text_back" />
-
-        <EditText
-            android:id="@+id/reset_code"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="10dp"
-            android:backgroundTint="@color/hint_text"
-            android:cursorVisible="true"
-            android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@_#*"
-            android:hint="确认密码"
             android:inputType="textPassword"
             android:maxLength="16"
             android:textColorHint="@color/hint_text"
@@ -127,6 +127,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:checkedButton="@+id/btnMan"
         android:orientation="horizontal">
 
         <RadioButton
@@ -143,15 +144,11 @@
             android:layout_marginLeft="20dp"
             android:text="女"/>
 
-        <RadioButton
-            android:id="@+id/btnprivacy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="保密"/>
     </RadioGroup>
 
     <ImageView
+        android:id="@+id/btn_register"
+        android:onClick="register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
