@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,13 +20,13 @@ import com.lickling.mymusic.R;
 
 import java.util.List;
 
-public class Desktop_ListAdapter extends RecyclerView.Adapter<Desktop_ListAdapter.ViewHolder> {
+public class Desktop_ListAdapter2 extends RecyclerView.Adapter<Desktop_ListAdapter2.ViewHolder> {
 
-    private List<Desktop_Listltem> Desktop_Listltem;
+    private List<Desktop_ListItem2> Desktop_ListItem2;
     private Context context;
 
-    public Desktop_ListAdapter(List<Desktop_Listltem> Desktop_Listltem, Context context) {
-        this.Desktop_Listltem = Desktop_Listltem;
+    public Desktop_ListAdapter2(List<Desktop_ListItem2> Desktop_ListItem2, Context context) {
+        this.Desktop_ListItem2 = Desktop_ListItem2;
         this.context = context;
     }
 
@@ -33,43 +34,49 @@ public class Desktop_ListAdapter extends RecyclerView.Adapter<Desktop_ListAdapte
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.desktop_song_list, parent, false);
+                .inflate(R.layout.community_list, parent, false);
         return new ViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Desktop_Listltem listItem = Desktop_Listltem.get(position);
+        Desktop_ListItem2 listItem = Desktop_ListItem2.get(position);
         holder.title.setText(listItem.getTitle());
-        holder.subtitle.setText(listItem.getSubtitle());
     }
 
     @Override
     public int getItemCount() {
-        return Desktop_Listltem.size();
+        return Desktop_ListItem2.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         public TextView title;
-        public TextView subtitle;
 
-        public View album_cover;
+        public ImageView pq_head_photo;
+        public ImageView pq_watch_count;
+        public ImageView pq_collect_count;
+        public ImageView pq_comment_count;
+        public ImageView pq_upvote_count;
 
-        public Button extend_btn;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+
             title = itemView.findViewById(R.id.title);
-            subtitle = itemView.findViewById(R.id.subtitle);
-            album_cover = itemView.findViewById(R.id.album_cover);
-            extend_btn = itemView.findViewById(R.id.extend_btn);
+            pq_head_photo = itemView.findViewById(R.id.pq_head_photo);
+            pq_watch_count = itemView.findViewById(R.id.pq_watch_count);
+            pq_collect_count = itemView.findViewById(R.id.pq_collect_count);
+            pq_comment_count = itemView.findViewById(R.id.pq_comment_count);
+            pq_upvote_count = itemView.findViewById(R.id.pq_upvote_count);
+
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
 
-            context.startActivity(new Intent(context, Desktop_Seek.class));
+
         }
 
 

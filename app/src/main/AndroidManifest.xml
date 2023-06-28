@@ -32,8 +32,10 @@
             android:value="com.lickling.mymusic.bean" />
 
         <activity
-            android:name=".ui.home.PQ.Desktop"
-            android:exported="false">
+            android:name=".MyTest"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="stateHidden" >
             <intent-filter>
                 <action android:name="musicList" />
 
@@ -49,17 +51,20 @@
             </intent-filter>
         </service>
 
-<!--        <activity-->
-<!--            android:name=".TestMediaSession"-->
-<!--            android:exported="true"-->
-<!--            android:launchMode="standard">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+        <!--        <activity-->
+        <!--            android:name=".TestMediaSession"-->
+        <!--            android:exported="true"-->
+        <!--            android:launchMode="standard">-->
+        <!--            <intent-filter>-->
+        <!--                <action android:name="android.intent.action.MAIN" />-->
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-<!--        </activity>-->
+        <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+        <!--            </intent-filter>-->
+        <!--        </activity>-->
 
+        <activity
+            android:name=".ui.home.PQ.Desktop_Seek"
+            android:exported="false" />
         <service
             android:name=".service.MusicService"
             android:stopWithTask="false" />
@@ -83,7 +88,7 @@
             android:name=".ui.setting.password.PassWordActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.home.PQ.Desktop_Seek"
+            android:name=".ui.home.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

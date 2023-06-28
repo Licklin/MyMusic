@@ -99,7 +99,7 @@
                 <!--    // 3-->
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="80dp"
                     android:layout_marginTop="20dp"
 
                     android:background="@drawable/desktop_item">
@@ -119,7 +119,7 @@
                 <!--    // 4-->
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="90dp"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/desktop_item"
                     android:orientation="horizontal">
@@ -268,7 +268,40 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:background="@drawable/desktop_item">
+                    android:background="@drawable/desktop_item"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+                            <ImageView
+                                android:id="@+id/pq_song_list_selector"
+                                android:layout_width="60dp"
+                                android:layout_height="20dp"
+                                android:background="@drawable/pq_song_list_selector"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginLeft="10dp"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="right">
+                            <ImageView
+                                android:id="@+id/pq_song_skip"
+                                android:layout_width="12dp"
+                                android:layout_height="18dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginRight="15dp"
+                                android:background="@drawable/pq_song_skip" />
+                        </LinearLayout>
+
+
+                    </LinearLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/home_recycler_view"
