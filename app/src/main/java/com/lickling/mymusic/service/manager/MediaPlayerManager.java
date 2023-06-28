@@ -115,7 +115,7 @@ public class MediaPlayerManager {
         if (!mediaSession.isActive()) { mediaSession.setActive(true); }
         if (audioManager != null) { setVolume(currentAudioLevel); }
 
-        if (currentPosition <= 0 || isFirstPlay) {
+        if (currentPosition <= 0 || isFirstPlay) { // 新的一首歌
             mediaSession.setPlaybackState(
                     newPlaybackState(PlaybackStateCompat.STATE_BUFFERING,null));
             mediaPlayer.prepareAsync();

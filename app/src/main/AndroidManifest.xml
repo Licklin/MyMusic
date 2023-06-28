@@ -2,9 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/><!--锁屏显示-->
+    <uses-permission android:name="android.permission.WAKE_LOCK"/><!--唤醒锁定权限，防止设备休眠-->
     <application
         android:allowBackup="false"
         android:icon="@mipmap/app_icon"
@@ -16,21 +22,6 @@
         android:statusBarColor="@android:color/transparent"
         android:windowLightStatusBar="true"
         android:requestLegacyExternalStorage="true">
-
-        <meta-data
-            android:name="DATABASE"
-            android:value="sugar_example.db" />
-        <meta-data
-            android:name="VERSION"
-            android:value="2" />
-        <meta-data
-            android:name="QUERY_LOG"
-            android:value="true" />
-        <meta-data
-            android:name="DOMAIN_PACKAGE_NAME"
-
-            android:value="com.lickling.mymusic.bean" />
-
         <activity
             android:name=".MyTest"
             android:exported="false"
@@ -51,17 +42,6 @@
             </intent-filter>
         </service>
 
-<!--        <activity-->
-<!--            android:name=".TestMediaSession"-->
-<!--            android:exported="true"-->
-<!--            android:launchMode="standard">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-<!--        </activity>-->
-
         <service
             android:name=".service.MusicService"
             android:stopWithTask="false" />
@@ -80,7 +60,7 @@
             android:exported="false" />
         <activity
             android:name=".ui.setting.home.SettingHomeActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".ui.setting.password.PassWordActivity"
             android:exported="false" />
@@ -93,6 +73,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.load.LoadActivity"
+            android:exported="false"/>
     </application>
 
 </manifest>

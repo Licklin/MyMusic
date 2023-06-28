@@ -10,7 +10,7 @@ public class SettingInfo extends SugarRecord {
     private boolean isNoticeLyric;
     private int onlineSoundQuality; // 0标准，1高品，2无损
     private int downloadSoundQuality; // 0标准，1高品，2无损
-    private int cacheLimit; // 1-8GB
+    private int cacheLimit = 4; // 1-8GB
     private long apiPositionId = -1; // SugarORM 数据库的ID
     private int apiPosition = -1; // APIList里的位置
     private String apiUrl = "null";
