@@ -55,7 +55,6 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/load_navigation"
                             android:layout_centerInParent="true"
                             android:layout_marginHorizontal="25dp"
                             android:layout_marginTop="20dp"
@@ -67,7 +66,7 @@
                                 android:layout_width="80dp"
                                 android:layout_height="80dp"
                                 android:layout_marginLeft="10dp"
-                                android:background="@drawable/song_sheet_album_cover"></View>
+                                android:background="@drawable/song_sheet_album_cover"/>
 
                             <LinearLayout
                                 android:layout_width="match_parent"
