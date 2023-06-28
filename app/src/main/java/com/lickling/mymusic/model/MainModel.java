@@ -27,6 +27,7 @@ public class MainModel {
 
         this.user = User.findById(User.class, userSaveID);
         this.settingInfo = SettingInfo.findById(SettingInfo.class, settingInfoSaveID);
+
         if (user == null) {
             user = new User();
             Log.e("user","null");

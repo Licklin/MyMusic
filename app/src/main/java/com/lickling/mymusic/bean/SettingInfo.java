@@ -11,18 +11,27 @@ public class SettingInfo extends SugarRecord {
     private int onlineSoundQuality; // 0标准，1高品，2无损
     private int downloadSoundQuality; // 0标准，1高品，2无损
     private int cacheLimit; // 1-8GB
-    private int apiPositionId = -1; // SugarORM 数据库的ID
+    private long apiPositionId = -1; // SugarORM 数据库的ID
     private int apiPosition = -1; // APIList里的位置
+    private String apiUrl = "null";
     private String version;
 
     public SettingInfo() {
-        isNotification = false;
-        isNoticeLyric = false;
-        onlineSoundQuality = 0;
-        downloadSoundQuality = 0;
-        cacheLimit = 4;
-        version = "1.0.0";
+
     }
+
+    public void setApiPositionId(long apiPositionId) {
+        this.apiPositionId = apiPositionId;
+    }
+
+    public String getApiUrl() {
+        return apiUrl;
+    }
+
+    public void setApiUrl(String apiUrl) {
+        this.apiUrl = apiUrl;
+    }
+
     public int getApiPosition() {
         return apiPosition;
     }
@@ -32,13 +41,10 @@ public class SettingInfo extends SugarRecord {
     }
 
 
-    public int getApiPositionId() {
+    public long getApiPositionId() {
         return apiPositionId;
     }
 
-    public void setApiPositionId(int apiPositionId) {
-        this.apiPositionId = apiPositionId;
-    }
 
     public boolean isNotification() {
         return isNotification;
