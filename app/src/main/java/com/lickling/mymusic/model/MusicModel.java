@@ -1,7 +1,6 @@
 package com.lickling.mymusic.model;
 
 
-
 import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.res.Resources;
@@ -29,8 +28,9 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class MusicModel implements LocalMusicModel {
+public class MusicModel implements LocalMusicModel, OnlineMusicModel {
     private static final String TAG = "MusicModel";
+
     @Override
     public void getLocalMusic(LocalMusicModel.OnMusicListener onMusicListener, ContentResolver resolver) {
         onMusicListener.OnComplete(getLocalMusic(resolver));
@@ -46,29 +46,31 @@ public class MusicModel implements LocalMusicModel {
         Bitmap bitmap = getAlbumBitmap(path);
         // 如果bitmap为空说明没有专辑图片，则输出默认图片
         bitmap = bitmap == null ?
-                PictureUtil.getResIdBitmap(R.drawable.default_record,500,resource,0) : bitmap;
+                PictureUtil.getResIdBitmap(R.drawable.default_record, 500, resource, 0) : bitmap;
         onLoadPictureListener.OnComplete(new WeakReference<>(bitmap));
     }
+
     /**
      * 描述 获取本地音乐列表
+     *
      * @param resolver 内容访问器，这个类提供对内容模型的应用程序访问。
      * @return List<MusicBean>类型的本地音乐列表集合
      **/
     @SuppressLint("Range")
-    private List<MusicBean> getLocalMusic(ContentResolver resolver){
-        Log.e(TAG, "getLocalMusic: "+(resolver == null));
+    private List<MusicBean> getLocalMusic(ContentResolver resolver) {
+        Log.e(TAG, "getLocalMusic: " + (resolver == null));
         if (resolver == null) return null;
 
         List<MusicBean> beans = new ArrayList<>();
         Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
         Cursor cursor = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            cursor = resolver.query(uri,null,null,null);
+            cursor = resolver.query(uri, null, null, null);
         }
         int id = 0;
         while (cursor != null && cursor.moveToNext()) {
             long duration = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION));
-            if(duration < 90000 ) continue;
+            if (duration < 90000) continue;
 
             String title = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.TITLE));
             String artist = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST));
@@ -81,38 +83,40 @@ public class MusicModel implements LocalMusicModel {
                     getSpanishStr(title),
                     getSpanishStr(artist),
                     getSpanishStr(album),
-                    path,path,duration);
+                    path, path, duration);
             beans.add(bean);
             //Log.d(TAG, "getLocalMusic: "+getUtf8(title));
         }
-        if (cursor != null){
+        if (cursor != null) {
             cursor.close();
-            if(!cursor.isClosed()) cursor.close();
+            if (!cursor.isClosed()) cursor.close();
         }
-        Log.d(TAG, "getLocalMusic: "+beans.size());
+        Log.d(TAG, "getLocalMusic: " + beans.size());
         return beans;
     }
 
     /**
      * 将西班牙语重音乱码替换为UTF-8
-     * */
+     */
     private static String getSpanishStr(String str) {
         if (str == null || TextUtils.isEmpty(str)) return str;
-        return str.replaceAll("¨¢","á")
-                .replaceAll("¨¦","é")
-                .replaceAll("¨Ş","í")
-                .replaceAll("¨ª","í")
-                .replaceAll("¨®","ó")
-                .replaceAll("¨²","ú");
+        return str.replaceAll("¨¢", "á")
+                .replaceAll("¨¦", "é")
+                .replaceAll("¨Ş", "í")
+                .replaceAll("¨ª", "í")
+                .replaceAll("¨®", "ó")
+                .replaceAll("¨²", "ú");
     }
+
     /**
      * 描述 获取本地音乐列表
+     *
      * @param resolver 内容访问器，这个类提供对内容模型的应用程序访问。
      * @return LinkedHashMap<String, MediaMetadataCompat>类型的本地音乐列表集合
      **/
     @SuppressLint("Range")
-    private LinkedHashMap<String, MediaMetadataCompat> getLocalMusicMetadata(ContentResolver resolver){
-        Log.e(TAG, "getLocalMusicMetadata resolver == null: "+(resolver == null));
+    private LinkedHashMap<String, MediaMetadataCompat> getLocalMusicMetadata(ContentResolver resolver) {
+        Log.e(TAG, "getLocalMusicMetadata resolver == null: " + (resolver == null));
         if (resolver == null) return null;
 
         LinkedHashMap<String, MediaMetadataCompat> result = new LinkedHashMap<>();
@@ -120,11 +124,11 @@ public class MusicModel implements LocalMusicModel {
         Cursor cursor = null;
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {  // 判断API
-                Log.d(TAG, "getLocalMusicMetadata 查询歌曲: "+uri);
-                cursor = resolver.query(uri,null,null,null);
-                Log.d(TAG, "getLocalMusicMetadata cursor: "+cursor.getCount());
+                Log.d(TAG, "getLocalMusicMetadata 查询歌曲: " + uri);
+                cursor = resolver.query(uri, null, null, null);
+                Log.d(TAG, "getLocalMusicMetadata cursor: " + cursor.getCount());
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -132,7 +136,7 @@ public class MusicModel implements LocalMusicModel {
         while (cursor != null && cursor.moveToNext()) {
             long duration = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION));
 
-            if(duration < 90000) continue;
+            if (duration < 90000) continue;
 
             String title = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE));
 //            Log.d(TAG, "getLocalMusicMetadata title: "+title);
@@ -142,7 +146,7 @@ public class MusicModel implements LocalMusicModel {
             String mediaId = title.replaceAll(" ", "_");
             //西班牙语重音字母替换
             title = getSpanishStr(title);
-            artist = getSpanishStr(artist).replaceAll("&","/");
+            artist = getSpanishStr(artist).replaceAll("&", "/");
             album = getSpanishStr(album);
 
             MediaMetadataCompat metadata = new MediaMetadataCompat.Builder()
@@ -159,12 +163,12 @@ public class MusicModel implements LocalMusicModel {
                     .putString(
                             MediaMetadataCompat.METADATA_KEY_MEDIA_URI, path)
                     .build();
-            result.put(mediaId,metadata);
+            result.put(mediaId, metadata);
 //            Log.d(TAG, "getLocalMusicMetadata artist: "+artist);
         }
-        if (cursor != null){
+        if (cursor != null) {
             cursor.close();
-            if(!cursor.isClosed()) cursor.close();
+            if (!cursor.isClosed()) cursor.close();
         }
         //Log.d(TAG, "getLocalMusicMetadata: "+result.size());
         return result;
@@ -172,14 +176,15 @@ public class MusicModel implements LocalMusicModel {
 
     /**
      * description 返回一个本地音乐文件的专辑bitmap图片
+     *
      * @param Path 给定当前点击item音乐的外部存储路径，非content
      * @return Bitmap类型专辑图片
      **/
-    private Bitmap getAlbumBitmap(String Path){
+    private Bitmap getAlbumBitmap(String Path) {
         if (Path.isEmpty()) return null;//返回默认的专辑封面
         if (!FileExists(Path)) return null; //找不到文件返回空
 
-        Log.d(TAG, "getAlbumBitmap: "+Path);
+        Log.d(TAG, "getAlbumBitmap: " + Path);
 
         if (!Path.contains(".mp3")) {
             Bitmap bitmap;
@@ -187,11 +192,11 @@ public class MusicModel implements LocalMusicModel {
             try {
                 bis = new BufferedInputStream(new FileInputStream(Path));
                 bitmap = BitmapFactory.decodeStream(bis);
-            }  catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
                 Log.d("AllSongSheetModel", "getAlbumBitmap: 本地图片转Bitmap失败");
                 return null;
-            }finally {
+            } finally {
                 if (bis != null) {
                     try {
                         bis.close();
@@ -203,7 +208,7 @@ public class MusicModel implements LocalMusicModel {
             }
             //Log.d("加载本地图片", "getAlbumBitmap: ");
             return bitmap;
-        }else {
+        } else {
             MediaMetadataRetriever metadataRetriever = new MediaMetadataRetriever();
             metadataRetriever.setDataSource(Path);
             byte[] picture = metadataRetriever.getEmbeddedPicture();
@@ -217,14 +222,30 @@ public class MusicModel implements LocalMusicModel {
         }
     }
 
-    public static boolean FileExists(String targetFileAbsPath){
+    public static boolean FileExists(String targetFileAbsPath) {
         try {
             File f = new File(targetFileAbsPath);
-            if(!f.exists()) return false;
+            if (!f.exists()) return false;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
         return true;
+    }
+
+    /********************************************以下为网络获取***********************************************/
+    @Override
+    public void getOnlineMusic(OnlineMusicModel.OnMusicListener onMusicListener, ContentResolver resolver) {
+
+    }
+
+    @Override
+    public void getOnlineMusicMetadata(OnlineMusicModel.OnMusicMetadataListener onMusicListener, ContentResolver resolver) {
+
+    }
+
+    @Override
+    public void getOnlineMusicAlbum(OnOnlinePictureListener onLoadPictureListener, String path, Resources resources) {
+
     }
 }

@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.lickling.mymusic.R;
+import com.lickling.mymusic.bean.APIListItem;
 
 public class EditActivity extends AppCompatActivity {
 
@@ -22,7 +23,7 @@ public class EditActivity extends AppCompatActivity {
     private Intent intent;
     private EditText apiName;
     private EditText URL;
-    private ListItem item;
+    private APIListItem item;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,29 +54,35 @@ public class EditActivity extends AppCompatActivity {
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                if (isAdd) {
-                    Intent backIntent = new Intent();
-                    Bundle addData = new Bundle();
-                    addData.putString("mode", "0");
+
+                if (!apiName.getText().toString().equals(""))
+                    if (isAdd) {
+                        Intent backIntent = new Intent();
+                        Bundle addData = new Bundle();
+                        addData.putString("mode", "0");
 //                    addData.putInt("mode",0);
-                    addData.putString("resultName", apiName.getText().toString());
-                    addData.putString("resultURL", URL.getText().toString());
-                    backIntent.putExtra("result", addData);
-                    setResult(RESULT_OK, backIntent);
+                        addData.putString("resultName", apiName.getText().toString());
+                        addData.putString("resultURL", URL.getText().toString());
+                        backIntent.putExtra("result", addData);
+                        setResult(RESULT_OK, backIntent);
 
-                    Toast.makeText(EditActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
 
-                } else {
-                    Intent backIntent = new Intent();
-                    Bundle addData = new Bundle();
-                    addData.putString("mode", "1");
-                    addData.putString("resultName", apiName.getText().toString());
-                    addData.putString("resultURL", URL.getText().toString());
-                    addData.putInt("resultNum", intent.getIntExtra("Num",0));
-                    backIntent.putExtra("result", addData);
+                    } else {
+                        Intent backIntent = new Intent();
+                        Bundle addData = new Bundle();
+                        addData.putString("mode", "1");
+                        addData.putString("resultName", apiName.getText().toString());
+                        addData.putString("resultURL", URL.getText().toString());
+                        addData.putInt("resultNum", intent.getIntExtra("Num", 0));
+                        backIntent.putExtra("result", addData);
 
-                    setResult(RESULT_OK, backIntent);
-                    Toast.makeText(EditActivity.this, "编辑成功", Toast.LENGTH_SHORT).show();
+                        setResult(RESULT_OK, backIntent);
+                        Toast.makeText(EditActivity.this, "编辑成功", Toast.LENGTH_SHORT).show();
+                    }
+                else {
+                    Toast.makeText(EditActivity.this, "名称不能为空", Toast.LENGTH_SHORT).show();
+                    return false;
                 }
                 finish();
 

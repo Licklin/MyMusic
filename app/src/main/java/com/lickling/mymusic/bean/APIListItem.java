@@ -1,10 +1,17 @@
-package com.lickling.mymusic.ui.setting.api;
+package com.lickling.mymusic.bean;
 
-public class ListItem {
+import com.orm.SugarRecord;
+import com.orm.dsl.Table;
+
+@Table(name = "list_item")
+public class APIListItem extends SugarRecord {
     private String title;
     private String subtitle;
+    APIListItem(){
 
-    public ListItem(String title, String subtitle) {
+    }
+
+    public APIListItem(String title, String subtitle) {
         this.title = title;
         this.subtitle = subtitle;
     }

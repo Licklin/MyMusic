@@ -1,21 +1,20 @@
 package com.lickling.mymusic.ui.setting.home;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
@@ -27,17 +26,19 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
 import com.lickling.mymusic.R;
+import com.lickling.mymusic.bean.SettingInfo;
+import com.lickling.mymusic.bean.User;
+import com.lickling.mymusic.model.MainModel;
 import com.lickling.mymusic.ui.setting.api.APIActivity;
 import com.lickling.mymusic.ui.setting.dialog.EditDialog;
-import com.lickling.mymusic.ui.setting.home.presenter.IPresenter;
-import com.lickling.mymusic.ui.setting.home.presenter.MainPresenter;
 import com.lickling.mymusic.ui.setting.notice.NoticeActivity;
 import com.lickling.mymusic.ui.setting.password.PassWordActivity;
 import com.lickling.mymusic.ui.setting.sound_quality.SoundQualityActivity;
+import com.lickling.mymusic.utilty.ImmersiveStatusBarUtil;
+import com.orm.SugarContext;
 
-public class SettingHomeActivity extends AppCompatActivity implements MainView {
+public class SettingHomeActivity extends AppCompatActivity  {
 
-    private IPresenter mainPresenter;//V层拥有P层
 
     private Button passWord;
     private Button notice;
@@ -53,23 +54,53 @@ public class SettingHomeActivity extends AppCompatActivity implements MainView {
     private Toolbar toolbar;
     private PopupWindow popupWindow;
     private PopupWindow popupEditWindow;
+    private MainModel mainModel;
+    private SettingInfo settingInfo;
+    private User user;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.actitvity_setting);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Window window = getWindow();
-            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-            window.setStatusBarColor(Color.TRANSPARENT);
-        }
-        mainPresenter = new MainPresenter(this); // V层交给P层
+        ImmersiveStatusBarUtil.transparentBar(this, false);
+        SugarContext.init(this);
+
+        // 获取 SharedPreferences 对象
+        SharedPreferences prefs = getSharedPreferences("userId", Context.MODE_PRIVATE);
+
+        long saveKeyOfUser = prefs.getLong("saveKeyOfUser", 1);
+        long saveKeyOfSetting = prefs.getLong("saveKeyOfSetting", 1);
+
+        SugarContext.init(this);
+
+        mainModel = new MainModel(saveKeyOfUser,saveKeyOfSetting);
+
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putLong("saveKeyOfUser", mainModel.getUserSaveID());
+        editor.putLong("saveKeyOfSetting", mainModel.getSettingInfoSaveID());
+        editor.apply();
+
+        settingInfo = mainModel.getSettingInfo();
+        user = mainModel.getUser();
 
         initFindView();
         toolbarBack();
+        setInfo();
         setClick();
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SugarContext.terminate();
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void setInfo() {
+//        if(settingInfo.getCacheLimit() == 8) return;
+        cacheSize.setText(settingInfo.getCacheLimit()+"GB");
     }
 
     // 使用PopupWindow实现Dialog
@@ -120,6 +151,7 @@ public class SettingHomeActivity extends AppCompatActivity implements MainView {
             @Override
             public void onClick(View view) {
                 finish();
+                mainModel.saveSetting(settingInfo);
             }
         });
 
@@ -129,7 +161,7 @@ public class SettingHomeActivity extends AppCompatActivity implements MainView {
         passWord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mainPresenter.goToPassWord();
+                startActivity(new Intent(SettingHomeActivity.this, PassWordActivity.class));
             }
         });
         notice.setOnClickListener(new View.OnClickListener() {
@@ -148,7 +180,7 @@ public class SettingHomeActivity extends AppCompatActivity implements MainView {
             @Override
             public void onClick(View view) {
 //                popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0); //使用弹出的popupWindow对话框
-                showDialog("退出账号", "123");
+                showDialog("退出账号", user.getOurUserName());
             }
         });
         accountCancellation.setOnClickListener(new View.OnClickListener() {
@@ -156,7 +188,7 @@ public class SettingHomeActivity extends AppCompatActivity implements MainView {
             public void onClick(View view) {
                 EditDialog dialog = new EditDialog();
 //                dialog.show(getFragmentManager(), "MyDialogFragment");
-                showEditDialog("账号注销", "123");
+                showEditDialog("账号注销", user.getOurUserName());
             }
         });
         cacheLimit.setOnClickListener(new View.OnClickListener() {
@@ -175,7 +207,9 @@ public class SettingHomeActivity extends AppCompatActivity implements MainView {
                 mConfirmButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        //账号注销操作
+                        cacheSize.setText(mEditText.getText()+"GB");
+                        settingInfo.setCacheLimit(Integer.parseInt(mEditText.getText().toString()));
+                        settingInfo.save();
                         Toast.makeText(SettingHomeActivity.this, "成功", Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
                     }
@@ -211,26 +245,12 @@ public class SettingHomeActivity extends AppCompatActivity implements MainView {
                         String text = s.toString().trim();
                         switch (text) {
                             case "1":
-                                mConfirmButton.setEnabled(true);
-                                break;
                             case "2":
-                                mConfirmButton.setEnabled(true);
-                                break;
                             case "3":
-                                mConfirmButton.setEnabled(true);
-                                break;
                             case "4":
-                                mConfirmButton.setEnabled(true);
-                                break;
                             case "5":
-                                mConfirmButton.setEnabled(true);
-                                break;
                             case "6":
-                                mConfirmButton.setEnabled(true);
-                                break;
                             case "7":
-                                mConfirmButton.setEnabled(true);
-                                break;
                             case "8":
                                 mConfirmButton.setEnabled(true);
                                 break;
@@ -376,28 +396,4 @@ public class SettingHomeActivity extends AppCompatActivity implements MainView {
         dialog.show();
     }
 
-    @Override
-    public void goToPassWord() {
-        startActivity(new Intent(this, PassWordActivity.class));
-    }
-
-    @Override
-    public void showTip(String s) {
-        Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void showDialogBox() {
-
-    }
-
-    @Override
-    public void upgradeCacheSize(Integer size) {
-        cacheSize.setText(size + "GB");
-    }
-
-    @Override
-    public void upgradeVersion(String version) {
-
-    }
 }

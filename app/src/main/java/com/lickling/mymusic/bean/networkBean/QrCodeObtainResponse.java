@@ -1,6 +1,6 @@
-package com.lickling.mymusic.network.NetEase.bean;
+package com.lickling.mymusic.bean.networkBean;
 
-public class QrCodeResponse {
+public class QrCodeObtainResponse {
 
     public int code;
     public Data data;

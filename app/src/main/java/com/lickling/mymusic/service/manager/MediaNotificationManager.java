@@ -35,11 +35,6 @@ import com.lickling.mymusic.R;
 import com.lickling.mymusic.service.BaseMusicService;
 import com.lickling.mymusic.ui.setting.home.SettingHomeActivity;
 
-/**
- * @author : Bilibili喜闻人籁
- * @since : 2021/11/3
- * 作用:
- */
 public class MediaNotificationManager {
 
     private static final String TAG = "MediaNotificationManager";
