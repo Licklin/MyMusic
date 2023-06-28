@@ -17,10 +17,12 @@
         android:layout_margin="10dp"
         android:gravity="center">
         <ImageView
+            android:id="@+id/pq_head_photo"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/pq_head_photo"/>
         <TextView
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="nickname"
@@ -51,6 +53,7 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/pq_content"/>
         <ImageView
+            android:id="@+id/a23"
             android:layout_width="250dp"
             android:layout_height="200dp"
             android:layout_marginTop="10dp"
@@ -73,6 +76,7 @@
             android:layout_weight="1"
             android:gravity="center">
             <ImageView
+                android:id="@+id/pq_watch_count"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:background="@drawable/pq_watch_count"/>
@@ -83,6 +87,7 @@
             android:layout_weight="1"
             android:gravity="center">
             <ImageView
+                android:id="@+id/pq_collect_count"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:background="@drawable/pq_collect_count"/>
@@ -93,6 +98,7 @@
             android:layout_weight="1"
             android:gravity="center">
             <ImageView
+                android:id="@+id/pq_comment_count"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:background="@drawable/pq_comment_count"/>
@@ -103,6 +109,7 @@
             android:layout_weight="1"
             android:gravity="center">
             <ImageView
+                android:id="@+id/pq_upvote_count"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:background="@drawable/pq_upvote_count"/>

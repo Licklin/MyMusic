@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.lickling.mymusic.MyTest;
@@ -30,6 +31,7 @@ import com.lickling.mymusic.viewmodel.MusicViewModel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.zip.Inflater;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -44,8 +46,9 @@ public class HomeFragment extends Fragment {
 
     // TODO: Rename and change types of parameters
     private MusicViewModel musicViewModel;
-    private ListAdapter listAdapter;
-    private List<ListItem> listItems;
+    private Desktop_ListAdapter Desktop_ListAdapter;
+    private List<Desktop_Listltem> Desktop_Listltem;
+
     private FragmentDesktopOneBinding desktopOneBinding;
 
 
@@ -83,6 +86,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         desktopOneBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_desktop_one, container, false);
         desktopOneBinding.setHomeInfo(musicViewModel);
         return desktopOneBinding.getRoot();
@@ -100,16 +104,43 @@ public class HomeFragment extends Fragment {
         desktopOneBinding.homeRecyclerView.setHasFixedSize(true);
         desktopOneBinding.homeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        listItems = new ArrayList<>();
+        Desktop_Listltem = new ArrayList<>();
         // 在此处添加数据到listItems
-        listItems.add(new ListItem("晴天", "潘琪"));
-        listItems.add(new ListItem("花海", "jay潘"));
-        listItems.add(new ListItem("最伟大的作品", "jay潘"));
-        listItems.add(new ListItem("搁浅", "jay潘"));
-        listItems.add(new ListItem("青花瓷", "jay潘"));
+        Desktop_Listltem.add(new Desktop_Listltem("晴天", "潘琪"));
+        Desktop_Listltem.add(new Desktop_Listltem("花海", "jay潘"));
+        Desktop_Listltem.add(new Desktop_Listltem("最伟大的作品", "jay潘"));
+        Desktop_Listltem.add(new Desktop_Listltem("搁浅", "jay潘"));
+        Desktop_Listltem.add(new Desktop_Listltem("青花瓷", "jay潘"));
 
-        listAdapter = new ListAdapter(listItems, getActivity());
-        desktopOneBinding.homeRecyclerView.setAdapter(listAdapter);
+        Desktop_ListAdapter = new Desktop_ListAdapter(Desktop_Listltem, getActivity());
+        desktopOneBinding.homeRecyclerView.setAdapter(Desktop_ListAdapter);
+
+
+        // 歌单按键
+        desktopOneBinding.pqSongListSelector.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(desktopOneBinding.pqSongListSelector.isSelected())
+                {
+                    desktopOneBinding.pqSongListSelector.setSelected(false);
+                    desktopOneBinding.homeRecyclerView.setVisibility(View.VISIBLE);
+
+                    Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.alpha);
+                    desktopOneBinding.pqSongListSelector.startAnimation(animation);
+                }
+                else
+                {
+                    desktopOneBinding.pqSongListSelector.setSelected(true);
+                    desktopOneBinding.homeRecyclerView.setVisibility(View.INVISIBLE);
+
+                    Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.alpha);
+                    desktopOneBinding.imageviewRecognition.startAnimation(animation);
+                }
+            }
+        });
+
+
+
 
         // 搜索框
         desktopOneBinding.imageviewInput.setOnClickListener(new View.OnClickListener() {
@@ -117,10 +148,12 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.alpha);
                 v.startAnimation(animation);
-//                startActivity(new Intent(getActivity(), Desktop_Seek.class));
+                startActivity(new Intent(getActivity(), Desktop_Seek.class));
 
             }
         });
+
+
 
         // 扫描按键
         desktopOneBinding.imageviewScan.setOnClickListener(new View.OnClickListener() {

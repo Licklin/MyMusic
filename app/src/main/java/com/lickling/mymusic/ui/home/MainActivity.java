@@ -38,6 +38,8 @@ import com.lickling.mymusic.service.OurMusicService;
 import com.lickling.mymusic.ui.BaseActivity;
 import com.lickling.mymusic.ui.home.PQ.Desktop;
 import com.lickling.mymusic.ui.home.PQ.Desktop_one;
+import com.lickling.mymusic.ui.home.PQ.Desktop_three;
+import com.lickling.mymusic.ui.home.PQ.Desktop_two;
 import com.lickling.mymusic.ui.home.PQ.HomeFragment;
 import com.lickling.mymusic.ui.home.PQ.UserFragment;
 import com.lickling.mymusic.utilty.PermissionUtil;
@@ -279,7 +281,7 @@ public class MainActivity extends BaseActivity<MusicViewModel> {
                     case R.id.blog_btn:
                         animation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.alpha);
                         mMainBinding.bottom2.startAnimation(animation);
-//                replaceFragment(new Desktop_one());
+                        replaceFragment(new Desktop_two());
                         mMainBinding.bottom1.setSelected(false);
                         mMainBinding.bottom2.setSelected(true);
                         mMainBinding.bottom3.setSelected(false);
@@ -288,7 +290,7 @@ public class MainActivity extends BaseActivity<MusicViewModel> {
                     case R.id.class_btn:
                         animation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.alpha);
                         mMainBinding.bottom3.startAnimation(animation);
-//                replaceFragment(new Desktop_one());
+                        replaceFragment(new Desktop_three());
                         mMainBinding.bottom1.setSelected(false);
                         mMainBinding.bottom2.setSelected(false);
                         mMainBinding.bottom3.setSelected(true);

@@ -16,4 +16,5 @@ public class ListItem {
     public String getSubtitle() {
         return subtitle;
     }
+
 }

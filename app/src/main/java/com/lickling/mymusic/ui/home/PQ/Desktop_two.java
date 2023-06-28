@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import com.lickling.mymusic.R;
 import com.lickling.mymusic.ui.load.ListAdapter;
@@ -38,8 +39,12 @@ public class Desktop_two extends Fragment {
 
 
     private RecyclerView recyclerView;
-    private ListAdapter listAdapter;
-    private List<ListItem> listItems;
+    private Desktop_ListAdapter2 Desktop_ListAdapter2;
+    private List<Desktop_ListItem2> Desktop_ListItem2;
+
+
+
+
 
     public Desktop_two() {
         // Required empty public constructor
@@ -94,6 +99,7 @@ public class Desktop_two extends Fragment {
         imageview_find.setSelected(true);
         circle_find.setSelected(true);
 
+
         // 发现按键
         imageview_find.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,10 +130,24 @@ public class Desktop_two extends Fragment {
 
 
 
+        recyclerView = getActivity().findViewById(R.id.community_recyclerview);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        Desktop_ListItem2 = new ArrayList<>();
+        // 在此处添加数据到listItems
+        Desktop_ListItem2.add(new Desktop_ListItem2("潘琪"));
+        Desktop_ListItem2.add(new Desktop_ListItem2("黎科良"));
+        Desktop_ListItem2.add(new Desktop_ListItem2("朱纪达"));
+        Desktop_ListItem2.add(new Desktop_ListItem2("倪浩深"));
+        Desktop_ListItem2.add(new Desktop_ListItem2("赵胜葳"));
+
+        Desktop_ListAdapter2 = new Desktop_ListAdapter2(Desktop_ListItem2, getActivity());
+        recyclerView.setAdapter(Desktop_ListAdapter2);
+
+
+
     }
-
-
-
 
 }
 
