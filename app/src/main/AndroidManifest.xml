@@ -85,6 +85,15 @@
         <activity
             android:name=".ui.load.LoadActivity"
             android:exported="false"/>
+        <activity
+            android:name=".ui.local.LocalActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".ui.myLike.MyLikeActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".ui.songSheet.SongSheetActivity"
+            android:exported="false"/>
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
 </manifest>

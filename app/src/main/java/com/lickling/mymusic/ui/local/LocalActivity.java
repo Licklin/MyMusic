@@ -5,20 +5,40 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 
 import android.os.Bundle;
+import android.support.v4.media.MediaBrowserCompat;
+import android.support.v4.media.MediaMetadataCompat;
+import android.support.v4.media.session.MediaControllerCompat;
+import android.support.v4.media.session.PlaybackStateCompat;
+import android.text.TextUtils;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lickling.mymusic.R;
+import com.lickling.mymusic.databinding.LocalMusicFragmentBinding;
 import com.lickling.mymusic.databinding.MylikeFragmentBinding;
+import com.lickling.mymusic.service.BaseMusicService;
+import com.lickling.mymusic.ui.BaseActivity;
+import com.lickling.mymusic.ui.home.MainActivity;
+import com.lickling.mymusic.ui.home.PQ.Desktop_three;
+import com.lickling.mymusic.ui.home.PQ.Desktop_two;
+import com.lickling.mymusic.ui.home.PQ.HomeFragment;
+import com.lickling.mymusic.ui.home.PQ.UserFragment;
+import com.lickling.mymusic.viewmodel.MusicViewModel;
+import com.orm.SugarContext;
 
 
 import java.util.ArrayList;
@@ -26,7 +46,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class LocalActivity extends AppCompatActivity implements SongOperationPopup.OnDeleteItemListener,
+public class LocalActivity extends BaseActivity<MusicViewModel> implements SongOperationPopup.OnDeleteItemListener,
         ListAdapter.OnCheckItemListener, MulOperationPopup.OnDeleteMulItemListener {
     private ListAdapter listAdapter;
     private List<ListItem> listItems;
@@ -50,12 +70,27 @@ public class LocalActivity extends AppCompatActivity implements SongOperationPop
 
 
 
-    //private  mylikeFragmentBinding;
+    private LocalMusicFragmentBinding localMusicFragmentBinding;
+    private MusicViewModel mMusicViewModel;
+
+    @Override
+    protected MediaControllerCompat.Callback getControllerCallback() {
+        return new LocalActivity.MyMediaControllerCallback();
+    }
+
+    @Override
+    protected MediaBrowserCompat.SubscriptionCallback getSubscriptionCallback() {
+        return new LocalActivity.MyMediaBrowserSubscriptionCallback();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.local_music_fragment);
+
+        localMusicFragmentBinding = DataBindingUtil.setContentView(this, R.layout.local_music_fragment);
+        mMusicViewModel = new MusicViewModel(getApplication());
+        localMusicFragmentBinding.setLocalInfo(mMusicViewModel);
+
         mylike_view = getWindow().getDecorView();
         context = mylike_view.getContext();
         positions = new ArrayList<>();
@@ -103,6 +138,7 @@ public class LocalActivity extends AppCompatActivity implements SongOperationPop
                 multi_choice_btn.setVisibility(View.GONE);
                 checked_item_info.setText("已选" + checked_item_num + "首");
                 checked_item_info.setVisibility(View.VISIBLE);
+                localMusicFragmentBinding.controller.setVisibility(View.GONE);
 
                 //显示底部操作弹窗
                 mulOperationPopup.show(recyclerView);
@@ -124,6 +160,7 @@ public class LocalActivity extends AppCompatActivity implements SongOperationPop
         cancel_choice_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                localMusicFragmentBinding.controller.setVisibility(View.VISIBLE);
                 if (!search_bar.isIconified()) {
                     //调两次，第一次将文本清空，第二次将搜索栏关闭
                     search_bar.setIconified(true);
@@ -330,6 +367,108 @@ public class LocalActivity extends AppCompatActivity implements SongOperationPop
         listAdapter.setListItems(found_items);
         recyclerView.setAdapter(listAdapter);
         find_tag = true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (mMusicViewModel != null) {
+            mMusicViewModel = null;
+        }
+        if (localMusicFragmentBinding != null) {
+            localMusicFragmentBinding.unbind();
+            localMusicFragmentBinding = null;
+        }
+    }
+
+    private class MyMediaBrowserSubscriptionCallback extends MediaBrowserCompat.SubscriptionCallback {
+        @Override
+        public void onChildrenLoaded(@NonNull String parentId,
+                                     @NonNull List<MediaBrowserCompat.MediaItem> children) {
+            super.onChildrenLoaded(parentId, children);
+
+            activityOnChildrenLoad(mMusicViewModel, localMusicFragmentBinding.imageViewPlaying, children);
+
+            mMusicViewModel.setPhoneRefresh(mRefreshRateMax);
+            //！！！少更新样式状态
+            mMusicViewModel.setCustomStyle(MediaControllerCompat.getMediaController(LocalActivity.this)
+                    .getMetadata().getLong(BaseMusicService.MyMusic_NOTIFICATION_STYLE) == 0
+            );
+        }
+
+        @Override
+        public void onError(@NonNull String parentId) {
+            super.onError(parentId);
+        }
+    }
+    private class MyMediaControllerCallback extends MediaControllerCompat.Callback {
+        @Override
+        public void onMetadataChanged(MediaMetadataCompat metadata) {
+            super.onMetadataChanged(metadata);
+            mMusicViewModel.SyncMusicInformation();
+        }
+
+        @Override
+        public void onPlaybackStateChanged(PlaybackStateCompat playbackState) {
+            super.onPlaybackStateChanged(playbackState);
+            //Log.w(TAG, "onPlaybackStateChanged: "+state);
+            mMusicViewModel.setPlaybackState(playbackState.getState());
+            playbackStateChanged(playbackState,
+                    localMusicFragmentBinding.playBtn);
+        }
+
+        @Override
+        public void onSessionEvent(String event, Bundle extras) {
+            super.onSessionEvent(event, extras);
+        }
+    }
+
+    private void initView() {
+
+        //localMusicFragmentBinding.activityMainUiRoot.setOnApplyWindowInsetsListener(this);
+
+
+        super.initAnimation(localMusicFragmentBinding.imageViewPlaying);
+
+        // 设置文字自动滚动
+        localMusicFragmentBinding.songName.setSingleLine(true);
+        localMusicFragmentBinding.songName.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+        localMusicFragmentBinding.songName.setMarqueeRepeatLimit(-1);
+        localMusicFragmentBinding.songName.setSelected(true);
+
+        // 播放按键
+        localMusicFragmentBinding.imageViewPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Animation animation = AnimationUtils.loadAnimation(LocalActivity.this, R.anim.alpha);
+                localMusicFragmentBinding.imageViewPlay.startAnimation(animation);
+                mMusicViewModel.playbackButton();
+
+            }
+        });
+
+        // 下一首按键
+        localMusicFragmentBinding.imageViewNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Animation animation = AnimationUtils.loadAnimation(LocalActivity.this, R.anim.alpha);
+                localMusicFragmentBinding.imageViewNext.startAnimation(animation);
+                mMusicViewModel.skipToNextPlayBack();
+            }
+        });
+
+        // 队列按键
+        localMusicFragmentBinding.imageViewList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Animation animation = AnimationUtils.loadAnimation(LocalActivity.this, R.anim.alpha);
+                localMusicFragmentBinding.imageViewList.startAnimation(animation);
+            }
+        });
+
+
+
     }
 }
 

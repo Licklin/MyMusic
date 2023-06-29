@@ -130,13 +130,11 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/mylike_panel"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="80dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginHorizontal="15dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="19dp"
+            android:layout_margin="10dp"
+            android:id="@+id/controller"
             android:background="@drawable/desktop_item"
             android:orientation="horizontal">
 
@@ -149,10 +147,10 @@
 
                 <ImageView
                     android:id="@+id/image_view_playing"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:layout_gravity="center"
-                    android:background="@drawable/pq_cover" />
+                    android:src="@{localInfo.record,default=@drawable/default_record}" />
             </LinearLayout>
 
             <LinearLayout
@@ -166,6 +164,7 @@
                     android:id="@+id/song_Name"
                     android:layout_width="170dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
                     android:ellipsize="marquee"
                     android:focusable="true"
                     android:focusableInTouchMode="true"
@@ -189,6 +188,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginTop="2dp"
                 android:layout_weight="1"
                 android:gravity="center">
 
@@ -204,6 +204,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginTop="2dp"
                 android:layout_weight="1"
                 android:gravity="center">
 
@@ -220,6 +221,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginTop="2dp"
                 android:layout_weight="1"
                 android:gravity="center">
 
@@ -228,6 +230,7 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_gravity="center"
+                    android:layout_marginRight="10dp"
                     android:background="@drawable/pq_list" />
             </LinearLayout>
 
