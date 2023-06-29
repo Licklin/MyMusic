@@ -152,7 +152,7 @@ public class MyTest extends BaseActivity<MusicViewModel>{
     }
 
     private void initView() {
-        mMusicBinding.musicActivityUiRoot.setOnApplyWindowInsetsListener(this);
+//        mMusicBinding.musicActivityUiRoot.setOnApplyWindowInsetsListener(this);
 
         mMusicBinding.musicActivityIvReturn.setOnClickListener(v -> returnClick());
 
@@ -164,6 +164,7 @@ public class MyTest extends BaseActivity<MusicViewModel>{
 
         //初始化唱片旋转动画
         super.initAnimation(mMusicBinding.mainActivityBottomIvAlbum);
+
         //初始化RecyclerView
         mMusicBinding.musicActivityRvMusic.setLayoutManager(new LinearLayoutManager(getApplication()));
         mMusicAdapter = new MusicAdapter(getApplication());
@@ -171,6 +172,7 @@ public class MyTest extends BaseActivity<MusicViewModel>{
         mMusicBinding.musicActivityRvMusic.setAdapter(mMusicAdapter);
         mItemClickListener = new MyAdapterItemClickListener();
         mMusicAdapter.setItemClickListener(mItemClickListener);
+
         //设置深色模式适配的颜色
         int color = super.getViewColor();
         mMusicBinding.mainActivityBottomIvList.getDrawable().setTint(color);
