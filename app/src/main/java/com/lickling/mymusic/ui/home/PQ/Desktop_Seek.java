@@ -25,6 +25,7 @@ import com.lickling.mymusic.R;
 import com.lickling.mymusic.ui.load.ListAdapter2;
 import com.lickling.mymusic.ui.load.MulOperationPopup2;
 import com.lickling.mymusic.ui.load.SongOperationPopup2;
+import com.lickling.mymusic.utilty.ImmersiveStatusBarUtil;
 
 import org.json.JSONArray;
 
@@ -72,11 +73,7 @@ public class Desktop_Seek extends AppCompatActivity implements SongOperationPopu
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.desktop_seek);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Window window = getWindow();
-            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-            window.setStatusBarColor(Color.TRANSPARENT);
-        }
+        ImmersiveStatusBarUtil.transparentBar(this,false);
 
         // 返回按键
         ImageView imageview_back = findViewById(R.id.imageview_back);

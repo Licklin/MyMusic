@@ -143,7 +143,7 @@ public class OurMusicService extends BaseMusicService {
 
         new MusicModel().getLocalMusicMetadata(musicMaps -> {
             musicList = musicMaps;
-            result.sendResult(getMediaItems(musicMaps));
+            result.sendResult(getMediaItems(musicMaps)); // 把歌曲信息从map里取出放到list里面，getMediaItems返回一个List
         }, getContentResolver());
 
         super.setMediaController(mediaSession.getController());

@@ -1,4 +1,4 @@
-package com.lickling.mymusic.bean.musicBean;
+package com.lickling.mymusic.bean;
 
 import com.orm.SugarRecord;
 import com.orm.dsl.Table;
@@ -6,8 +6,9 @@ import com.orm.dsl.Table;
 /**
  * 作用: 抽象一首歌曲，用于展示或者设置其信息
  */
-public class MusicBean  {
-    private String id;
+@Table
+public class LastMusicBean extends SugarRecord {
+    private String musicId;
     private String title;
     private String artist;
     private String album;
@@ -15,8 +16,8 @@ public class MusicBean  {
     private String path;
     private long duration;
 
-    public MusicBean(String id, String title, String artist, String album, String albumPath, String path, long duration) {
-        this.id = id;
+    public LastMusicBean(String id, String title, String artist, String album, String albumPath, String path, long duration) {
+        this.musicId = id;
         this.title = title;
         this.artist = artist;
         this.album = album;
@@ -25,12 +26,12 @@ public class MusicBean  {
         this.duration = duration;
     }
 
-    public String getId() {
-        return id;
+    public String getMusicId() {
+        return musicId;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.musicId = id;
     }
 
     public String getTitle() {

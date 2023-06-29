@@ -4,6 +4,7 @@ package com.lickling.mymusic.model;
 import android.content.ContentResolver;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.MediaMetadataCompat;
 
 
@@ -34,4 +35,6 @@ public interface OnlineMusicModel {
     interface OnOnlinePictureListener{
         void OnComplete(WeakReference<Bitmap> bitmap);
     }
+
+    MediaBrowserCompat.MediaItem getSearchSong(String key);
 }
