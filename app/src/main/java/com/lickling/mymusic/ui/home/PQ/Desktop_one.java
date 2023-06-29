@@ -98,7 +98,7 @@ public class Desktop_one extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-//        recyclerView = getActivity().findViewById(R.id.recycler_view4);
+       // recyclerView = getActivity().findViewById(R.id.recycler_view4);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 

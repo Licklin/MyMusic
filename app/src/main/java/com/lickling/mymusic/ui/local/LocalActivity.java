@@ -47,7 +47,10 @@ public class LocalActivity extends AppCompatActivity implements SongOperationPop
     private Button multi_choice_btn;
     private TextView checked_item_info;
     private SearchView search_bar;
-    private MylikeFragmentBinding mylikeFragmentBinding;
+
+
+
+    //private  mylikeFragmentBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

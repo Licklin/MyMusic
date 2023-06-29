@@ -45,9 +45,10 @@ public class Register extends AppCompatActivity {
         page_head.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setClass(Register.this, LoginWangyi.class);
-                startActivity(intent);
+//                Intent intent = new Intent();
+//                intent.setClass(Register.this, LoginWangyi.class);
+//                startActivity(intent);
+                finish();
             }
         });
     }
