@@ -191,6 +191,7 @@ public class SettingHomeActivity extends AppCompatActivity  {
                 showEditDialog("账号注销", user.getOurUserName());
             }
         });
+
         cacheLimit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -368,6 +369,7 @@ public class SettingHomeActivity extends AppCompatActivity  {
         Button btn_cancel = dialogView.findViewById(R.id.btn_cancel);
         mTitle.setText(title);
         mSubtitle.setText(subtitle);
+
         if (subtitle.equals(""))
             mSubtitle.setVisibility(View.GONE);
         btn_ok.setOnClickListener(new View.OnClickListener() {
@@ -377,7 +379,10 @@ public class SettingHomeActivity extends AppCompatActivity  {
                 Toast.makeText(SettingHomeActivity.this, "成功", Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
             }
-        });
+        }
+
+
+        );
 
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -394,6 +399,7 @@ public class SettingHomeActivity extends AppCompatActivity  {
         });
 
         dialog.show();
+
     }
 
 }

@@ -11,10 +11,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.HashMap;
 
-/**
- * author: yan
- * date: 2022.02.17
- * **/
 public class UserDao {
 
     private static final String TAG = "mysql-party-UserDao";
@@ -158,6 +154,42 @@ public class UserDao {
             return null;
         }
         return user;
+    }
+
+    /**
+     * function: 根据账号进行删除用户
+     * */
+    public boolean deleteUser(String userAccount) {
+
+        // 根据数据库名称，建立连接
+        Connection connection = JDBCUtils.getConn();
+
+        try {
+            String sql = "delete from music_user where userAccount = ?";
+            if (connection != null){
+                PreparedStatement ps = connection.prepareStatement(sql);
+                if (ps != null) {
+
+                    // 设置查询参数
+                    ps.setString(1, userAccount);
+
+                    // 执行删除操作并返回结果
+                    int rs = ps.executeUpdate();
+                    if (rs > 0)
+                        return true;
+                    else
+                        return false;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e(TAG, "异常deleteUser：" + e.getMessage());
+            return false;
+        }
     }
 
 }

@@ -110,7 +110,7 @@ public class LoginWangyi extends AppCompatActivity {
             public void onFocusChange(View v, boolean hasFocus) {
                 // 如果 newPassWordEdit1 获得了焦点，则将下划线颜色设置为红色
                 if (hasFocus) {
-                    code.getBackground().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.wy_red), PorterDuff.Mode.SRC_IN);
+                    code.getBackground().setColorFilter(ContextCompat.getColor(getApplicationContext(),R.color.wy_red), PorterDuff.Mode.SRC_IN);
                 }
                 // 如果 newPassWordEdit1 失去了焦点，则将下划线颜色恢复默认颜色
                 else {
@@ -258,7 +258,7 @@ public class LoginWangyi extends AppCompatActivity {
                             }
                         });
                     }
-                }, 3000); // 3秒后执行定时器任务
+                }, 200); // 3秒后执行定时器任务
                 Intent intent = new Intent();
                 intent.setClass(LoginWangyi.this, Register.class);
                 startActivity(intent);
@@ -325,4 +325,15 @@ public class LoginWangyi extends AppCompatActivity {
             }
         }
     };
+
+//    public void logout() {
+//        // 删除用户在数据库中的信息
+//        UserDao userDao = new UserDao();
+//        userDao.deleteUser(user.getOurUserID());
+//
+//        // 返回到登录界面
+//        Intent intent = new Intent(UserActivity.this, LoginActivity.class);
+//        startActivity(intent);
+//        finish();
+//    }
 }
