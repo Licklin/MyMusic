@@ -107,8 +107,7 @@ public class Register extends AppCompatActivity {
                 //将想要传递的数据用putExtra封装在intent中
                 intent.putExtra("a","注册");
                 setResult(RESULT_CANCELED,intent);
-                intent.setClass(Register.this,LoginWangyi.class);
-                startActivity(intent);
+                finish();
             }
         }
     };

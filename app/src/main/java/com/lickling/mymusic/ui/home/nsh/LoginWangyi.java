@@ -197,15 +197,47 @@ public class LoginWangyi extends AppCompatActivity {
             public void onClick(View view) {
                 Animation animation = AnimationUtils.loadAnimation(LoginWangyi.this, R.anim.alpha);
                 register_buttom.startAnimation(animation);
+
+                String text = register_buttom.getText().toString();
+                // 创建 SpannableString 对象
+                SpannableString spannableString = new SpannableString(text);
+
+                // 设置下划线
+                spannableString.setSpan(new UnderlineSpan(), 0, text.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+
+                // 设置高亮
+                spannableString.setSpan(new BackgroundColorSpan(getColor(R.color.tianlan)), 0, text.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+
+                // 将修改后的 SpannableString 对象设置给 TextView 控件
+                register_buttom.setText(spannableString);
+                // 定时器，3秒后将下划线和高亮样式移除
+                new Timer().schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        // 创建一个新的 SpannableString 对象
+                        SpannableString newSpannableString = new SpannableString(text);
+
+                        // 移除下划线和高亮样式
+                        newSpannableString.removeSpan(new UnderlineSpan());
+                        newSpannableString.removeSpan(new BackgroundColorSpan(Color.YELLOW));
+
+                        // 将修改后的 SpannableString 对象重新设置给 TextView 控件
+                        register_buttom.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                register_buttom.setText(newSpannableString);
+                            }
+                        });
+                    }
+                }, 3000); // 3秒后执行定时器任务
                 Intent intent = new Intent();
                 intent.setClass(LoginWangyi.this,Register.class);
                 startActivity(intent);
             }
         });
-
-
     }
     //登录验证
+
     public void login(View view){
 
         EditText EditTextAccount = findViewById(R.id.account);
@@ -240,6 +272,4 @@ public class LoginWangyi extends AppCompatActivity {
             }
         }
     };
-
-
 }
