@@ -3,7 +3,6 @@ package com.lickling.mymusic.ui.home.nsh;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
-import androidx.databinding.DataBindingUtil;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -20,7 +19,6 @@ import android.os.Message;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
-import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ClickableSpan;
