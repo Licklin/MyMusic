@@ -1,11 +1,14 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <!--数据-->
     <data>
 
         <variable
-            name="LocalMusicInfo"
-            type="com.lickling.mymusic.bean.musicBean.MusicBean" />
+            name="localInfo"
+            type="com.lickling.mymusic.viewmodel.MusicViewModel" />
+
     </data>
 
     <RelativeLayout
@@ -86,7 +89,7 @@
                             android:id="@+id/title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text='@{LocalMusicInfo.title}'
+                            android:text="歌曲名"
                             android:textColor="@android:color/black"
                             android:textSize="16sp" />
 
@@ -103,7 +106,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="20dp"
-                            android:text='@{LocalMusicInfo.artist+" - "+LocalMusicInfo.album}'
+                            android:text="歌手"
                             android:textColor="@android:color/darker_gray"
                             android:textSize="12sp" />
 
@@ -140,7 +143,5 @@
             </LinearLayout>
 
         </RelativeLayout>
-
-
     </RelativeLayout>
 </layout>
