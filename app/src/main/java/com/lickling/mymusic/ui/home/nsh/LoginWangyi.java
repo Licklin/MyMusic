@@ -6,8 +6,10 @@ import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Build;
@@ -17,7 +19,6 @@ import android.os.Message;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
-import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ClickableSpan;
@@ -33,31 +34,59 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lickling.mymusic.R;
+import com.lickling.mymusic.bean.User;
+import com.lickling.mymusic.model.MainModel;
 import com.lickling.mymusic.ui.home.MainActivity;
 import com.lickling.mymusic.ui.home.nsh.dao.UserDao;
+import com.lickling.mymusic.utilty.ImmersiveStatusBarUtil;
+import com.lickling.mymusic.viewmodel.MusicViewModel;
+import com.lickling.mymusic.viewmodel.UserViewModel;
+import com.orm.SugarContext;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class LoginWangyi extends AppCompatActivity {
     private Toolbar toolbar;
+    private User user;
+    private MainModel mainModel;
+    private EditText EditTextAccount;
+    private EditText EditTextPassword;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.loginwangyi);
-    //输入光标
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Window window = getWindow();
-            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-            window.setStatusBarColor(Color.TRANSPARENT);
-        }
+        ImmersiveStatusBarUtil.transparentBar(this, false);
+        //输入光标
+
+        // 获取 SharedPreferences 对象
+        SharedPreferences prefs = getSharedPreferences("userId", Context.MODE_PRIVATE);
+
+        long saveKeyOfUser = prefs.getLong("saveKeyOfUser", -1);
+        long saveKeyOfSetting = prefs.getLong("saveKeyOfSetting", -1);
+
+        SugarContext.init(this);
+
+        mainModel = new MainModel(saveKeyOfUser, saveKeyOfSetting);
+        user = mainModel.getUser();
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putLong("saveKeyOfUser", mainModel.getUserSaveID());
+        editor.putLong("saveKeyOfSetting", mainModel.getSettingInfoSaveID());
+        editor.apply();
+        EditTextAccount = findViewById(R.id.account);
+        EditTextPassword = findViewById(R.id.password);
+        EditTextAccount.setText(user.getOurUserID());
+        EditTextPassword.setText(user.getOurUserPWD());
+        login();
         toolbar = findViewById(R.id.wangyi);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Animation animation = AnimationUtils.loadAnimation(LoginWangyi.this, R.anim.alpha);
                 toolbar.startAnimation(animation);
-                finish();}
+                finish();
+            }
         });
         TextView account = findViewById(R.id.account);
         EditText code = findViewById(R.id.password);
@@ -126,7 +155,7 @@ public class LoginWangyi extends AppCompatActivity {
         register.setMovementMethod(LinkMovementMethod.getInstance());
         register.setHighlightColor(Color.TRANSPARENT);
 
-    //忘记密码
+        //忘记密码
         TextView forgetcode = findViewById(R.id.forgetcode);
         forgetcode.setClickable(true);
         // 设置点击事件监听器
@@ -136,7 +165,7 @@ public class LoginWangyi extends AppCompatActivity {
                 // 获取 TextView 中的文字
                 String text = forgetcode.getText().toString();
 
-                AlertDialog.Builder builder =new AlertDialog.Builder(LoginWangyi.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(LoginWangyi.this);
                 builder.setIcon(R.drawable.baseline_lightbulb_24);
                 builder.setTitle("功能待完善");
                 builder.setMessage("敬请期待");
@@ -191,21 +220,60 @@ public class LoginWangyi extends AppCompatActivity {
         });
 
 //注册按钮跳转注册界面
-        TextView register_buttom =(TextView) findViewById(R.id.register);
+        TextView register_buttom = (TextView) findViewById(R.id.register);
         register_buttom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Animation animation = AnimationUtils.loadAnimation(LoginWangyi.this, R.anim.alpha);
                 register_buttom.startAnimation(animation);
+
+                String text = register_buttom.getText().toString();
+                // 创建 SpannableString 对象
+                SpannableString spannableString = new SpannableString(text);
+
+                // 设置下划线
+                spannableString.setSpan(new UnderlineSpan(), 0, text.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+
+                // 设置高亮
+                spannableString.setSpan(new BackgroundColorSpan(getColor(R.color.tianlan)), 0, text.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+
+                // 将修改后的 SpannableString 对象设置给 TextView 控件
+                register_buttom.setText(spannableString);
+                // 定时器，3秒后将下划线和高亮样式移除
+                new Timer().schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        // 创建一个新的 SpannableString 对象
+                        SpannableString newSpannableString = new SpannableString(text);
+
+                        // 移除下划线和高亮样式
+                        newSpannableString.removeSpan(new UnderlineSpan());
+                        newSpannableString.removeSpan(new BackgroundColorSpan(Color.YELLOW));
+
+                        // 将修改后的 SpannableString 对象重新设置给 TextView 控件
+                        register_buttom.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                register_buttom.setText(newSpannableString);
+                            }
+                        });
+                    }
+                }, 3000); // 3秒后执行定时器任务
                 Intent intent = new Intent();
-                intent.setClass(LoginWangyi.this,Register.class);
+                intent.setClass(LoginWangyi.this, Register.class);
                 startActivity(intent);
             }
         });
-
-
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SugarContext.terminate();
+    }
+
     //登录验证
+
     public void login(View view){
 
         EditText EditTextAccount = findViewById(R.id.account);
@@ -215,7 +283,19 @@ public class LoginWangyi extends AppCompatActivity {
             @Override
             public void run() {
                 UserDao userDao = new UserDao();
-                int msg = userDao.login(EditTextAccount.getText().toString(),EditTextPassword.getText().toString());
+                int msg = userDao.login(EditTextAccount.getText().toString(), EditTextPassword.getText().toString());
+                hand1.sendEmptyMessage(msg);
+            }
+        }.start();
+
+    }
+
+    public void login() {
+        new Thread() {
+            @Override
+            public void run() {
+                UserDao userDao = new UserDao();
+                int msg = userDao.login(EditTextAccount.getText().toString(), EditTextPassword.getText().toString());
                 hand1.sendEmptyMessage(msg);
             }
         }.start();
@@ -226,20 +306,23 @@ public class LoginWangyi extends AppCompatActivity {
     final Handler hand1 = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            if (msg.what == 0){
+            if (msg.what == 0) {
                 Toast.makeText(getApplicationContext(), "登录失败", Toast.LENGTH_LONG).show();
             } else if (msg.what == 1) {
                 Toast.makeText(getApplicationContext(), "登录成功", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent();
-                intent.setClass(LoginWangyi.this,MainActivity.class);
+                intent.setClass(LoginWangyi.this, MainActivity.class);
+                user.setOurUserID(EditTextAccount.getText().toString());
+                user.setOurUserName("");
+                user.setOurUserPWD(EditTextPassword.getText().toString());
+                user.save();
+                mainModel.saveLogin(user);
                 startActivity(intent);
-            } else if (msg.what == 2){
+            } else if (msg.what == 2) {
                 Toast.makeText(getApplicationContext(), "密码错误", Toast.LENGTH_LONG).show();
-            } else if (msg.what == 3){
+            } else if (msg.what == 3) {
                 Toast.makeText(getApplicationContext(), "账号不存在", Toast.LENGTH_LONG).show();
             }
         }
     };
-
-
 }

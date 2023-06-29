@@ -40,7 +40,6 @@
             android:layout_marginRight="10dp"
             android:backgroundTint="@color/hint_text"
             android:cursorVisible="true"
-            android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@_#*"
             android:hint="用户名"
             android:inputType="text"
             android:maxLength="16"

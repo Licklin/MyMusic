@@ -109,6 +109,7 @@ public class MainActivity extends BaseActivity<MusicViewModel> {
         initView();
         mIntentMusic = new Intent(this, OurMusicService.class);
         this.startService(mIntentMusic);
+
     }
 
     @Override
