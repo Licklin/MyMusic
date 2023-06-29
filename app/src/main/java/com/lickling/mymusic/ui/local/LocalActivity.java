@@ -81,6 +81,7 @@ public class LocalActivity extends BaseActivity<MusicViewModel> implements SongO
     private MusicViewModel mMusicViewModel;
 
     private ListAdapter listAdapter;
+    private MusicAdapter musicAdapter;
     private MyAdapterItemClickListener mItemClickListener;
 
     private Intent mIntentMusic;
@@ -536,13 +537,16 @@ public class LocalActivity extends BaseActivity<MusicViewModel> implements SongO
                                      @NonNull List<MediaBrowserCompat.MediaItem> children) {
             super.onChildrenLoaded(parentId, children);
 
+
+            Log.d(TAG, "onChildrenLoaded: MyMusic");
+
+            musicAdapter.setItems(children);
+
+
+//            activityOnChildrenLoad(mMusicViewModel, mMusicBinding.mainActivityIvPlayLoading, children);
             activityOnChildrenLoad(mMusicViewModel, localMusicFragmentBinding.imageViewPlaying, children);
 
-            mMusicViewModel.setPhoneRefresh(mRefreshRateMax);
-            //！！！少更新样式状态
-            mMusicViewModel.setCustomStyle(MediaControllerCompat.getMediaController(LocalActivity.this)
-                    .getMetadata().getLong(BaseMusicService.MyMusic_NOTIFICATION_STYLE) == 0
-            );
+
         }
 
         @Override
@@ -582,11 +586,13 @@ public class LocalActivity extends BaseActivity<MusicViewModel> implements SongO
 
         //初始化RecyclerView
         localMusicFragmentBinding.recyclerView.setLayoutManager(new LinearLayoutManager(getApplication()));
+
         listAdapter = new ListAdapter(getApplication());
+        musicAdapter = new MusicAdapter(getApplication());
 
-        localMusicFragmentBinding.recyclerView.setAdapter(listAdapter);
+        localMusicFragmentBinding.recyclerView.setAdapter(musicAdapter);
+
         mItemClickListener = new MyAdapterItemClickListener();
-
         listAdapter.setItemClickListener(mItemClickListener);
 
         //初始化唱片旋转动画

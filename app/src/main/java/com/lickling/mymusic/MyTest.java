@@ -37,6 +37,7 @@ public class MyTest extends BaseActivity<MusicViewModel>{
     private MusicViewModel mMusicViewModel;
     private MusicAdapter mMusicAdapter;
     private MyAdapterItemClickListener mItemClickListener;
+
     private Intent mIntentMusic;
 
     private Timer mTimer;
@@ -168,8 +169,8 @@ public class MyTest extends BaseActivity<MusicViewModel>{
         //初始化RecyclerView
         mMusicBinding.musicActivityRvMusic.setLayoutManager(new LinearLayoutManager(getApplication()));
         mMusicAdapter = new MusicAdapter(getApplication());
-
         mMusicBinding.musicActivityRvMusic.setAdapter(mMusicAdapter);
+
         mItemClickListener = new MyAdapterItemClickListener();
         mMusicAdapter.setItemClickListener(mItemClickListener);
 

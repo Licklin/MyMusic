@@ -1,7 +1,6 @@
 package com.lickling.mymusic.adapter;
 
 import android.app.Application;
-import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.MediaBrowserCompat.MediaItem;
 import android.text.TextUtils;
 import android.util.Log;
@@ -13,6 +12,7 @@ import com.lickling.mymusic.R;
 import com.lickling.mymusic.bean.musicBean.MusicBean;
 import com.lickling.mymusic.databinding.ItemMusicListBinding;
 import com.lickling.mymusic.databinding.LocalSongListItemBinding;
+
 
 import java.util.Objects;
 
@@ -56,6 +56,7 @@ public  class MusicAdapter extends BaseBindingAdapter<MediaItem, ItemMusicListBi
         if (mItemClickListener == null) return;
         binding.itemMusicListLayout.setOnClickListener(v -> mItemClickListener.ItemClickListener(this,position));
         binding.itemLocalMusicMore.setOnClickListener(v -> mItemClickListener.ItemMoreClickListener(v,position));
+        Log.e(TAG,"onBindItem");
     }
 
 
