@@ -2,6 +2,9 @@ package com.lickling.mymusic.service;
 
 import android.content.Intent;
 import android.media.AudioManager;
+import android.media.MediaDescription;
+import android.media.MediaMetadata;
+import android.media.session.MediaSession;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.media.MediaBrowserCompat;
@@ -18,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.media.MediaBrowserServiceCompat;
 
+import com.lickling.mymusic.bean.musicBean.MusicBean;
 import com.lickling.mymusic.model.LocalMusicModel;
 import com.lickling.mymusic.model.MusicModel;
 import com.lickling.mymusic.service.manager.LastMetaManager;
@@ -141,6 +145,7 @@ public class OurMusicService extends BaseMusicService {
             musicList = musicMaps;
             result.sendResult(getMediaItems(musicMaps));
         }, getContentResolver());
+
         super.setMediaController(mediaSession.getController());
     }
 
@@ -597,4 +602,35 @@ public class OurMusicService extends BaseMusicService {
         mediaPlayerManager.setVolume(level);
     }
 
+    public void setPlayList(List<MusicBean> playList) {
+        List<MediaSessionCompat.QueueItem> queueItemList = new ArrayList<>();
+        for (MusicBean music : playList) {
+            MediaMetadataCompat metadata = new MediaMetadataCompat.Builder()
+                    .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, music.getId())
+                    .putString(MediaMetadataCompat.METADATA_KEY_TITLE, music.getTitle())
+                    .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, music.getArtist())
+                    .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, music.getAlbum())
+                    .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, music.getDuration())
+                    .putString(MediaMetadataCompat.METADATA_KEY_GENRE, "")
+                    .putString(
+                            MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, music.getPath())
+                    .putString(
+                            MediaMetadataCompat.METADATA_KEY_DISPLAY_ICON_URI, music.getPath())
+                    .putString(
+                            MediaMetadataCompat.METADATA_KEY_MEDIA_URI, music.getPath())
+
+                    .build();
+            MediaDescriptionCompat description = new MediaDescriptionCompat.Builder()
+                    .setTitle(music.getTitle())
+                    .setSubtitle(music.getArtist())
+                    .setDescription(music.getAlbum())
+                    .setIconUri(Uri.parse(music.getAlbumPath()))
+                    .setMediaId(music.getId())
+                    .build();
+            MediaSessionCompat.QueueItem item = new MediaSessionCompat.QueueItem(description, description.hashCode());
+            queueItemList.add(item);
+            
+        }
+        mediaSession.setQueue(queueItemList);
+    }
 }

@@ -46,6 +46,7 @@ public class NetEaseAPIUnitTest_useCookies {
                         set_uid(result.getUserId());
                         System.out.println(result);
                         System.out.println(result.getUserId());
+                        System.out.println(result);
                     }
                 }, client.defErrorHandler());
 

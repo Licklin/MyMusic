@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import com.lickling.mymusic.R;
 import com.lickling.mymusic.databinding.FragmentDesktopFourBinding;
 import com.lickling.mymusic.ui.load.LoadActivity;
+import com.lickling.mymusic.ui.local.LocalActivity;
 import com.lickling.mymusic.ui.setting.home.SettingHomeActivity;
 import com.lickling.mymusic.viewmodel.UserViewModel;
 
@@ -100,7 +101,7 @@ public class UserFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                startActivity(new Intent(getActivity(), LoadActivity.class));
+                startActivity(new Intent(getActivity(), LocalActivity.class));
             }
         });
         desktopFourBinding.downLoad.setOnClickListener(new View.OnClickListener() {

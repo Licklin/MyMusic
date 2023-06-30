@@ -94,8 +94,33 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.load.LoadActivity"
-            android:exported="false" />
+            android:name=".ui.local.LocalActivity"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="stateHidden" >
+            <intent-filter>
+                <action android:name="musicList" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.local.LocalActivity"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="stateHidden" >
+            <intent-filter>
+                <action android:name="musicList" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.myLike.MyLikeActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".ui.songSheet.SongSheetActivity"
+            android:exported="false"/>
     </application>
 
 </manifest>

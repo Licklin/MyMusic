@@ -13,7 +13,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/music_activity_ui_root">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -70,7 +71,7 @@
                     android:layout_toRightOf="@+id/all_choice_btn"
                     android:gravity="center"
                     android:text="已选0首"
-                    android:visibility="gone"></TextView>
+                    android:visibility="gone"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -79,14 +80,14 @@
                     android:layout_marginRight="5dp"
                     android:layout_toLeftOf="@id/multi_choice_btn">
 
-                    <SearchView
-                        android:id="@+id/search_bar"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:iconifiedByDefault="true"
-                        android:queryBackground="@drawable/load_search_bar"
-                        android:queryHint="搜索此歌单的歌曲"
-                        app:showAsAction="collapseActionView|ifRoom"></SearchView>
+<!--                    <SearchView-->
+<!--                        android:id="@+id/search_bar"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:iconifiedByDefault="true"-->
+<!--                        android:queryBackground="@drawable/load_search_bar"-->
+<!--                        android:queryHint="搜索此歌单的歌曲"-->
+<!--                        app:showAsAction="collapseActionView|ifRoom"/>-->
 
                 </LinearLayout>
 
@@ -116,7 +117,7 @@
                     android:text="取消"
                     android:textSize="15sp"
                     android:textStyle="bold"
-                    android:visibility="gone"></Button>
+                    android:visibility="gone"/>
 
             </RelativeLayout>
 
@@ -125,18 +126,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:scrollbars="vertical" />
+                tools:listitem="@layout/local_song_list_item" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/mylike_panel"
+            android:id="@+id/controller"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="80dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginHorizontal="15dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="19dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/desktop_item"
             android:orientation="horizontal">
 
@@ -149,10 +151,10 @@
 
                 <ImageView
                     android:id="@+id/image_view_playing"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:layout_gravity="center"
-                    android:background="@drawable/pq_cover" />
+                    android:src="@{localInfo.record,default=@drawable/default_record}" />
             </LinearLayout>
 
             <LinearLayout
@@ -166,6 +168,7 @@
                     android:id="@+id/song_Name"
                     android:layout_width="170dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
                     android:ellipsize="marquee"
                     android:focusable="true"
                     android:focusableInTouchMode="true"
@@ -189,6 +192,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginTop="2dp"
                 android:layout_weight="1"
                 android:gravity="center">
 
@@ -204,6 +208,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginTop="2dp"
                 android:layout_weight="1"
                 android:gravity="center">
 
@@ -220,6 +225,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginTop="2dp"
                 android:layout_weight="1"
                 android:gravity="center">
 
@@ -228,6 +234,7 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_gravity="center"
+                    android:layout_marginRight="10dp"
                     android:background="@drawable/pq_list" />
             </LinearLayout>
 

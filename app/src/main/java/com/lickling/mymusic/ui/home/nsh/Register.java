@@ -2,9 +2,11 @@ package com.lickling.mymusic.ui.home.nsh;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lickling.mymusic.R;
@@ -29,6 +32,8 @@ public class Register extends AppCompatActivity {
 
     RadioGroup sex = null;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,15 +44,61 @@ public class Register extends AppCompatActivity {
         userName = findViewById(R.id.username);
         sex=(RadioGroup) findViewById(R.id.radioGroup);
 
+        EditText username = findViewById(R.id.username);
+        EditText account = findViewById(R.id.account);
+        EditText password = findViewById(R.id.password);
+
+        username.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                // 如果 oldPassWordEdit 获得了焦点，则将下划线颜色设置为红色
+                if (hasFocus) {
+                    username.getBackground().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.our_orange), PorterDuff.Mode.SRC_IN);
+                }
+                // 如果 oldPassWordEdit 失去了焦点，则将下划线颜色恢复默认颜色
+                else {
+                    username.getBackground().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.hint_text), PorterDuff.Mode.SRC_IN);
+                }
+            }
+        });
+        account.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                // 如果 oldPassWordEdit 获得了焦点，则将下划线颜色设置为红色
+                if (hasFocus) {
+                    account.getBackground().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.our_orange), PorterDuff.Mode.SRC_IN);
+                }
+                // 如果 oldPassWordEdit 失去了焦点，则将下划线颜色恢复默认颜色
+                else {
+                    account.getBackground().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.hint_text), PorterDuff.Mode.SRC_IN);
+                }
+            }
+        });
+
+        password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                // 如果 oldPassWordEdit 获得了焦点，则将下划线颜色设置为红色
+                if (hasFocus) {
+                    password.getBackground().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.our_orange), PorterDuff.Mode.SRC_IN);
+                }
+                // 如果 oldPassWordEdit 失去了焦点，则将下划线颜色恢复默认颜色
+                else {
+                    password.getBackground().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.hint_text), PorterDuff.Mode.SRC_IN);
+                }
+            }
+        });
+
 
         //返回登录界面
         page_head = findViewById(R.id.register_page);
         page_head.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setClass(Register.this, LoginWangyi.class);
-                startActivity(intent);
+//                Intent intent = new Intent();
+//                intent.setClass(Register.this, LoginWangyi.class);
+//                startActivity(intent);
+                finish();
             }
         });
     }
@@ -107,8 +158,7 @@ public class Register extends AppCompatActivity {
                 //将想要传递的数据用putExtra封装在intent中
                 intent.putExtra("a","注册");
                 setResult(RESULT_CANCELED,intent);
-                intent.setClass(Register.this,LoginWangyi.class);
-                startActivity(intent);
+                finish();
             }
         }
     };

@@ -192,6 +192,7 @@ public class MusicViewModel extends BaseViewModel {
             this.playbackDrawable = R.drawable.iv_main_pause;
             notifyPropertyChanged(BR.playbackResId);
         }
+//        mMediaControllerCompat.a
     }
 
     public void skipToNextPlayBack(){
