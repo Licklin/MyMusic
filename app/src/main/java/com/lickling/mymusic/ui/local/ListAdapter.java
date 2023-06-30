@@ -1,9 +1,11 @@
 package com.lickling.mymusic.ui.local;
 
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
-import android.support.v4.media.MediaBrowserCompat;
+import android.support.v4.media.MediaBrowserCompat.MediaItem;
+import android.util.Log;
 import android.view.View;
 
 
@@ -11,16 +13,14 @@ import androidx.databinding.ObservableArrayList;
 
 import com.lickling.mymusic.R;
 import com.lickling.mymusic.adapter.BaseBindingAdapter;
-import com.lickling.mymusic.adapter.MusicAdapter;
 import com.lickling.mymusic.bean.musicBean.MusicBean;
-import com.lickling.mymusic.databinding.ItemMusicListBinding;
 import com.lickling.mymusic.databinding.LocalSongListItemBinding;
 
 
 import java.util.List;
 import java.util.Objects;
 
-public class ListAdapter extends BaseBindingAdapter<MediaBrowserCompat.MediaItem, LocalSongListItemBinding> {
+public class ListAdapter extends BaseBindingAdapter<MediaItem, LocalSongListItemBinding> {
 
     private List<ListItem> listItems;
     private Context context;
@@ -31,8 +31,8 @@ public class ListAdapter extends BaseBindingAdapter<MediaBrowserCompat.MediaItem
     private OnCheckItemListener checkItemListener;
 
 
-    private static final String TAG = "MusicAdapter";
-    private ObservableArrayList<MediaBrowserCompat.MediaItem> mSearchMediaItems, mSheetMediaItems;
+    private static final String TAG = "ListAdapter";
+    private ObservableArrayList<MediaItem> mSearchMediaItems, mSheetMediaItems;
     private OnItemClickListener mItemClickListener;
 
     public ListAdapter( Application context) {
@@ -50,6 +50,7 @@ public class ListAdapter extends BaseBindingAdapter<MediaBrowserCompat.MediaItem
     public interface OnCheckItemListener {
         void onCheckItem(int position ,boolean tag);
     }
+    @SuppressLint("NotifyDataSetChanged")
     public void setListItems(List<ListItem> Items){
         listItems = Items;
         notifyDataSetChanged();
@@ -75,7 +76,7 @@ public class ListAdapter extends BaseBindingAdapter<MediaBrowserCompat.MediaItem
     }
 
     @Override
-    protected void onBindItem(LocalSongListItemBinding binding, MediaBrowserCompat.MediaItem item, int position) {
+    protected void onBindItem(LocalSongListItemBinding binding, MediaItem item, int position) {
         int number = position;
         String artist = Objects.requireNonNull(item.getDescription().getSubtitle()).toString(),
                 album = Objects.requireNonNull(item.getDescription().getDescription()).toString();
@@ -89,6 +90,7 @@ public class ListAdapter extends BaseBindingAdapter<MediaBrowserCompat.MediaItem
         if (mItemClickListener == null) return;
         binding.playBtn.setOnClickListener(v -> mItemClickListener.ItemClickListener(this,position));
         binding.extendBtn.setOnClickListener(v -> mItemClickListener.ItemMoreClickListener(v,position));
+        Log.e(TAG,"onBindItem");
     }
 
 
@@ -225,7 +227,7 @@ public class ListAdapter extends BaseBindingAdapter<MediaBrowserCompat.MediaItem
         }
     }
 
-    public void setSheetMediaItems(ObservableArrayList<MediaBrowserCompat.MediaItem> sheetMediaItems) {
+    public void setSheetMediaItems(ObservableArrayList<MediaItem> sheetMediaItems) {
         if (sheetMediaItems == null || sheetMediaItems.size() == 0) return;
 
         this.mSheetMediaItems = new ObservableArrayList<>();

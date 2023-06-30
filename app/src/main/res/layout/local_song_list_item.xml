@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--数据-->
@@ -53,7 +54,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@drawable/load_add"
-                    android:visibility="visible"></Button>
+                    android:visibility="visible" />
 
                 <CheckBox
                     android:id="@+id/check_box"
@@ -61,13 +62,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
-                    android:visibility="gone"></CheckBox>
+                    android:visibility="gone" />
 
                 <View
                     android:id="@+id/album_cover"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:background="@drawable/load_album_cover"></View>
+                    android:background="@drawable/load_album_cover" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
