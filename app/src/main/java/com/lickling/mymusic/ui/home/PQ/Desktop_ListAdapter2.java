@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.lickling.mymusic.R;
 
 
+import java.text.BreakIterator;
 import java.util.List;
 
 public class Desktop_ListAdapter2 extends RecyclerView.Adapter<Desktop_ListAdapter2.ViewHolder> {
@@ -42,6 +43,7 @@ public class Desktop_ListAdapter2 extends RecyclerView.Adapter<Desktop_ListAdapt
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Desktop_ListItem2 listItem = Desktop_ListItem2.get(position);
         holder.title.setText(listItem.getTitle());
+        holder.condition.setText(listItem.getCondition());
     }
 
     @Override
@@ -51,7 +53,7 @@ public class Desktop_ListAdapter2 extends RecyclerView.Adapter<Desktop_ListAdapt
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         public TextView title;
-
+        public TextView condition;
         public ImageView pq_head_photo;
         public ImageView pq_watch_count;
         public ImageView pq_collect_count;
@@ -59,11 +61,11 @@ public class Desktop_ListAdapter2 extends RecyclerView.Adapter<Desktop_ListAdapt
         public ImageView pq_upvote_count;
 
 
-
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             title = itemView.findViewById(R.id.title);
+            condition = itemView.findViewById(R.id.condition);
             pq_head_photo = itemView.findViewById(R.id.pq_head_photo);
             pq_watch_count = itemView.findViewById(R.id.pq_watch_count);
             pq_collect_count = itemView.findViewById(R.id.pq_collect_count);

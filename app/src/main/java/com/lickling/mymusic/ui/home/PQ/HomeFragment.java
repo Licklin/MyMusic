@@ -25,6 +25,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.lickling.mymusic.MyTest;
 import com.lickling.mymusic.R;
@@ -111,6 +112,7 @@ public class HomeFragment extends Fragment {
     private int GET_DATA_SUCCESS = 101;
     private String data;
 
+    // 获取子线程的数据，发送给主线程，由主线程更新UI
     private void initData() {
         new Thread(new Runnable() {
             @Override
@@ -134,6 +136,7 @@ public class HomeFragment extends Fragment {
     private Runnable runnable;
     private Handler uhandler;
 
+    // 获取网上的数据
     private String getDataFromServer() {
         try {
             URL url = new URL("https://v1.hitokoto.cn/?c=f&encode=text");
@@ -183,16 +186,14 @@ public class HomeFragment extends Fragment {
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
-                    useHandler2();
+                    useHandler1();
                 }
             }
         }).start();
     }
 
 
-    private void useHandler2(){
-            desktopOneBinding.heart.performClick();
-    }
+
 
 
     @Override
@@ -218,8 +219,10 @@ public class HomeFragment extends Fragment {
         desktopOneBinding.homeRecyclerView.setAdapter(Desktop_ListAdapter);
 
 
+        // 进入主页对自动点击一次，更换心灵鸡汤语句
         initData();
 
+        // 心灵鸡汤语句点击事件，点一下切换一次
         desktopOneBinding.heart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -227,6 +230,9 @@ public class HomeFragment extends Fragment {
             }
         });
 
+
+
+        // 接受子线程返回的数据，由主线程更改UI
         mHandler = new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(@NonNull Message message) {
@@ -275,7 +281,6 @@ public class HomeFragment extends Fragment {
 //        // 创建并启动子线程
 //        Thread thread = new Thread(runnable);
 //        thread.start();
-
 
 
 

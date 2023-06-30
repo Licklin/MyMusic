@@ -20,7 +20,7 @@
         android:fitsSystemWindows="true"
         android:forceDarkAllowed="true"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/app_icon"
+        android:icon="@mipmap/app"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
         android:statusBarColor="@android:color/transparent"
@@ -74,8 +74,9 @@
             android:name=".ui.setting.password.PassWordActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.home.nsh.LoginWangyi"
-            android:exported="false"/>
+            android:name=".ui.home.MainActivity"
+            android:exported="false" />
+
 <!--        <activity-->
 <!--            android:name=".ui.home.MainActivity"-->
 <!--            android:exported="true"-->
@@ -85,7 +86,7 @@
             android:exported="false" />
 <!--        .ui.home.nsh.LoginWangyi-->
         <activity
-            android:name=".ui.home.MainActivity"
+            android:name=".ui.home.nsh.LoginWangyi"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -104,17 +105,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.local.LocalActivity"
-            android:exported="false"
-            android:launchMode="singleTask"
-            android:windowSoftInputMode="stateHidden" >
-            <intent-filter>
-                <action android:name="musicList" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
         <activity
             android:name=".ui.myLike.MyLikeActivity"
             android:exported="false"/>
