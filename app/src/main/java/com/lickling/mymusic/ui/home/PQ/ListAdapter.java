@@ -64,6 +64,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     public interface OnCheckItemListener {
         void onCheckItem(int position ,boolean tag);
     }
+    @SuppressLint("NotifyDataSetChanged")
     public void setListItems(List<MusicBean> Items){
         listItems = Items;
         notifyDataSetChanged();

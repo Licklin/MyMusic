@@ -71,6 +71,7 @@ public abstract class BaseActivity<M extends MusicViewModel> extends AppCompatAc
         super.onStart();
         Log.d(TAG, "onStart: ");
         if (!mMediaBrowser.isConnected()) { mMediaBrowser.connect(); }
+        checkAnimator();
 
     }
 
@@ -259,9 +260,13 @@ public abstract class BaseActivity<M extends MusicViewModel> extends AppCompatAc
                 mRecordAnimator.resume();
                 isLifePauseAnimator = false;
             }else {
-                mRecordAnimator.pause();
+//                Log.e(TAG,"record pause");
+//                mRecordAnimator.pause();
                 isLifePauseAnimator = true;
             }
+        }
+        else {
+            mRecordAnimator.pause();
         }
     }
 

@@ -1,24 +1,21 @@
 package com.lickling.mymusic.ui.home.PQ;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Typeface;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,17 +23,19 @@ import com.lickling.mymusic.R;
 import com.lickling.mymusic.bean.musicBean.MusicBean;
 import com.lickling.mymusic.databinding.DesktopSeekBinding;
 import com.lickling.mymusic.model.MusicModel;
-import com.lickling.mymusic.ui.load.ListAdapter2;
-import com.lickling.mymusic.ui.load.MulOperationPopup2;
-import com.lickling.mymusic.ui.load.SongOperationPopup2;
+import com.lickling.mymusic.network.NetEase.NetEaseApiHandler;
 import com.lickling.mymusic.utilty.ImmersiveStatusBarUtil;
+import com.lickling.mymusic.utilty.MusicInfoConversion;
 
-import org.json.JSONArray;
+import io.reactivex.rxjava3.annotations.NonNull;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Observer;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.functions.Function;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Desktop_Seek extends AppCompatActivity implements SongOperationPopup.OnDeleteItemListener,
         ListAdapter.OnCheckItemListener, MulOperationPopup.OnDeleteMulItemListener {
@@ -70,13 +69,17 @@ public class Desktop_Seek extends AppCompatActivity implements SongOperationPopu
 
     private DesktopSeekBinding desktopSeekBinding;
     private MusicModel musicModel;
+    private List<MusicBean> searchList;
+    private ProgressDialog progressDialog;
+    private NetEaseApiHandler client;
 
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.desktop_seek);
+
+        desktopSeekBinding = DataBindingUtil.setContentView(this, R.layout.desktop_seek);
         ImmersiveStatusBarUtil.transparentBar(this, false);
 
         // 返回按键
@@ -86,7 +89,6 @@ public class Desktop_Seek extends AppCompatActivity implements SongOperationPopu
             public void onClick(View v) {
                 Animation animation = AnimationUtils.loadAnimation(Desktop_Seek.this, R.anim.alpha);
                 imageview_back.startAnimation(animation);
-
                 finish();
             }
         });
@@ -106,17 +108,19 @@ public class Desktop_Seek extends AppCompatActivity implements SongOperationPopu
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        listItems = new ArrayList<>();
-
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("加载中...");
+        client = new NetEaseApiHandler();
 
         dialog = new SongOperationPopup(this);
         dialog.setOnDeleteItemListener(this);
-
-        listAdapter = new ListAdapter(listItems, this);
+        searchList = new ArrayList<>();
+        listAdapter = new ListAdapter(searchList, this);
         listAdapter.setDialog(dialog);
-        listAdapter.setOnCheckItemListener(this);
+        listAdapter.setOnCheckItemListener(Desktop_Seek.this);
+
         recyclerView.setAdapter(listAdapter);
+//        listAdapter.notifyDataSetChanged();
 
         //正在下载列表
         listItems3 = new ArrayList<>();
@@ -129,25 +133,33 @@ public class Desktop_Seek extends AppCompatActivity implements SongOperationPopu
         ImageView imageView = findViewById(R.id.search_btn);
         // 搜索
         imageView.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint({"NotifyDataSetChanged", "CheckResult"})
             @Override
             public void onClick(View view) {
                 Toast.makeText(context, "ok", Toast.LENGTH_SHORT).show();
-//                musicModel.getSearchSong(desktopSeekBinding.searchEdit.getQuery().toString());
+                progressDialog.show();
+//                listAdapter.setListItems(musicModel.getSearchSong(desktopSeekBinding.searchEdit.getQuery().toString()
+//                        ,listAdapter,recyclerView));
+//                recyclerView.setAdapter(listAdapter);
 
-                listAdapter.setListItems(musicModel.getSearchSong("逆战"));
-//                resetSurface();
+                // 获取歌曲ID，歌曲名，歌手
+                client.getCloudSearchSingleSong(desktopSeekBinding.searchEdit.getQuery().toString(), 30, 0)
+                        .subscribe(result -> {
+                            // 代码开始
+                            // 代码, 比如更新ui, 或者打印
 
-                recyclerView.setAdapter(listAdapter);
+                            progressDialog.dismiss();
+                            if (result != null) {
+                                searchList.addAll(MusicInfoConversion.SearchMusicList2MusicBeanList(result.getSongsList()));
+                                listAdapter.setListItems(searchList);
+                                recyclerView.setAdapter(listAdapter);
+                            }
 
-//                recyclerView.notify();
+                            // 代码结束
+                        }, client.defErrorHandler());
+
             }
         });
-//        desktopSeekBinding.searchBtn.setOnClickListener(view -> {
-//            Toast.makeText(context, "ok", Toast.LENGTH_SHORT).show();
-//            musicModel.getSearchSong(desktopSeekBinding.searchEdit.getQuery().toString());
-////            listAdapter.setListItems();
-//
-//        });
 
 
         //播放歌曲
@@ -257,7 +269,7 @@ public class Desktop_Seek extends AppCompatActivity implements SongOperationPopu
             }
         });
 
-        //显示已下载歌曲
+        //显示单曲
         loaded_btn = findViewById(R.id.loaded_btn);
         select_tag1 = findViewById(R.id.select_tag1);
         loaded_btn.setOnClickListener(new View.OnClickListener() {

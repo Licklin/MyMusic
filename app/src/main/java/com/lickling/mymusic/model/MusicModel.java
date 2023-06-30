@@ -15,9 +15,12 @@ import android.support.v4.media.MediaMetadataCompat;
 import android.text.TextUtils;
 import android.util.Log;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.lickling.mymusic.R;
 import com.lickling.mymusic.bean.musicBean.MusicBean;
 import com.lickling.mymusic.network.NetEase.NetEaseApiHandler;
+import com.lickling.mymusic.ui.home.PQ.ListAdapter;
 import com.lickling.mymusic.utilty.MusicInfoConversion;
 import com.lickling.mymusic.utilty.PictureUtil;
 
@@ -252,23 +255,43 @@ public class MusicModel implements LocalMusicModel, OnlineMusicModel {
     }
 
     @SuppressLint("CheckResult")
-    public List<MusicBean> getSearchSong(String key) {
+    public List<MusicBean> getSearchSong(String key, ListAdapter listAdapter, RecyclerView recyclerView) {
         List<MusicBean> musicBeanList = new ArrayList<>();
         // 实例化
         NetEaseApiHandler client = new NetEaseApiHandler();
         // 获取歌曲ID，歌曲名，歌手
         client.getCloudSearchSingleSong(key, 30, 0)
                 .subscribe(result -> {
-                    Log.e(TAG,"5454515");
+                    // 代码开始
+                    // 代码, 比如更新ui, 或者打印
+                    if (result != null) {
+                        musicBeanList.addAll(MusicInfoConversion.SearchMusicList2MusicBeanList(result.getSongsList()));
+                        listAdapter.setListItems(musicBeanList);
+                        recyclerView.setAdapter(listAdapter);
+                    }
+                    // 代码结束
+                }, client.defErrorHandler());
+
+        return musicBeanList;
+    }@SuppressLint("CheckResult")
+    public List<MusicBean> getSearchSong(String key) {
+        List<MusicBean> musicBeanList = new ArrayList<>();
+        // 实例化
+        NetEaseApiHandler client = new NetEaseApiHandler();
+        // 获取歌曲ID，歌曲名，歌手
+        client.getCloudSearchSingleSong(key, 30, 0)
+
+                .subscribe(result -> {
                     // 代码开始
                     // 代码, 比如更新ui, 或者打印
                     if (result != null) {
                         musicBeanList.addAll(MusicInfoConversion.SearchMusicList2MusicBeanList(result.getSongsList()));
                     }
                     // 代码结束
-                }, client.defErrorHandler());
-//          通过歌曲ID获取播放URL
-        return musicBeanList;
+                }, client.defErrorHandler())
 
+        ;
+
+        return musicBeanList;
     }
 }
