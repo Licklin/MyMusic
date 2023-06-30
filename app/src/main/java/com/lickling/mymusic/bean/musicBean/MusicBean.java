@@ -81,7 +81,7 @@ public class MusicBean  {
         this.duration = duration;
     }
 
-    public CharSequence getSubtitle() {
-        return null;
+
+    public String getSubtitle() { return "";
     }
 }

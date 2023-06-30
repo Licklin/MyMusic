@@ -263,7 +263,7 @@ public class MusicModel implements LocalMusicModel, OnlineMusicModel {
                     // 代码开始
                     // 代码, 比如更新ui, 或者打印
                     if (result != null) {
-                        musicBeanList.addAll(MusicInfoConversion.OnlineMusicBean2MediaItem(result.getSongsList()));
+                        musicBeanList.addAll(MusicInfoConversion.SearchMusicList2MusicBeanList(result.getSongsList()));
                     }
                     // 代码结束
                 }, client.defErrorHandler());

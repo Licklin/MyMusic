@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.lickling.mymusic.R;
+import com.lickling.mymusic.bean.musicBean.MusicBean;
 
 
 public class SongOperationPopup extends BottomSheetDialogFragment {
@@ -45,14 +46,14 @@ public class SongOperationPopup extends BottomSheetDialogFragment {
         deleteItemListener = listener;
     }
 
-    public void setData(ListItem item, int selectedItem) {
+    public void setData(MusicBean item, int selectedItem) {
         this.selectedItem = selectedItem;
 
-        this.singer_name = item.getTitle();
+        this.singer_name = item.getArtist();
 
-        this.song_title = item.getSubtitle();
+        this.song_title =  item.getTitle();
 
-        this.singer_info ="歌手："+item.getSubtitle();
+        this.singer_info ="歌手："+item.getArtist();
     }
 
     public SongOperationPopup(Context context, View v, int selectedItem) {

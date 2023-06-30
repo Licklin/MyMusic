@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lickling.mymusic.R;
+import com.lickling.mymusic.bean.musicBean.MusicBean;
 import com.lickling.mymusic.databinding.DesktopSeekBinding;
 import com.lickling.mymusic.model.MusicModel;
 import com.lickling.mymusic.ui.load.ListAdapter2;
@@ -43,7 +44,7 @@ public class Desktop_Seek extends AppCompatActivity implements SongOperationPopu
 
     private RecyclerView recyclerView;
     private ListAdapter listAdapter;
-    private List<ListItem> listItems;
+    private List<MusicBean> listItems;
 
     private ListAdapter3 listAdapter3;
     private List<ListItem3> listItems3;
@@ -107,10 +108,7 @@ public class Desktop_Seek extends AppCompatActivity implements SongOperationPopu
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         listItems = new ArrayList<>();
-        // 在此处添加数据到listItems
-        listItems.add(new ListItem("歌曲11", "歌手21"));
-        listItems.add(new ListItem("歌曲12", "歌手22"));
-        listItems.add(new ListItem("歌曲13", "歌手23"));
+
 
         dialog = new SongOperationPopup(this);
         dialog.setOnDeleteItemListener(this);
@@ -129,12 +127,19 @@ public class Desktop_Seek extends AppCompatActivity implements SongOperationPopu
 
         listAdapter3 = new ListAdapter3(listItems3, this);
         ImageView imageView = findViewById(R.id.search_btn);
+        // 搜索
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(context, "ok", Toast.LENGTH_SHORT).show();
 //                musicModel.getSearchSong(desktopSeekBinding.searchEdit.getQuery().toString());
-                musicModel.getSearchSong("逆战");
+
+                listAdapter.setListItems(musicModel.getSearchSong("逆战"));
+//                resetSurface();
+
+                recyclerView.setAdapter(listAdapter);
+
+//                recyclerView.notify();
             }
         });
 //        desktopSeekBinding.searchBtn.setOnClickListener(view -> {

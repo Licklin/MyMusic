@@ -34,15 +34,15 @@ public class MusicInfoConversion {
         for (CloudSearchSingleSongResponse.Result.Songs i : onlineLists) {
             MusicBean tmp = new MusicBean(i.id, i.name, i.ar.get(0).name, "", "", "", 100000);
 
-            client.getSongUrl(tmp.getId())
-                            .subscribe(result -> {
-                                // 代码开始
-                                // 代码, 比如更新ui, 或者打印
-                                if (result != null) {
-                                    tmp.setPath(result.getSongUrl());
-                                }
-                                // 代码结束
-                            }, client.defErrorHandler());
+//            client.getSongUrl(tmp.getId())
+//                            .subscribe(result -> {
+//                                // 代码开始
+//                                // 代码, 比如更新ui, 或者打印
+//                                if (result != null) {
+//                                    tmp.setPath(result.getSongUrl());
+//                                }
+//                                // 代码结束
+//                            }, client.defErrorHandler());
 
             tmpList.add(tmp);
         }
@@ -57,4 +57,14 @@ public class MusicInfoConversion {
         }
         return tmpList;
     }
+
+    public static List<MusicBean> MyLikeMusicList2MusicBeanList(List<CloudSearchSingleSongResponse.Result.Songs> onlineLists) {
+        List<MusicBean> tmpList = new ArrayList<>();
+        for (CloudSearchSingleSongResponse.Result.Songs i : onlineLists) {
+            tmpList.add(new MusicBean(i.id, i.name, i.ar.get(0).name, "", "", "", 100000));
+        }
+        return tmpList;
+    }
+
+
 }
