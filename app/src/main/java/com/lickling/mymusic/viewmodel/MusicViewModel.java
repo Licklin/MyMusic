@@ -176,11 +176,11 @@ public class MusicViewModel extends BaseViewModel {
         Log.d(TAG, "initView: 点击了播放暂停按钮, 播放状态代码: " + pbState);
         if (pbState == PlaybackStateCompat.STATE_PLAYING) {
             mMediaControllerCompat.getTransportControls().pause();
-            this.playbackDrawable = R.drawable.iv_main_play;
+            this.playbackDrawable = R.drawable.play;
             notifyPropertyChanged(BR.playbackResId);
         } else if (pbState == PlaybackStateCompat.STATE_PAUSED) {
             mMediaControllerCompat.getTransportControls().play();
-            this.playbackDrawable = R.drawable.iv_main_pause;
+            this.playbackDrawable = R.drawable.pq_play;
             notifyPropertyChanged(BR.playbackResId);
         } else {
             //Toast.makeText(this, "进入APP首次播放", Toast.LENGTH_SHORT).show();
@@ -189,10 +189,9 @@ public class MusicViewModel extends BaseViewModel {
                     .getString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI);
             if (path == null || TextUtils.isEmpty(path)) return;
             mMediaControllerCompat.getTransportControls().playFromUri(Uri.parse(path), null);
-            this.playbackDrawable = R.drawable.iv_main_pause;
+            this.playbackDrawable = R.drawable.pq_play;
             notifyPropertyChanged(BR.playbackResId);
         }
-//        mMediaControllerCompat.a
     }
 
     public void skipToNextPlayBack(){

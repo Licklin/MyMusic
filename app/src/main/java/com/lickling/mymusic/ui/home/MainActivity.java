@@ -42,6 +42,7 @@ import com.lickling.mymusic.ui.home.PQ.Desktop_three;
 import com.lickling.mymusic.ui.home.PQ.Desktop_two;
 import com.lickling.mymusic.ui.home.PQ.HomeFragment;
 import com.lickling.mymusic.ui.home.PQ.UserFragment;
+import com.lickling.mymusic.ui.setting.home.SettingHomeActivity;
 import com.lickling.mymusic.ui.songAndLyrics.SongLrcActivity;
 import com.lickling.mymusic.utilty.PermissionUtil;
 import com.lickling.mymusic.utilty.PictureUtil;
@@ -83,20 +84,7 @@ public class MainActivity extends BaseActivity<MusicViewModel> {
         }
         super.onCreate(savedInstanceState);
 
-        // 获取 SharedPreferences 对象
-        SharedPreferences prefs = getSharedPreferences("userId", Context.MODE_PRIVATE);
-
-        long saveKeyOfUser = prefs.getLong("saveKeyOfUser", -1);
-        long saveKeyOfSetting = prefs.getLong("saveKeyOfSetting", -1);
-
-        SugarContext.init(this);
-
-        mainModel = new MainModel(saveKeyOfUser,saveKeyOfSetting);
-
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putLong("saveKeyOfUser", mainModel.getUserSaveID());
-        editor.putLong("saveKeyOfSetting", mainModel.getSettingInfoSaveID());
-        editor.apply();
+        mainModel = new MainModel(this);
 
 //        Toast.makeText(this, mainModel.getSettingInfo().getApiUrl(), Toast.LENGTH_SHORT).show();
         mMainBinding = DataBindingUtil.setContentView(this, R.layout.desktop);

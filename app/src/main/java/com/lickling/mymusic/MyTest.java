@@ -1,11 +1,13 @@
 package com.lickling.mymusic;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.MediaBrowserCompat.MediaItem;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaControllerCompat;
+import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -202,9 +204,23 @@ public class MyTest extends BaseActivity<MusicViewModel>{
             String mediaId = mediaController.getMetadata()
                     .getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID),
                     currentMediaId = adapter.getItems().get(position).getMediaId();
-            if (mediaId.equals(currentMediaId)) {
-                MyTest.this.mMusicViewModel.playbackButton();
-            } else mediaController.getTransportControls().playFromMediaId(currentMediaId, null);
+//adapter.getItems().get(1).getDescription().getMediaUri();
+
+
+//            我的修改
+            for (MediaSessionCompat.QueueItem queueItem : mediaController.getQueue()/* 获取当前播放列表*/) {
+                String id = queueItem.getDescription().getMediaId();
+                if (id != null && id.equals(currentMediaId)) { // 如果点击的歌曲存在与当前播放列表
+                    if (mediaId.equals(currentMediaId)) {
+                        MyTest.this.mMusicViewModel.playbackButton();
+                    } else mediaController.getTransportControls().playFromMediaId(currentMediaId, null);
+                    break;
+                }
+            }
+//            如果点击的歌曲不存在与当前播放列表
+
+//            mediaController.addQueueItem();
+//            mediaController.getTransportControls().playFromUri(Uri.parse(""),null);
 
             Log.d(TAG, "ItemClickListener: 点击了 "+mediaId+", "+currentMediaId);
         }

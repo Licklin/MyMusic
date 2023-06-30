@@ -39,14 +39,14 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lickling.mymusic.R;
-
+import com.lickling.mymusic.bean.musicBean.MusicBean;
 
 
 import java.util.List;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
-    private List<ListItem> listItems;
+    private List<MusicBean> listItems;
     private Context context;
 
     private SongOperationPopup songOperationPopup;
@@ -56,7 +56,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     private ListAdapter.ViewHolder pre_holder;
     private ListAdapter.OnCheckItemListener checkItemListener;
 
-    public ListAdapter(List<ListItem> listItems, Context context) {
+    public ListAdapter(List<MusicBean> listItems, Context context) {
         this.listItems = listItems;
         this.context = context;
     }
@@ -64,7 +64,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     public interface OnCheckItemListener {
         void onCheckItem(int position ,boolean tag);
     }
-    public void setListItems(List<ListItem> Items){
+    @SuppressLint("NotifyDataSetChanged")
+    public void setListItems(List<MusicBean> Items){
         listItems = Items;
         notifyDataSetChanged();
     }
@@ -85,9 +86,9 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        ListItem listItem = listItems.get(position);
+        MusicBean listItem = listItems.get(position);
         holder.title.setText(listItem.getTitle());
-        holder.subtitle.setText(listItem.getSubtitle());
+        holder.subtitle.setText(listItem.getArtist());
         holder.extend_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
