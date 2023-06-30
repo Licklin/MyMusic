@@ -23,7 +23,10 @@
             android:id="@+id/framelayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="0dp"
             android:background="@color/background_white"
             android:orientation="vertical">
 
@@ -36,7 +39,7 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/cotroller"
+                android:id="@+id/songLrc_view_list"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:layout_alignParentBottom="true"
