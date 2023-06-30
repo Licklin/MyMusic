@@ -33,6 +33,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+
 public class MusicModel implements LocalMusicModel, OnlineMusicModel {
     private static final String TAG = "MusicModel";
 
@@ -273,14 +275,16 @@ public class MusicModel implements LocalMusicModel, OnlineMusicModel {
                 }, client.defErrorHandler());
 
         return musicBeanList;
-    }@SuppressLint("CheckResult")
+    }
+
+    @SuppressLint("CheckResult")
     public List<MusicBean> getSearchSong(String key) {
         List<MusicBean> musicBeanList = new ArrayList<>();
         // 实例化
         NetEaseApiHandler client = new NetEaseApiHandler();
         // 获取歌曲ID，歌曲名，歌手
         client.getCloudSearchSingleSong(key, 30, 0)
-
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(result -> {
                     // 代码开始
                     // 代码, 比如更新ui, 或者打印
@@ -288,9 +292,7 @@ public class MusicModel implements LocalMusicModel, OnlineMusicModel {
                         musicBeanList.addAll(MusicInfoConversion.SearchMusicList2MusicBeanList(result.getSongsList()));
                     }
                     // 代码结束
-                }, client.defErrorHandler())
-
-        ;
+                }, client.defErrorHandler());
 
         return musicBeanList;
     }

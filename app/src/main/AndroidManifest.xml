@@ -72,19 +72,19 @@
             android:name=".ui.home.MainActivity"
             android:exported="true"
             android:launchMode="standard">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".ui.home.nsh.Register"
             android:exported="false" />
         <activity
             android:name=".ui.home.nsh.LoginWangyi"
-            android:exported="false" >
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".ui.load.LoadActivity"
@@ -109,6 +109,10 @@
         <activity
             android:name=".ui.home.PQ.Desktop_Seek"
             android:exported="false" />
+        <activity android:name=".TestActivity"
+            android:exported="false">
+
+        </activity>
     </application>
 
 </manifest>
