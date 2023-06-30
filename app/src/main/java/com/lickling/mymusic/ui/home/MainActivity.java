@@ -42,6 +42,8 @@ import com.lickling.mymusic.ui.home.PQ.Desktop_three;
 import com.lickling.mymusic.ui.home.PQ.Desktop_two;
 import com.lickling.mymusic.ui.home.PQ.HomeFragment;
 import com.lickling.mymusic.ui.home.PQ.UserFragment;
+import com.lickling.mymusic.ui.setting.home.SettingHomeActivity;
+import com.lickling.mymusic.ui.songAndLyrics.SongLrcActivity;
 import com.lickling.mymusic.utilty.PermissionUtil;
 import com.lickling.mymusic.utilty.PictureUtil;
 import com.lickling.mymusic.viewmodel.MusicViewModel;
@@ -82,20 +84,7 @@ public class MainActivity extends BaseActivity<MusicViewModel> {
         }
         super.onCreate(savedInstanceState);
 
-        // 获取 SharedPreferences 对象
-        SharedPreferences prefs = getSharedPreferences("userId", Context.MODE_PRIVATE);
-
-        long saveKeyOfUser = prefs.getLong("saveKeyOfUser", -1);
-        long saveKeyOfSetting = prefs.getLong("saveKeyOfSetting", -1);
-
-        SugarContext.init(this);
-
-        mainModel = new MainModel(saveKeyOfUser,saveKeyOfSetting);
-
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putLong("saveKeyOfUser", mainModel.getUserSaveID());
-        editor.putLong("saveKeyOfSetting", mainModel.getSettingInfoSaveID());
-        editor.apply();
+        mainModel = new MainModel(this);
 
 //        Toast.makeText(this, mainModel.getSettingInfo().getApiUrl(), Toast.LENGTH_SHORT).show();
         mMainBinding = DataBindingUtil.setContentView(this, R.layout.desktop);
@@ -242,7 +231,6 @@ public class MainActivity extends BaseActivity<MusicViewModel> {
                 Animation animation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.alpha);
                 mMainBinding.imageViewPlay.startAnimation(animation);
                 mMusicViewModel.playbackButton();
-
             }
         });
 
@@ -314,6 +302,15 @@ public class MainActivity extends BaseActivity<MusicViewModel> {
 
         mMainBinding.bottom1.setSelected(true);
         replaceFragment(homeFragment);
+
+        // 底边音乐播放栏
+        mMainBinding.songLrcViewList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, SongLrcActivity.class));
+                overridePendingTransition(R.anim.push_in, 0);
+            }
+        });
 
     }
 

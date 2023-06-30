@@ -95,23 +95,26 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.local.LocalActivity"
-            android:exported="false"
-            android:launchMode="singleTask"
-            android:windowSoftInputMode="stateHidden" >
-            <intent-filter>
-                <action android:name="musicList" />
+            android:name=".ui.home.nsh.Register"
+            android:exported="false" />
+        <activity
+            android:name=".ui.home.nsh.LoginWangyi"
+            android:exported="false" >
 
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
         </activity>
 
         <activity
             android:name=".ui.myLike.MyLikeActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".ui.songSheet.SongSheetActivity"
-            android:exported="false"/>
+            android:exported="false" />
+        <activity
+            android:name=".ui.songAndLyrics.SongLrcActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.home.PQ.Desktop_Seek"
+            android:exported="false" />
     </application>
 
 </manifest>

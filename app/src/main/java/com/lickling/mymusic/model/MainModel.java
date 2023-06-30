@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.lickling.mymusic.bean.SettingInfo;
 import com.lickling.mymusic.bean.User;
+import com.orm.SugarContext;
 
 public class MainModel {
     protected long userSaveID = 1;
@@ -20,6 +21,19 @@ public class MainModel {
 
     }
 
+    public MainModel(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences("userId", Context.MODE_PRIVATE);
+
+        userSaveID= prefs.getLong("saveKeyOfUser", -1);
+        settingInfoSaveID = prefs.getLong("saveKeyOfSetting", -1);
+        SugarContext.init(context);
+        getInfoFromDisk();
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putLong("saveKeyOfUser", getUserSaveID());
+        editor.putLong("saveKeyOfSetting", getSettingInfoSaveID());
+        editor.apply();
+    }
+
     private void getInfoFromDisk() {
 
         this.user = User.findById(User.class, userSaveID);
@@ -27,14 +41,14 @@ public class MainModel {
 
         if (user == null) {
             user = new User();
-            Log.e("user","null");
+            Log.e("user", "null");
             user.save();
             userSaveID = this.user.getId();
 
         }
         if (settingInfo == null) {
             settingInfo = new SettingInfo();
-            Log.e("settingInfo","null");
+            Log.e("settingInfo", "null");
             settingInfo.save();
             settingInfoSaveID = settingInfo.getId();
         }

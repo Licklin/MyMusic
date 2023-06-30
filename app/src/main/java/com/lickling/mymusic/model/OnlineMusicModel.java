@@ -34,4 +34,6 @@ public interface OnlineMusicModel {
     interface OnOnlinePictureListener{
         void OnComplete(WeakReference<Bitmap> bitmap);
     }
+
+
 }

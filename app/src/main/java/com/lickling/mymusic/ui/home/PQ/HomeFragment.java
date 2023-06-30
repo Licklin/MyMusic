@@ -296,16 +296,13 @@ public class HomeFragment extends Fragment {
                     desktopOneBinding.pqSongListSelector.setSelected(false);
                     desktopOneBinding.homeRecyclerView.setVisibility(View.VISIBLE);
 
-                    Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.alpha);
-                    desktopOneBinding.pqSongListSelector.startAnimation(animation);
                 }
                 else
                 {
                     desktopOneBinding.pqSongListSelector.setSelected(true);
-                    desktopOneBinding.homeRecyclerView.setVisibility(View.INVISIBLE);
+                    desktopOneBinding.homeRecyclerView.setVisibility(View.GONE);
 
-                    Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.alpha);
-                    desktopOneBinding.imageviewRecognition.startAnimation(animation);
+
                 }
             }
         });

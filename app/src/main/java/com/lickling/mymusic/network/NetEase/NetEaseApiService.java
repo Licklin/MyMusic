@@ -4,6 +4,7 @@ import com.lickling.mymusic.bean.networkBean.CloudSearchPlayListResponse;
 import com.lickling.mymusic.bean.networkBean.CloudSearchSingleSongResponse;
 import com.lickling.mymusic.bean.networkBean.LikeListResponse;
 import com.lickling.mymusic.bean.networkBean.LoginStatusResponse;
+import com.lickling.mymusic.bean.networkBean.PlayListTrackAllResponse;
 import com.lickling.mymusic.bean.networkBean.QrCodeCheckResponse;
 import com.lickling.mymusic.bean.networkBean.QrCodeKeyRespone;
 import com.lickling.mymusic.bean.networkBean.QrCodeObtainResponse;
@@ -45,7 +46,8 @@ public interface NetEaseApiService {
     Flowable<CloudSearchSingleSongResponse> getCloudSearchSingleSong(@Query("keywords") String KeyWords,
                                                                      @Query("limit") int limit,
                                                                      @Query("offset") int offset,
-                                                                     @Query("type") String type);
+                                                                     @Query("type") String type,
+                                                                     @Query("timestamp") long timestamp);
 
     @GET("/cloudsearch")
     Flowable<CloudSearchPlayListResponse> getCloudSearchPlayList(@Query("keywords") String KeyWords,
@@ -59,5 +61,11 @@ public interface NetEaseApiService {
 
     @GET("/song/url")
     Flowable<SongUrlResponse> getSongUrl(@Query("id") String id);
+
+    @GET("/playlist/track/all")
+    Flowable<PlayListTrackAllResponse> getPlayListTrackAll(@Query("id") String id,
+                                                           @Query("limit") int limit,
+                                                           @Query("offset") int offset,
+                                                           @Query("timestamp") long timestamp);
 
 }

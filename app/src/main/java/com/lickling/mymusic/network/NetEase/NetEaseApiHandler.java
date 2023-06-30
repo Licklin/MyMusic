@@ -9,6 +9,7 @@ import com.lickling.mymusic.bean.networkBean.CloudSearchPlayListResponse;
 import com.lickling.mymusic.bean.networkBean.CloudSearchSingleSongResponse;
 import com.lickling.mymusic.bean.networkBean.LikeListResponse;
 import com.lickling.mymusic.bean.networkBean.LoginStatusResponse;
+import com.lickling.mymusic.bean.networkBean.PlayListTrackAllResponse;
 import com.lickling.mymusic.bean.networkBean.QrCodeCheckResponse;
 import com.lickling.mymusic.bean.networkBean.QrCodeKeyRespone;
 import com.lickling.mymusic.bean.networkBean.QrCodeObtainResponse;
@@ -50,7 +51,7 @@ public class NetEaseApiHandler {
     private Retrofit _retrofit;
     private final int DEF_TIME_OUT_MILLISECOND = 10000;
 
-    protected String _BASE_URL = "http://localhost:4000";
+    protected String _BASE_URL = "http://192.168.31.31:3000";
 
     public boolean __DEBUG__ = true;
     public NetEaseApiService _client;
@@ -254,7 +255,7 @@ public class NetEaseApiHandler {
     }
 
     public Flowable<CloudSearchSingleSongResponse> getCloudSearchSingleSong(String keywords, int limit, int offset) {
-        return _client.getCloudSearchSingleSong(keywords, limit, offset, this.SINGLE_SONG)
+        return _client.getCloudSearchSingleSong(keywords, limit, offset, this.SINGLE_SONG, System.currentTimeMillis())
                 .timeout(DEF_TIME_OUT_MILLISECOND, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(Schedulers.computation());
@@ -276,6 +277,13 @@ public class NetEaseApiHandler {
 
     public Flowable<SongUrlResponse> getSongUrl(String id) {
         return _client.getSongUrl(id)
+                .timeout(DEF_TIME_OUT_MILLISECOND, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(Schedulers.computation());
+    }
+
+    public Flowable<PlayListTrackAllResponse> getPlayListTrackAll(String id, int limit, int offset) {
+        return _client.getPlayListTrackAll(id, limit, offset, System.currentTimeMillis())
                 .timeout(DEF_TIME_OUT_MILLISECOND, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(Schedulers.computation());
