@@ -15,6 +15,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -22,6 +23,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lickling.mymusic.R;
+import com.lickling.mymusic.databinding.DesktopSeekBinding;
+import com.lickling.mymusic.model.MusicModel;
 import com.lickling.mymusic.ui.load.ListAdapter2;
 import com.lickling.mymusic.ui.load.MulOperationPopup2;
 import com.lickling.mymusic.ui.load.SongOperationPopup2;
@@ -35,8 +38,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Desktop_Seek extends AppCompatActivity implements SongOperationPopup.OnDeleteItemListener,
-         ListAdapter.OnCheckItemListener, MulOperationPopup.OnDeleteMulItemListener
-        {
+        ListAdapter.OnCheckItemListener, MulOperationPopup.OnDeleteMulItemListener {
 
 
     private RecyclerView recyclerView;
@@ -65,7 +67,8 @@ public class Desktop_Seek extends AppCompatActivity implements SongOperationPopu
     private Button multi_choice_btn;
     private TextView checked_item_info;
 
-
+    private DesktopSeekBinding desktopSeekBinding;
+    private MusicModel musicModel;
 
 
     @SuppressLint("MissingInflatedId")
@@ -73,7 +76,7 @@ public class Desktop_Seek extends AppCompatActivity implements SongOperationPopu
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.desktop_seek);
-        ImmersiveStatusBarUtil.transparentBar(this,false);
+        ImmersiveStatusBarUtil.transparentBar(this, false);
 
         // 返回按键
         ImageView imageview_back = findViewById(R.id.imageview_back);
@@ -83,11 +86,10 @@ public class Desktop_Seek extends AppCompatActivity implements SongOperationPopu
                 Animation animation = AnimationUtils.loadAnimation(Desktop_Seek.this, R.anim.alpha);
                 imageview_back.startAnimation(animation);
 
-//                startActivity(new Intent(Desktop_Seek.this,Desktop.class));
                 finish();
             }
         });
-
+        musicModel = new MusicModel();
 
         load_view = getWindow().getDecorView();
         context = load_view.getContext();
@@ -99,6 +101,48 @@ public class Desktop_Seek extends AppCompatActivity implements SongOperationPopu
 
         checked_item_info = findViewById(R.id.checked_item_info);
 
+        //已下载列表
+        recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        listItems = new ArrayList<>();
+        // 在此处添加数据到listItems
+        listItems.add(new ListItem("歌曲11", "歌手21"));
+        listItems.add(new ListItem("歌曲12", "歌手22"));
+        listItems.add(new ListItem("歌曲13", "歌手23"));
+
+        dialog = new SongOperationPopup(this);
+        dialog.setOnDeleteItemListener(this);
+
+        listAdapter = new ListAdapter(listItems, this);
+        listAdapter.setDialog(dialog);
+        listAdapter.setOnCheckItemListener(this);
+        recyclerView.setAdapter(listAdapter);
+
+        //正在下载列表
+        listItems3 = new ArrayList<>();
+
+        listItems3.add(new ListItem3("歌曲1", "12首", "创建者", "1245"));
+        listItems3.add(new ListItem3("歌曲2", "12首", "创建者", "57786"));
+        listItems3.add(new ListItem3("歌曲3", "24首", "创建者", "254777"));
+
+        listAdapter3 = new ListAdapter3(listItems3, this);
+        ImageView imageView = findViewById(R.id.search_btn);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, "ok", Toast.LENGTH_SHORT).show();
+//                musicModel.getSearchSong(desktopSeekBinding.searchEdit.getQuery().toString());
+                musicModel.getSearchSong("逆战");
+            }
+        });
+//        desktopSeekBinding.searchBtn.setOnClickListener(view -> {
+//            Toast.makeText(context, "ok", Toast.LENGTH_SHORT).show();
+//            musicModel.getSearchSong(desktopSeekBinding.searchEdit.getQuery().toString());
+////            listAdapter.setListItems();
+//
+//        });
 
 
         //播放歌曲
@@ -154,29 +198,29 @@ public class Desktop_Seek extends AppCompatActivity implements SongOperationPopu
             @Override
             public void onClick(View view) {
 
-                    all_choice_btn.setChecked(false);
-                    checked_item_info.setVisibility(View.GONE);
+                all_choice_btn.setChecked(false);
+                checked_item_info.setVisibility(View.GONE);
 
-                    if (select_tag1.getVisibility() == view.VISIBLE) {
-                        mulOperationPopup.dismiss();
-                        play_btn.setVisibility(View.VISIBLE);
-                        // 遍历RecyclerView的每个Item，并将它们的可选框更改为下曲播放按钮,将扩展按钮设置可见
-                        for (int i = 0; i < recyclerView.getChildCount(); i++) {
-                            View itemView = recyclerView.getChildAt(i);
-                            Button add_btn = itemView.findViewById(R.id.add_btn);
-                            add_btn.setVisibility(View.VISIBLE);
-                            CheckBox check_box = itemView.findViewById(R.id.check_box);
-                            check_box.setChecked(false);
-                            check_box.setVisibility(View.GONE);
-                            Button extend_btn = itemView.findViewById(R.id.extend_btn);
-                            extend_btn.setVisibility(View.VISIBLE);
-                        }
-
+                if (select_tag1.getVisibility() == view.VISIBLE) {
+                    mulOperationPopup.dismiss();
+                    play_btn.setVisibility(View.VISIBLE);
+                    // 遍历RecyclerView的每个Item，并将它们的可选框更改为下曲播放按钮,将扩展按钮设置可见
+                    for (int i = 0; i < recyclerView.getChildCount(); i++) {
+                        View itemView = recyclerView.getChildAt(i);
+                        Button add_btn = itemView.findViewById(R.id.add_btn);
+                        add_btn.setVisibility(View.VISIBLE);
+                        CheckBox check_box = itemView.findViewById(R.id.check_box);
+                        check_box.setChecked(false);
+                        check_box.setVisibility(View.GONE);
+                        Button extend_btn = itemView.findViewById(R.id.extend_btn);
+                        extend_btn.setVisibility(View.VISIBLE);
                     }
-                    all_choice_btn.setVisibility(View.GONE);
-                    cancel_choice_btn.setVisibility(View.GONE);
-                    multi_choice_btn.setVisibility(View.VISIBLE);
+
                 }
+                all_choice_btn.setVisibility(View.GONE);
+                cancel_choice_btn.setVisibility(View.GONE);
+                multi_choice_btn.setVisibility(View.VISIBLE);
+            }
 
         });
 
@@ -245,36 +289,6 @@ public class Desktop_Seek extends AppCompatActivity implements SongOperationPopu
                 recyclerView.setAdapter(listAdapter3);
             }
         });
-
-
-
-        //已下载列表
-        recyclerView = findViewById(R.id.recycler_view);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        listItems = new ArrayList<>();
-        // 在此处添加数据到listItems
-        listItems.add(new ListItem("歌曲11", "歌手21"));
-        listItems.add(new ListItem("歌曲12", "歌手22"));
-        listItems.add(new ListItem("歌曲13", "歌手23"));
-
-        dialog = new SongOperationPopup(this);
-        dialog.setOnDeleteItemListener(this);
-
-        listAdapter = new ListAdapter(listItems, this);
-        listAdapter.setDialog(dialog);
-        listAdapter.setOnCheckItemListener(this);
-        recyclerView.setAdapter(listAdapter);
-
-        //正在下载列表
-        listItems3 = new ArrayList<>();
-
-        listItems3.add(new ListItem3("歌曲1", "12首","创建者","1245"));
-        listItems3.add(new ListItem3("歌曲2", "12首","创建者","57786"));
-        listItems3.add(new ListItem3("歌曲3", "24首","创建者","254777"));
-
-        listAdapter3 = new ListAdapter3(listItems3, this);
 
 
     }

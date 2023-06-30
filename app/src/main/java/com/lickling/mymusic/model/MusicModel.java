@@ -11,7 +11,6 @@ import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
-import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.MediaMetadataCompat;
 import android.text.TextUtils;
 import android.util.Log;
@@ -19,7 +18,6 @@ import android.util.Log;
 import com.lickling.mymusic.R;
 import com.lickling.mymusic.bean.musicBean.MusicBean;
 import com.lickling.mymusic.network.NetEase.NetEaseApiHandler;
-import com.lickling.mymusic.network.NetEase.NetEaseApiService;
 import com.lickling.mymusic.utilty.MusicInfoConversion;
 import com.lickling.mymusic.utilty.PictureUtil;
 
@@ -31,8 +29,6 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-
-import com.lickling.mymusic.network.NetEase.NetEaseApiService;
 
 public class MusicModel implements LocalMusicModel, OnlineMusicModel {
     private static final String TAG = "MusicModel";
@@ -256,14 +252,14 @@ public class MusicModel implements LocalMusicModel, OnlineMusicModel {
     }
 
     @SuppressLint("CheckResult")
-    @Override
-    public MediaBrowserCompat.MediaItem getSearchSong(String key) {
+    public List<MusicBean> getSearchSong(String key) {
         List<MusicBean> musicBeanList = new ArrayList<>();
         // 实例化
         NetEaseApiHandler client = new NetEaseApiHandler();
         // 获取歌曲ID，歌曲名，歌手
         client.getCloudSearchSingleSong(key, 30, 0)
                 .subscribe(result -> {
+                    Log.e(TAG,"5454515");
                     // 代码开始
                     // 代码, 比如更新ui, 或者打印
                     if (result != null) {
@@ -272,8 +268,7 @@ public class MusicModel implements LocalMusicModel, OnlineMusicModel {
                     // 代码结束
                 }, client.defErrorHandler());
 //          通过歌曲ID获取播放URL
+        return musicBeanList;
 
-
-        return null;
     }
 }

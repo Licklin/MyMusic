@@ -45,7 +45,8 @@ public interface NetEaseApiService {
     Flowable<CloudSearchSingleSongResponse> getCloudSearchSingleSong(@Query("keywords") String KeyWords,
                                                                      @Query("limit") int limit,
                                                                      @Query("offset") int offset,
-                                                                     @Query("type") String type);
+                                                                     @Query("type") String type,
+                                                                     @Query("timestamp") long timestamp);
 
     @GET("/cloudsearch")
     Flowable<CloudSearchPlayListResponse> getCloudSearchPlayList(@Query("keywords") String KeyWords,
