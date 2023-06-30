@@ -83,20 +83,7 @@ public class MainActivity extends BaseActivity<MusicViewModel> {
         }
         super.onCreate(savedInstanceState);
 
-        // 获取 SharedPreferences 对象
-        SharedPreferences prefs = getSharedPreferences("userId", Context.MODE_PRIVATE);
-
-        long saveKeyOfUser = prefs.getLong("saveKeyOfUser", -1);
-        long saveKeyOfSetting = prefs.getLong("saveKeyOfSetting", -1);
-
-        SugarContext.init(this);
-
-        mainModel = new MainModel(saveKeyOfUser,saveKeyOfSetting);
-
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putLong("saveKeyOfUser", mainModel.getUserSaveID());
-        editor.putLong("saveKeyOfSetting", mainModel.getSettingInfoSaveID());
-        editor.apply();
+        mainModel = new MainModel(this);
 
 //        Toast.makeText(this, mainModel.getSettingInfo().getApiUrl(), Toast.LENGTH_SHORT).show();
         mMainBinding = DataBindingUtil.setContentView(this, R.layout.desktop);
