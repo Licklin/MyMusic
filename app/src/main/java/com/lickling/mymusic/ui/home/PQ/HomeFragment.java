@@ -6,13 +6,18 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
+import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,9 +33,16 @@ import com.lickling.mymusic.ui.load.ListAdapter;
 import com.lickling.mymusic.ui.load.ListItem;
 import com.lickling.mymusic.viewmodel.MusicViewModel;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.zip.Inflater;
 
 /**
@@ -52,12 +64,13 @@ public class HomeFragment extends Fragment {
     private FragmentDesktopOneBinding desktopOneBinding;
 
 
-    public HomeFragment(){
+    public HomeFragment() {
 
     }
+
     public HomeFragment(MusicViewModel model) {
         // Required empty public constructor
-        this.musicViewModel=model;
+        this.musicViewModel = model;
     }
 
 
@@ -93,6 +106,95 @@ public class HomeFragment extends Fragment {
     }
 
 
+    private Handler mHandler;
+    private Handler handler;
+    private int GET_DATA_SUCCESS = 101;
+    private String data;
+
+    private void initData() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                data = getDataFromServer();
+
+                Message message = Message.obtain();
+                Bundle bundle = new Bundle();
+                bundle.putString("data",data);
+                message.setData(bundle);
+                message.what=GET_DATA_SUCCESS;
+                mHandler.sendMessage(message);
+            }
+        }).start();
+    }
+
+    private InputStream inputStream;
+    private BufferedReader bufferedReader;
+    private StringBuilder stringBuilder;
+    private HttpURLConnection connection;
+    private Runnable runnable;
+    private Handler uhandler;
+
+    private String getDataFromServer() {
+        try {
+            URL url = new URL("https://v1.hitokoto.cn/?c=f&encode=text");
+            connection = (HttpURLConnection) url.openConnection();
+            if (connection.getResponseCode() == 200) {
+                inputStream = connection.getInputStream();
+                bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+
+                stringBuilder = new StringBuilder();
+                for (String line = ""; (line = bufferedReader.readLine()) != null; ) {
+                    stringBuilder.append(line);
+                }
+                return stringBuilder.toString();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (bufferedReader != null) bufferedReader.close();
+
+                if (inputStream!=null)inputStream.close();
+                if (connection!=null)connection.disconnect();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return "";
+    }
+
+
+    private void useHandler1(){
+        handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                    desktopOneBinding.heart.performClick();
+            }
+        },3000);
+    }
+
+    private void useHand(){
+        new Thread(new Runnable() {
+            public void run() {
+                while (true) {
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    useHandler2();
+                }
+            }
+        }).start();
+    }
+
+
+    private void useHandler2(){
+            desktopOneBinding.heart.performClick();
+    }
+
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -114,6 +216,70 @@ public class HomeFragment extends Fragment {
 
         Desktop_ListAdapter = new Desktop_ListAdapter(Desktop_Listltem, getActivity());
         desktopOneBinding.homeRecyclerView.setAdapter(Desktop_ListAdapter);
+
+
+        initData();
+
+        desktopOneBinding.heart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                initData();
+            }
+        });
+
+        mHandler = new Handler(new Handler.Callback() {
+            @Override
+            public boolean handleMessage(@NonNull Message message) {
+                if(message.what==GET_DATA_SUCCESS){
+                    data = message.getData().getString("data");
+                    desktopOneBinding.heart.setText(data);
+                }
+                return false;
+            }
+        });
+
+
+//        new Thread(new Runnable() {
+//            public void run() {
+//                while (true) {
+//                    useHandler2();
+//                }
+//            }
+//        }).start();
+
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    Thread.sleep(3000);
+//                } catch (InterruptedException e) {
+//                    throw new RuntimeException(e);
+//                }
+//                useHandler2();
+//            }
+//        }).start();
+
+//        // 创建Handler并关联主线程的Looper
+//        uhandler = new Handler();
+//
+//        // 创建Runnable对象，在其中实现循环逻辑
+//        runnable = new Runnable() {
+//            @Override
+//            public void run() {
+//                while (true) {
+//                    useHandler2();
+//                }
+//            }
+//        };
+//
+//        // 创建并启动子线程
+//        Thread thread = new Thread(runnable);
+//        thread.start();
+
+
+
+
+
 
 
         // 歌单按键
@@ -138,7 +304,6 @@ public class HomeFragment extends Fragment {
                 }
             }
         });
-
 
 
 
@@ -173,34 +338,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        //个人头像按键
-        desktopOneBinding.imageviewPersonage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.alpha);
-                desktopOneBinding.imageviewPersonage.startAnimation(animation);
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setIcon(R.drawable.baseline_lightbulb_24);
-                builder.setTitle("功能待完善");
-                builder.setMessage("敬请期待");
-                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-                builder.create();
-                builder.show();
-
-            }
-        });
 
         // 热门按键
         desktopOneBinding.imageviewHot.setOnClickListener(new View.OnClickListener() {

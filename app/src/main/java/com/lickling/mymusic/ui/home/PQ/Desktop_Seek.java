@@ -78,6 +78,8 @@ public class Desktop_Seek extends AppCompatActivity implements SongOperationPopu
             window.setStatusBarColor(Color.TRANSPARENT);
         }
 
+
+
         // 返回按键
         ImageView imageview_back = findViewById(R.id.imageview_back);
         imageview_back.setOnClickListener(new View.OnClickListener() {
@@ -86,7 +88,6 @@ public class Desktop_Seek extends AppCompatActivity implements SongOperationPopu
                 Animation animation = AnimationUtils.loadAnimation(Desktop_Seek.this, R.anim.alpha);
                 imageview_back.startAnimation(animation);
 
-//                startActivity(new Intent(Desktop_Seek.this,Desktop.class));
                 finish();
             }
         });
@@ -104,9 +105,8 @@ public class Desktop_Seek extends AppCompatActivity implements SongOperationPopu
 
 
 
-        //播放歌曲
+        // 播放歌曲
         play_btn = findViewById(R.id.play_btn);
-
         play_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -118,7 +118,7 @@ public class Desktop_Seek extends AppCompatActivity implements SongOperationPopu
             }
         });
 
-        //多选按钮
+        // 多选按钮
         multi_choice_btn = findViewById(R.id.multi_choice_btn);
         multi_choice_btn.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("SetTextI18n")
@@ -151,7 +151,7 @@ public class Desktop_Seek extends AppCompatActivity implements SongOperationPopu
             }
         });
 
-        //取消多选按钮
+        // 取消多选按钮
         cancel_choice_btn = findViewById(R.id.cancel_choice_btn);
         cancel_choice_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,7 +183,7 @@ public class Desktop_Seek extends AppCompatActivity implements SongOperationPopu
 
         });
 
-        //全选按钮
+        // 全选按钮
         all_choice_btn = findViewById(R.id.all_choice_btn);
         all_choice_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -211,7 +211,7 @@ public class Desktop_Seek extends AppCompatActivity implements SongOperationPopu
             }
         });
 
-        //显示已下载歌曲
+        // 显示单曲
         loaded_btn = findViewById(R.id.loaded_btn);
         select_tag1 = findViewById(R.id.select_tag1);
         loaded_btn.setOnClickListener(new View.OnClickListener() {
@@ -231,7 +231,7 @@ public class Desktop_Seek extends AppCompatActivity implements SongOperationPopu
             }
         });
 
-        //显示正在下载歌曲
+        // 显示歌单
         loading_btn = findViewById(R.id.loading_btn);
         select_tag2 = findViewById(R.id.select_tag2);
         loading_btn.setOnClickListener(new View.OnClickListener() {
@@ -251,7 +251,7 @@ public class Desktop_Seek extends AppCompatActivity implements SongOperationPopu
 
 
 
-        //已下载列表
+        // 单曲列表
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -270,7 +270,7 @@ public class Desktop_Seek extends AppCompatActivity implements SongOperationPopu
         listAdapter.setOnCheckItemListener(this);
         recyclerView.setAdapter(listAdapter);
 
-        //正在下载列表
+        // 歌单列表
         listItems3 = new ArrayList<>();
 
         listItems3.add(new ListItem3("歌曲1", "12首","创建者","1245"));
@@ -291,7 +291,7 @@ public class Desktop_Seek extends AppCompatActivity implements SongOperationPopu
     }
 
 
-    //重置布局
+    // 重置布局
     @SuppressLint("SetTextI18n")
     public void resetSurface() {
         if (select_tag1.getVisibility() == View.VISIBLE) {
