@@ -42,6 +42,7 @@ import com.lickling.mymusic.ui.home.PQ.Desktop_three;
 import com.lickling.mymusic.ui.home.PQ.Desktop_two;
 import com.lickling.mymusic.ui.home.PQ.HomeFragment;
 import com.lickling.mymusic.ui.home.PQ.UserFragment;
+import com.lickling.mymusic.ui.songAndLyrics.SongLrcActivity;
 import com.lickling.mymusic.utilty.PermissionUtil;
 import com.lickling.mymusic.utilty.PictureUtil;
 import com.lickling.mymusic.viewmodel.MusicViewModel;
@@ -242,7 +243,6 @@ public class MainActivity extends BaseActivity<MusicViewModel> {
                 Animation animation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.alpha);
                 mMainBinding.imageViewPlay.startAnimation(animation);
                 mMusicViewModel.playbackButton();
-
             }
         });
 
@@ -314,6 +314,15 @@ public class MainActivity extends BaseActivity<MusicViewModel> {
 
         mMainBinding.bottom1.setSelected(true);
         replaceFragment(homeFragment);
+
+        // 底边音乐播放栏
+        mMainBinding.songLrcViewList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, SongLrcActivity.class));
+                overridePendingTransition(R.anim.push_in, 0);
+            }
+        });
 
     }
 

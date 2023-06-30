@@ -52,6 +52,9 @@
             android:name=".ui.setting.api.EditActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.home.PQ.Desktop_Seek"
+            android:exported="false" />
+        <activity
             android:name=".ui.setting.api.APIActivity"
             android:exported="false" />
         <activity
@@ -68,25 +71,30 @@
             android:exported="false" />
         <activity
             android:name=".ui.home.MainActivity"
-            android:exported="true"
-            android:launchMode="standard"/>
-        <activity
-            android:name=".ui.home.nsh.Register"
-            android:exported="false" />
-        <activity
-            android:name=".ui.home.nsh.LoginWangyi"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!--            android:launchMode="standard"/>-->
+        <activity
+            android:name=".ui.home.nsh.Register"
+            android:exported="false" />
+        <activity
+            android:name=".ui.home.nsh.LoginWangyi"
+            android:exported="true" />
+        <!--            <intent-filter>-->
+        <!--                <action android:name="android.intent.action.MAIN" />-->
+
+        <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+        <!--            </intent-filter>-->
         <activity
             android:name=".ui.local.LocalActivity"
             android:exported="false"
             android:launchMode="singleTask"
-            android:windowSoftInputMode="stateHidden" >
+            android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="musicList" />
 
@@ -106,10 +114,13 @@
         </activity>
         <activity
             android:name=".ui.myLike.MyLikeActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".ui.songSheet.SongSheetActivity"
-            android:exported="false"/>
+            android:exported="false" />
+        <activity
+            android:name=".ui.songAndLyrics.SongLrcActivity"
+            android:exported="true" />
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
 </manifest>

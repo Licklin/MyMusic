@@ -23,6 +23,8 @@ import com.lickling.mymusic.databinding.ActivityMyTestBinding;
 import com.lickling.mymusic.service.OurMusicService;
 import com.lickling.mymusic.ui.BaseActivity;
 
+import com.lickling.mymusic.ui.home.MainActivity;
+import com.lickling.mymusic.ui.songAndLyrics.SongLrcActivity;
 import com.lickling.mymusic.utilty.ImmersiveStatusBarUtil;
 import com.lickling.mymusic.viewmodel.MusicViewModel;
 
@@ -177,6 +179,15 @@ public class MyTest extends BaseActivity<MusicViewModel>{
         //设置深色模式适配的颜色
         int color = super.getViewColor();
         mMusicBinding.mainActivityBottomIvList.getDrawable().setTint(color);
+
+        // 底边音乐播放栏
+        mMusicBinding.mainActivityBottomLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MyTest.this, SongLrcActivity.class));
+                overridePendingTransition(R.anim.push_in, 0);
+            }
+        });
 //
 //        mMusicBinding.mainActivityBottomProgressBar.setProgressColor(color);
     }
