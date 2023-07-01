@@ -1,9 +1,12 @@
 package com.lickling.mymusic.bean.musicBean;
 
+import com.orm.SugarRecord;
+import com.orm.dsl.Table;
+
 /**
  * 作用: 抽象一首歌曲，用于展示或者设置其信息
  */
-public class MusicBean {
+public class MusicBean  {
     private String id;
     private String title;
     private String artist;
@@ -78,7 +81,7 @@ public class MusicBean {
         this.duration = duration;
     }
 
-    public CharSequence getSubtitle() {
-        return null;
+
+    public String getSubtitle() { return "";
     }
 }

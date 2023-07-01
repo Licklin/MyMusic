@@ -1,11 +1,13 @@
 package com.lickling.mymusic;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.MediaBrowserCompat.MediaItem;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaControllerCompat;
+import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -23,6 +25,8 @@ import com.lickling.mymusic.databinding.ActivityMyTestBinding;
 import com.lickling.mymusic.service.OurMusicService;
 import com.lickling.mymusic.ui.BaseActivity;
 
+import com.lickling.mymusic.ui.home.MainActivity;
+import com.lickling.mymusic.ui.songAndLyrics.SongLrcActivity;
 import com.lickling.mymusic.utilty.ImmersiveStatusBarUtil;
 import com.lickling.mymusic.viewmodel.MusicViewModel;
 
@@ -37,6 +41,7 @@ public class MyTest extends BaseActivity<MusicViewModel>{
     private MusicViewModel mMusicViewModel;
     private MusicAdapter mMusicAdapter;
     private MyAdapterItemClickListener mItemClickListener;
+
     private Intent mIntentMusic;
 
     private Timer mTimer;
@@ -152,7 +157,7 @@ public class MyTest extends BaseActivity<MusicViewModel>{
     }
 
     private void initView() {
-        mMusicBinding.musicActivityUiRoot.setOnApplyWindowInsetsListener(this);
+//        mMusicBinding.musicActivityUiRoot.setOnApplyWindowInsetsListener(this);
 
         mMusicBinding.musicActivityIvReturn.setOnClickListener(v -> returnClick());
 
@@ -164,16 +169,27 @@ public class MyTest extends BaseActivity<MusicViewModel>{
 
         //初始化唱片旋转动画
         super.initAnimation(mMusicBinding.mainActivityBottomIvAlbum);
+
         //初始化RecyclerView
         mMusicBinding.musicActivityRvMusic.setLayoutManager(new LinearLayoutManager(getApplication()));
         mMusicAdapter = new MusicAdapter(getApplication());
-
         mMusicBinding.musicActivityRvMusic.setAdapter(mMusicAdapter);
+
         mItemClickListener = new MyAdapterItemClickListener();
         mMusicAdapter.setItemClickListener(mItemClickListener);
+
         //设置深色模式适配的颜色
         int color = super.getViewColor();
         mMusicBinding.mainActivityBottomIvList.getDrawable().setTint(color);
+
+        // 底边音乐播放栏
+        mMusicBinding.mainActivityBottomLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MyTest.this, SongLrcActivity.class));
+                overridePendingTransition(R.anim.push_in, 0);
+            }
+        });
 //
 //        mMusicBinding.mainActivityBottomProgressBar.setProgressColor(color);
     }
@@ -188,9 +204,23 @@ public class MyTest extends BaseActivity<MusicViewModel>{
             String mediaId = mediaController.getMetadata()
                     .getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID),
                     currentMediaId = adapter.getItems().get(position).getMediaId();
-            if (mediaId.equals(currentMediaId)) {
-                MyTest.this.mMusicViewModel.playbackButton();
-            } else mediaController.getTransportControls().playFromMediaId(currentMediaId, null);
+//adapter.getItems().get(1).getDescription().getMediaUri();
+
+
+//            我的修改
+            for (MediaSessionCompat.QueueItem queueItem : mediaController.getQueue()/* 获取当前播放列表*/) {
+                String id = queueItem.getDescription().getMediaId();
+                if (id != null && id.equals(currentMediaId)) { // 如果点击的歌曲存在与当前播放列表
+                    if (mediaId.equals(currentMediaId)) {
+                        MyTest.this.mMusicViewModel.playbackButton();
+                    } else mediaController.getTransportControls().playFromMediaId(currentMediaId, null);
+                    break;
+                }
+            }
+//            如果点击的歌曲不存在与当前播放列表
+
+//            mediaController.addQueueItem();
+//            mediaController.getTransportControls().playFromUri(Uri.parse(""),null);
 
             Log.d(TAG, "ItemClickListener: 点击了 "+mediaId+", "+currentMediaId);
         }

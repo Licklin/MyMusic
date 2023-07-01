@@ -110,5 +110,12 @@ public class UserFragment extends Fragment {
                 startActivity(new Intent(getActivity(), LoadActivity.class));
             }
         });
+
+        desktopFourBinding.payBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), Vip_pay.class));
+            }
+        });
     }
 }

@@ -29,6 +29,7 @@ import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 
 import androidx.annotation.ColorInt;
@@ -432,5 +433,9 @@ public class PictureUtil {
 
     public static <T> T getItWeakReference(T obj){
         return obj == null ? null : new WeakReference<>(obj).get();
+    }
+    public static Bitmap base64String2Bitmap(String base64String){
+        byte[] imageBytes = Base64.decode(base64String, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
     }
 }

@@ -11,11 +11,13 @@ import androidx.databinding.ObservableArrayList;
 import com.lickling.mymusic.R;
 import com.lickling.mymusic.bean.musicBean.MusicBean;
 import com.lickling.mymusic.databinding.ItemMusicListBinding;
+import com.lickling.mymusic.databinding.LocalSongListItemBinding;
+
 
 import java.util.Objects;
 
 
-public class MusicAdapter extends BaseBindingAdapter<MediaItem, ItemMusicListBinding>{
+public  class MusicAdapter extends BaseBindingAdapter<MediaItem, ItemMusicListBinding>{
 
     private static final String TAG = "MusicAdapter";
     private ObservableArrayList<MediaItem> mSearchMediaItems, mSheetMediaItems;
@@ -54,7 +56,9 @@ public class MusicAdapter extends BaseBindingAdapter<MediaItem, ItemMusicListBin
         if (mItemClickListener == null) return;
         binding.itemMusicListLayout.setOnClickListener(v -> mItemClickListener.ItemClickListener(this,position));
         binding.itemLocalMusicMore.setOnClickListener(v -> mItemClickListener.ItemMoreClickListener(v,position));
+        Log.e(TAG,"onBindItem");
     }
+
 
     public void release(){
         super.release();

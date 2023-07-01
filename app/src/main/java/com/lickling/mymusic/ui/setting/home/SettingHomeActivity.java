@@ -32,7 +32,6 @@ import com.lickling.mymusic.service.model.MainModel;
 import com.lickling.mymusic.ui.home.nsh.LoginWangyi;
 import com.lickling.mymusic.ui.home.nsh.dao.UserDao;
 import com.lickling.mymusic.ui.setting.api.APIActivity;
-import com.lickling.mymusic.ui.setting.dialog.EditDialog;
 import com.lickling.mymusic.ui.setting.notice.NoticeActivity;
 import com.lickling.mymusic.ui.setting.password.PassWordActivity;
 import com.lickling.mymusic.ui.setting.sound_quality.SoundQualityActivity;
@@ -330,8 +329,6 @@ public void delete(){
                 dialog.dismiss();
             }
         });
-
-
         dialog.setContentView(dialogView);
         mEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -371,7 +368,6 @@ public void delete(){
 
             }
         });
-
 
         dialog.show();
     }
