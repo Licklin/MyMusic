@@ -38,7 +38,8 @@ public class MainModel {
 
     public MainModel(Context context) {
         this.context = context;
-        client = new NetEaseApiHandler();
+        client = new NetEaseApiHandler("http://192.168.31.31:3000");
+//        client = new NetEaseApiHandler();
         // userSaveID和settingInfoSaveID存在SharedPreferences里
         SharedPreferences prefs = context.getSharedPreferences("userId", Context.MODE_PRIVATE);
 
@@ -92,7 +93,7 @@ public class MainModel {
     }
 
     public NetEaseUser getNetEaseUser() {
-        return netEaseUser;
+        return NetEaseUser.findById(NetEaseUser.class,netEaseUserInfoSaveID);
     }
 
     public void setNetEaseUser(NetEaseUser netEaseUser) {
@@ -108,12 +109,12 @@ public class MainModel {
     }
 
     public User getUser() {
-        return user;
+        return User.findById(User.class,userSaveID);
     }
 
 
     public SettingInfo getSettingInfo() {
-        return settingInfo;
+        return SettingInfo.findById(SettingInfo.class,settingInfoSaveID);
     }
 
 

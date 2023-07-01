@@ -8,6 +8,7 @@ import androidx.databinding.Bindable;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.lickling.mymusic.BR;
 import com.lickling.mymusic.R;
 import com.lickling.mymusic.bean.NetEaseUser;
 import com.lickling.mymusic.bean.User;
@@ -24,13 +25,19 @@ public class UserViewModel extends BaseViewModel {
     public UserViewModel(Application application) {
         super(application);
         this.application = application;
-
+        mainModel = new MainModel(application);
         user = mainModel.getUser();
         netEaseUser = mainModel.getNetEaseUser();
 
         if (!netEaseUser.getCookie().equals("")) isLoginNetEase = true;
     }
 
+    public void notifyInfoChange(){
+        user = mainModel.getUser();
+        netEaseUser = mainModel.getNetEaseUser();
+
+        if (!netEaseUser.getCookie().equals("")) isLoginNetEase = true;
+    }
     @Bindable
     public String getNetEaseName() {
         return "网易：" + netEaseUser.getUserName();
@@ -71,6 +78,7 @@ public class UserViewModel extends BaseViewModel {
 
     public void setNetEaseUser(NetEaseUser netEaseUser) {
         this.netEaseUser = netEaseUser;
+        notifyPropertyChanged(BR.netEaseName);
     }
 
     public MainModel getMainModel() {

@@ -65,12 +65,14 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class LoginNetEase extends AppCompatActivity {
     private Toolbar toolbar;
     private MainModel mainModel;
+    private UserViewModel userViewModel;
     private EditText EditTextAccount;
     private EditText EditTextPassword;
     boolean flag = true;
     private NetEaseUser netUser;
     private Handler handler;
     private Runnable runnable;
+    private static final String TAG = "LoginNetEase";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +80,7 @@ public class LoginNetEase extends AppCompatActivity {
         setContentView(R.layout.loginwangyi);
         ImmersiveStatusBarUtil.transparentBar(this, false);
         //输入光标
-
+        userViewModel = new UserViewModel(getApplication());
         SugarContext.init(this);
 
         mainModel = new MainModel(this);
@@ -287,6 +289,7 @@ public class LoginNetEase extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
         SugarContext.terminate();
     }
 
@@ -351,6 +354,7 @@ public class LoginNetEase extends AppCompatActivity {
         if (imageView == null) {
             return;
         }
+
         mainModel.setQd2ImageView(imageView);
         checkQdState();
 
@@ -376,8 +380,13 @@ public class LoginNetEase extends AppCompatActivity {
                                 netUser.setUserName(qrCodeCheckResponse.nickname);
                                 netUser.setAvatarURL(qrCodeCheckResponse.avatarUrl);
                                 netUser.save();
+                                Log.d(TAG, " net ease name" + qrCodeCheckResponse.nickname);
+
+                                userViewModel.setNetEaseUser(netUser);
+
                                 handler.removeCallbacks(this);
-                                startActivity(new Intent(LoginNetEase.this, MainActivity.class));
+                                Log.d("登录成功", "cookie：" + qrCodeCheckResponse.cookie);
+                                Toast.makeText(LoginNetEase.this, "网易登录成功", Toast.LENGTH_SHORT).show();
                                 finish();
 //                                handler.postDelayed(new Runnable() {
 //                                    @Override
@@ -391,7 +400,7 @@ public class LoginNetEase extends AppCompatActivity {
                                 System.out.println("[checkQrCodeStatus] Cookie被偷了！");
 
                             }
-                        });
+                        }, client.defErrorHandler());
                 // 完成任务后，再次将该任务发送到主线程的消息队列中，以实现循环定时器的效果
                 handler.postDelayed(this, 1000); // 1000 毫秒后再次执行该任务
             }

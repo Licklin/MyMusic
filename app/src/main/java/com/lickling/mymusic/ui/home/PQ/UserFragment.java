@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,9 @@ import com.lickling.mymusic.ui.local.LocalActivity;
 import com.lickling.mymusic.ui.login.LoginNetEase;
 import com.lickling.mymusic.ui.setting.home.SettingHomeActivity;
 import com.lickling.mymusic.viewmodel.UserViewModel;
+import com.orm.SugarContext;
+
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,6 +33,7 @@ import com.lickling.mymusic.viewmodel.UserViewModel;
  * create an instance of this fragment.
  */
 public class UserFragment extends Fragment {
+    private static final String TAG = "UserFragment";
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -87,6 +92,25 @@ public class UserFragment extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        Log.d(TAG,"onStart: netEase user name: "+ userViewModel.getNetEaseName());
+        desktopFourBinding.setUserInfo(userViewModel);
+        userViewModel.setNetEaseAvatar(desktopFourBinding.headshot);
+//        userViewModel.setNetEaseAvatar(desktopFourBinding.headshot);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        desktopFourBinding.setUserInfo(userViewModel);
+        userViewModel.setNetEaseAvatar(desktopFourBinding.headshot);
+    }
+
+    public void setUserInfo(UserViewModel userInfo){
+        this.userViewModel = userInfo;
+    }
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
@@ -98,11 +122,13 @@ public class UserFragment extends Fragment {
         desktopFourBinding.headshot.setOnLongClickListener(view -> {
             if (userViewModel.isLoginNetEase()) {
                 NetEaseUser netEaseUser = userViewModel.getNetEaseUser();
+                SugarContext.init(Objects.requireNonNull(getActivity()));
                 netEaseUser.setUserID("");
                 netEaseUser.setUserName("");
                 netEaseUser.setUserPWD("");
                 netEaseUser.setCookie("");
                 netEaseUser.save();
+                userViewModel.setLoginNetEase(false);
                 Toast.makeText(getActivity(), "已退出网易", Toast.LENGTH_SHORT).show();
             }else Toast.makeText(getActivity(), "未登录", Toast.LENGTH_SHORT).show();
 

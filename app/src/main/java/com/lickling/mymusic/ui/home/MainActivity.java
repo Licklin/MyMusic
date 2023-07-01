@@ -104,7 +104,8 @@ public class MainActivity extends BaseActivity<MusicViewModel> {
     @Override
     protected void onStart() {
         super.onStart();
-
+        userViewModel.notifyInfoChange();
+        userFragment.setUserInfo(userViewModel);
 //
 //        UpdateProgressBar();
     }

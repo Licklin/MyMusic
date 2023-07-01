@@ -40,6 +40,7 @@ import okhttp3.Cookie;
 import okhttp3.CookieJar;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
+import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -225,16 +226,16 @@ public class NetEaseApiHandler {
 
     public Flowable<QrCodeCheckResponse> checkQrCodeStatus() {
         long timestamp = System.currentTimeMillis();
-        String qrCodeKey = null;
-
-        while (qrCodeKey == null) {
-            qrCodeKey = getQrCodeKey();
+        String qrCodeKey = "25ed2d0d-4983-4a6e-99e5-1f237f205817";
+        if (getQrCodeKey() != null)
+        {
+            qrCodeKey =getQrCodeKey();
         }
+
 
         return _client.checkQrCodeStatus(qrCodeKey, timestamp)
                 .timeout(DEF_TIME_OUT_MILLISECOND, TimeUnit.MILLISECONDS)
-                .subscribeOn(Schedulers.newThread())
-                ;
+                .subscribeOn(Schedulers.newThread());
     }
 
     public Flowable<LoginStatusResponse> getLoginStatus() {
@@ -288,6 +289,13 @@ public class NetEaseApiHandler {
 
     public Flowable<PlayListTrackAllResponse> getPlayListTrackAll(String id, int limit, int offset) {
         return _client.getPlayListTrackAll(id, limit, offset, System.currentTimeMillis())
+                .timeout(DEF_TIME_OUT_MILLISECOND, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(Schedulers.computation());
+    }
+
+    public Flowable<ResponseBody> logout() {
+        return _client.logout(System.currentTimeMillis())
                 .timeout(DEF_TIME_OUT_MILLISECOND, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(Schedulers.computation());
