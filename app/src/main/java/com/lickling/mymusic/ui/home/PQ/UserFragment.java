@@ -12,11 +12,14 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.lickling.mymusic.R;
+import com.lickling.mymusic.bean.NetEaseUser;
 import com.lickling.mymusic.databinding.FragmentDesktopFourBinding;
 import com.lickling.mymusic.ui.load.LoadActivity;
 import com.lickling.mymusic.ui.local.LocalActivity;
+import com.lickling.mymusic.ui.login.LoginNetEase;
 import com.lickling.mymusic.ui.setting.home.SettingHomeActivity;
 import com.lickling.mymusic.viewmodel.UserViewModel;
 
@@ -87,6 +90,24 @@ public class UserFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        desktopFourBinding.headshot.setOnClickListener(view -> {
+            if (userViewModel.isLoginNetEase())
+                Toast.makeText(getActivity(), "已登录网易", Toast.LENGTH_SHORT).show();
+            else startActivity(new Intent(getActivity(), LoginNetEase.class));
+        });
+        desktopFourBinding.headshot.setOnLongClickListener(view -> {
+            if (userViewModel.isLoginNetEase()) {
+                NetEaseUser netEaseUser = userViewModel.getNetEaseUser();
+                netEaseUser.setUserID("");
+                netEaseUser.setUserName("");
+                netEaseUser.setUserPWD("");
+                netEaseUser.setCookie("");
+                netEaseUser.save();
+                Toast.makeText(getActivity(), "已退出网易", Toast.LENGTH_SHORT).show();
+            }else Toast.makeText(getActivity(), "未登录", Toast.LENGTH_SHORT).show();
+
+            return false;
+        });
         desktopFourBinding.imageviewSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

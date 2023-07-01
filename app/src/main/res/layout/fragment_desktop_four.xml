@@ -134,7 +134,7 @@
                                 android:id="@+id/name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="用户名"
+                                android:text="@{userInfo.userName,default=@string/label_default_title}"
                                 android:textSize="18dp"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -151,7 +151,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:gravity="fill"
-                                android:text="12 关注" />
+                                android:text="@{userInfo.netEaseName}" />
 
                             <TextView
                                 android:layout_width="80dp"
@@ -174,7 +174,7 @@
                         android:layout_width="70dp"
                         android:layout_height="70dp"
                         android:layout_marginTop="-135dp"
-                        android:background="@drawable/pq_head_photo" />
+                         android:src="@drawable/default_record"/>
                 </LinearLayout>
             </LinearLayout>
 

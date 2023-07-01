@@ -1,4 +1,4 @@
-package com.lickling.mymusic.ui.home.nsh;
+package com.lickling.mymusic.ui.login;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -62,14 +62,15 @@ import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class LoginWangyi extends AppCompatActivity {
+public class LoginNetEase extends AppCompatActivity {
     private Toolbar toolbar;
-    private User user;
     private MainModel mainModel;
     private EditText EditTextAccount;
     private EditText EditTextPassword;
     boolean flag = true;
     private NetEaseUser netUser;
+    private Handler handler;
+    private Runnable runnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,20 +82,20 @@ public class LoginWangyi extends AppCompatActivity {
         SugarContext.init(this);
 
         mainModel = new MainModel(this);
-        user = mainModel.getUser();
         netUser = mainModel.getNetEaseUser();
 
+// 在主线程中创建一个 Handler 对象
+        handler = new Handler();
 
         EditTextAccount = findViewById(R.id.account);
         EditTextPassword = findViewById(R.id.password);
-        EditTextAccount.setText(user.getOurUserID());
-        EditTextPassword.setText(user.getOurUserPWD());
-//        login();
+        EditTextAccount.setText(netUser.getUserID());
+        EditTextPassword.setText(netUser.getUserPWD());
         toolbar = findViewById(R.id.wangyi);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Animation animation = AnimationUtils.loadAnimation(LoginWangyi.this, R.anim.alpha);
+                Animation animation = AnimationUtils.loadAnimation(LoginNetEase.this, R.anim.alpha);
                 toolbar.startAnimation(animation);
                 finish();
             }
@@ -103,8 +104,8 @@ public class LoginWangyi extends AppCompatActivity {
         EditText code = findViewById(R.id.password);
 
         ImageView imageView = findViewById(R.id.qr_code_btn);
-        if(!netUser.getCookie().equals("")) imageView.setClickable(false);
-        // 二维码
+//        if(!netUser.getCookie().equals("")) imageView.setClickable(false);
+//        // 二维码
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -185,7 +186,7 @@ public class LoginWangyi extends AppCompatActivity {
                 // 获取 TextView 中的文字
                 String text = forgetcode.getText().toString();
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(LoginWangyi.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(LoginNetEase.this);
                 builder.setIcon(R.drawable.baseline_lightbulb_24);
                 builder.setTitle("功能待完善");
                 builder.setMessage("敬请期待");
@@ -244,7 +245,7 @@ public class LoginWangyi extends AppCompatActivity {
         register_buttom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Animation animation = AnimationUtils.loadAnimation(LoginWangyi.this, R.anim.alpha);
+                Animation animation = AnimationUtils.loadAnimation(LoginNetEase.this, R.anim.alpha);
                 register_buttom.startAnimation(animation);
 
                 String text = register_buttom.getText().toString();
@@ -279,9 +280,6 @@ public class LoginWangyi extends AppCompatActivity {
                         });
                     }
                 }, 200); // 3秒后执行定时器任务
-                Intent intent = new Intent();
-                intent.setClass(LoginWangyi.this, Register.class);
-                startActivity(intent);
             }
         });
     }
@@ -330,14 +328,6 @@ public class LoginWangyi extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "登录失败", Toast.LENGTH_LONG).show();
             } else if (msg.what == 1) {
                 Toast.makeText(getApplicationContext(), "登录成功", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent();
-                intent.setClass(LoginWangyi.this, MainActivity.class);
-                user.setOurUserID(EditTextAccount.getText().toString());
-                user.setOurUserName("");
-                user.setOurUserPWD(EditTextPassword.getText().toString());
-                user.save();
-                mainModel.saveLogin(user);
-                startActivity(intent);
             } else if (msg.what == 2) {
                 Toast.makeText(getApplicationContext(), "密码错误", Toast.LENGTH_LONG).show();
             } else if (msg.what == 3) {
@@ -352,6 +342,7 @@ public class LoginWangyi extends AppCompatActivity {
         dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
+                handler.removeCallbacks(runnable);
             }
         });
         dialog.setContentView(R.layout.qd_dailog);
@@ -361,19 +352,51 @@ public class LoginWangyi extends AppCompatActivity {
             return;
         }
         mainModel.setQd2ImageView(imageView);
+        checkQdState();
+
     }
 
+    @SuppressLint("CheckResult")
+    private void checkQdState() {
+        NetEaseApiHandler client = new NetEaseApiHandler();
 
+// 一个 Runnable 对象，用于执行定时任务
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                // 在这里执行定时任务的操作
+                // ...
+                client.checkQrCodeStatus()
+                        .observeOn(AndroidSchedulers.mainThread()) // 将结果切换回主线程
+                        .subscribe(qrCodeCheckResponse -> {
+                            System.out.println("[checkQrCodeStatus] " + qrCodeCheckResponse.toString());
+                            if (qrCodeCheckResponse.code == 803) {
 
-
-//    public void logout() {
-//        // 删除用户在数据库中的信息
-//        UserDao userDao = new UserDao();
-//        userDao.deleteUser(user.getOurUserID());
+                                netUser.setCookie(qrCodeCheckResponse.cookie);
+                                netUser.setUserName(qrCodeCheckResponse.nickname);
+                                netUser.setAvatarURL(qrCodeCheckResponse.avatarUrl);
+                                netUser.save();
+                                handler.removeCallbacks(this);
+                                startActivity(new Intent(LoginNetEase.this, MainActivity.class));
+                                finish();
+//                                handler.postDelayed(new Runnable() {
+//                                    @Override
+//                                    public void run() {
 //
-//        // 返回到登录界面
-//        Intent intent = new Intent(UserActivity.this, LoginActivity.class);
-//        startActivity(intent);
-//        finish();
-//    }
+//                                    }
+//                                }, 300);
+
+                            }
+                            if (qrCodeCheckResponse.code == 800) {
+                                System.out.println("[checkQrCodeStatus] Cookie被偷了！");
+
+                            }
+                        });
+                // 完成任务后，再次将该任务发送到主线程的消息队列中，以实现循环定时器的效果
+                handler.postDelayed(this, 1000); // 1000 毫秒后再次执行该任务
+            }
+        };
+// 将该任务发送到主线程的消息队列中，以实现定时器的效果
+        handler.postDelayed(runnable, 1000); // 1000 毫秒后执行该任务
+    }
 }
