@@ -133,7 +133,7 @@ public class MarqueeTextView extends TextView {
         temp_tx1 = viewWidth / FirstScroll + textLength;
         temp_tx2 = viewWidth / FirstScroll + textLength * 2;// 自己定义，文字变化多少
         // // 文字的大小+距顶部的距离
-        ty = this.getTextSize() + this.getPaddingTop();
+        ty = this.getTextSize() + this.getPaddingTop() + (this.getTextSize() / 2);
     }
 
     /**
@@ -170,7 +170,7 @@ public class MarqueeTextView extends TextView {
         if (paint != null && width - 36 < paint.measureText(marqueeText)) {
             if (isStarting) stopScroll();
             super.setText("");
-            initScrollTextView(2);
+            initScrollTextView(1.6f);
             starScroll();
         } else {
             stopScroll();
@@ -188,12 +188,12 @@ public class MarqueeTextView extends TextView {
 
     @Override
     protected float getLeftFadingEdgeStrength() {
-        return 1f;
+        return 2f;
     }
 
     @Override
     protected float getRightFadingEdgeStrength() {
-        return 1f;
+        return 2f;
     }
 
     /**
