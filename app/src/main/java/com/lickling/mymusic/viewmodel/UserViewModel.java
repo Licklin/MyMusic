@@ -1,7 +1,9 @@
 package com.lickling.mymusic.viewmodel;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.databinding.Bindable;
 
@@ -12,6 +14,9 @@ import com.lickling.mymusic.R;
 import com.lickling.mymusic.bean.NetEaseUser;
 import com.lickling.mymusic.bean.User;
 import com.lickling.mymusic.model.MainModel;
+import com.orm.SugarContext;
+
+import java.util.Objects;
 
 public class UserViewModel extends BaseViewModel {
     private Application application;
@@ -30,12 +35,12 @@ public class UserViewModel extends BaseViewModel {
         if (!netEaseUser.getCookie().equals("")) isLoginNetEase = true;
     }
 
-    public void notifyInfoChange(){
+    public void notifyInfoChange() {
         user = mainModel.getUser();
         netEaseUser = mainModel.getNetEaseUser();
-
         if (!netEaseUser.getCookie().equals("")) isLoginNetEase = true;
     }
+
     @Bindable
     public String getNetEaseName() {
         return "网易：" + netEaseUser.getUserName();
@@ -76,6 +81,7 @@ public class UserViewModel extends BaseViewModel {
 
     public void setNetEaseUser(NetEaseUser netEaseUser) {
         this.netEaseUser = netEaseUser;
+//        setNetEaseAvatar();
         notifyPropertyChanged(BR.netEaseName);
     }
 
@@ -89,5 +95,38 @@ public class UserViewModel extends BaseViewModel {
 
     public void setMainModel(MainModel mainModel) {
         this.mainModel = mainModel;
+    }
+
+    @SuppressLint("CheckResult")
+    public void upgradeNteEaseInfo(ImageView imageView) { // 更新个人主页的网易信息，参数：显示头像的ImageView
+        if (isLoginNetEase()) {
+            mainModel.loadCookie(mainModel.getNetEaseUser().getCookie()); // 加载cookie
+            mainModel.getClient().getLoginStatus()
+                    .subscribe(result -> {
+                        NetEaseUser netEaseUser = getNetEaseUser(); //
+                        netEaseUser.setUserName(result.getNickname()); // 昵称
+                        netEaseUser.setAvatarURL(result.getAvatar()); // 保存头像地址
+                        netEaseUser.setUserID(result.getUserId()); // id
+                        netEaseUser.save();
+                        setNetEaseUser(netEaseUser);
+                        setNetEaseAvatar(imageView); // 设置头像
+                    }, mainModel.getClient().defErrorHandler());
+        }
+    }
+
+    public boolean logoutNetEase() {
+        if (isLoginNetEase()) {
+            NetEaseUser netEaseUser = getNetEaseUser();
+            SugarContext.init(Objects.requireNonNull(application));
+            netEaseUser.setUserID("");
+            netEaseUser.setUserName("");
+            netEaseUser.setUserPWD("");
+            netEaseUser.setCookie("");
+            mainModel.setNetEaseUser(netEaseUser);
+            netEaseUser.save();
+            setLoginNetEase(false);
+            return true;
+        } else
+            return false;
     }
 }

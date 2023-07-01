@@ -48,7 +48,6 @@ public class UserFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private MainModel mainModel;
 
     public UserFragment() {
         // Required empty public constructor
@@ -84,7 +83,7 @@ public class UserFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-         mainModel = new MainModel(getActivity());
+
     }
 
     @Override
@@ -100,24 +99,9 @@ public class UserFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        Log.e(TAG, "onStart: "+ mainModel.getNetEaseUser().getCookie());
-        if(userViewModel.isLoginNetEase()) {
-            mainModel.loadCookie(mainModel.getNetEaseUser().getCookie());
-            mainModel.getClient().getLoginStatus()
-                    .subscribe(result -> {
-                        NetEaseUser netEaseUser = new NetEaseUser();
-                        netEaseUser.setUserName(result.getNickname());
-                        netEaseUser.setAvatarURL(result.getAvatar());
-                        netEaseUser.setUserID(result.getUserId());
-                        netEaseUser.save();
-                        userViewModel.setNetEaseUser(netEaseUser);
-                    },mainModel.getClient().defErrorHandler());
-        }
-
-        Log.d(TAG,"onStart: netEase user name: "+ userViewModel.getNetEaseName());
+        Log.d(TAG, "onStart: netEase user name: " + userViewModel.getNetEaseName());
+        userViewModel.upgradeNteEaseInfo(desktopFourBinding.headshot);
         desktopFourBinding.setUserInfo(userViewModel);
-        userViewModel.setNetEaseAvatar(desktopFourBinding.headshot);
-//        userViewModel.setNetEaseAvatar(desktopFourBinding.headshot);
     }
 
     @Override
@@ -127,9 +111,10 @@ public class UserFragment extends Fragment {
         userViewModel.setNetEaseAvatar(desktopFourBinding.headshot);
     }
 
-    public void setUserInfo(UserViewModel userInfo){
+    public void setUserInfo(UserViewModel userInfo) {
         this.userViewModel = userInfo;
     }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -144,18 +129,10 @@ public class UserFragment extends Fragment {
 
 
         desktopFourBinding.headshot.setOnLongClickListener(view -> {
-            if (userViewModel.isLoginNetEase()) {
-                NetEaseUser netEaseUser = userViewModel.getNetEaseUser();
-                SugarContext.init(Objects.requireNonNull(getActivity()));
-                netEaseUser.setUserID("");
-                netEaseUser.setUserName("");
-                netEaseUser.setUserPWD("");
-                netEaseUser.setCookie("");
-                netEaseUser.save();
-                userViewModel.setLoginNetEase(false);
-                Toast.makeText(getActivity(), "已退出网易", Toast.LENGTH_SHORT).show();
-            }else Toast.makeText(getActivity(), "未登录", Toast.LENGTH_SHORT).show();
 
+            if (userViewModel.logoutNetEase())
+                Toast.makeText(getActivity(), "网易：退出成功", Toast.LENGTH_SHORT).show();
+            else Toast.makeText(getActivity(), "网易：退出失败", Toast.LENGTH_SHORT).show();
             return false;
         });
         desktopFourBinding.imageviewSetting.setOnClickListener(new View.OnClickListener() {
