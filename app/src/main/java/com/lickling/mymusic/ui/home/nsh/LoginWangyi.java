@@ -13,7 +13,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -25,41 +24,27 @@ import android.text.style.BackgroundColorSpan;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.UnderlineSpan;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.lickling.mymusic.R;
 import com.lickling.mymusic.bean.User;
-import com.lickling.mymusic.bean.networkBean.QrCodeCheckResponse;
 import com.lickling.mymusic.model.MainModel;
 import com.lickling.mymusic.network.NetEase.NetEaseApiHandler;
 import com.lickling.mymusic.ui.home.MainActivity;
 import com.lickling.mymusic.ui.home.nsh.dao.UserDao;
 import com.lickling.mymusic.utilty.ImmersiveStatusBarUtil;
-import com.lickling.mymusic.utilty.PictureUtil;
-import com.lickling.mymusic.viewmodel.MusicViewModel;
-import com.lickling.mymusic.viewmodel.UserViewModel;
 import com.orm.SugarContext;
 
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.core.Observer;
-import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class LoginWangyi extends AppCompatActivity {
     private Toolbar toolbar;
@@ -77,6 +62,14 @@ public class LoginWangyi extends AppCompatActivity {
         //输入光标
 
         SugarContext.init(this);
+        SugarContext.init(this);
+        // 获取 SharedPreferences 对象
+        SharedPreferences prefs = getSharedPreferences("userId", Context.MODE_PRIVATE);
+
+        long saveKeyOfUser = prefs.getLong("saveKeyOfUser", -1);
+        long saveKeyOfSetting = prefs.getLong("saveKeyOfSetting", -1);
+
+
 
         mainModel = new MainModel(this);
         user = mainModel.getUser();
@@ -281,6 +274,18 @@ public class LoginWangyi extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         SugarContext.terminate();
@@ -301,7 +306,6 @@ public class LoginWangyi extends AppCompatActivity {
                 hand1.sendEmptyMessage(msg);
             }
         }.start();
-
     }
 
     public void login() {
@@ -326,11 +330,13 @@ public class LoginWangyi extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "登录成功", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent();
                 intent.setClass(LoginWangyi.this, MainActivity.class);
+                SugarContext.init(LoginWangyi.this);
                 user.setOurUserID(EditTextAccount.getText().toString());
-                user.setOurUserName("");
+//              user.setOurUserName("");
                 user.setOurUserPWD(EditTextPassword.getText().toString());
                 user.save();
                 mainModel.saveLogin(user);
+                SugarContext.terminate();
                 startActivity(intent);
             } else if (msg.what == 2) {
                 Toast.makeText(getApplicationContext(), "密码错误", Toast.LENGTH_LONG).show();

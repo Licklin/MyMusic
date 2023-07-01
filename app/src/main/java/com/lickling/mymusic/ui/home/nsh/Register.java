@@ -40,8 +40,8 @@ public class Register extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         userAccount = findViewById(R.id.account);
-        userPassword = findViewById(R.id.password);
         userName = findViewById(R.id.username);
+        userPassword = findViewById(R.id.password);
         sex=(RadioGroup) findViewById(R.id.radioGroup);
 
         EditText username = findViewById(R.id.username);
@@ -106,8 +106,8 @@ public class Register extends AppCompatActivity {
     public void register(View view) {
 
         String userAccount1 = userAccount.getText().toString();
-        String userPassword1 = userPassword.getText().toString();
         String userName1 = userName.getText().toString();
+        String userPassword1 = userPassword.getText().toString();
         String usersex1=((RadioButton)Register.this.findViewById(sex.getCheckedRadioButtonId())).getText().toString();
 
         if (TextUtils.isEmpty(userAccount1) || TextUtils.isEmpty(userPassword1) || TextUtils.isEmpty(userName1)) {
@@ -118,8 +118,8 @@ public class Register extends AppCompatActivity {
         User user = new User();
 
         user.setUserAccount(userAccount1);
-        user.setUserPassword(userPassword1);
         user.setUserName(userName1);
+        user.setUserPassword(userPassword1);
         user.setUsersex(usersex1);
 
         new Thread() {
