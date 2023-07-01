@@ -47,8 +47,8 @@ import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NetEaseApiHandler {
-
-    private Map<String, List<Cookie>> _cookies = new HashMap<>();
+    private String TAG = "NetEaseApiHandler ";
+    private static volatile Map<String, List<Cookie>> _cookies = new HashMap<>();
     public static volatile String _qrCodeKey = null;
     private OkHttpClient _httpClient;
     private Retrofit _retrofit;
@@ -197,7 +197,7 @@ public class NetEaseApiHandler {
             this._cookies = new HashMap<>();
         }
 
-        Log.e("CLIENT", "json2Cookie: " + _cookies.toString());
+//        Log.e("CLIENT", "json2Cookie: " + _cookies.toString());
 
     }
 

@@ -289,8 +289,6 @@ public class LoginNetEase extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-        SugarContext.terminate();
     }
 
     //登录验证

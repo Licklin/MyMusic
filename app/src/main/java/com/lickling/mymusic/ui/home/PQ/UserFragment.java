@@ -101,6 +101,8 @@ public class UserFragment extends Fragment {
 
         Log.d(TAG, "onStart: netEase user name: " + userViewModel.getNetEaseName());
         userViewModel.upgradeNteEaseInfo(desktopFourBinding.headshot);
+
+
         desktopFourBinding.setUserInfo(userViewModel);
     }
 
@@ -123,6 +125,9 @@ public class UserFragment extends Fragment {
             if (userViewModel.isLoginNetEase())
                 Toast.makeText(getActivity(), "已登录网易", Toast.LENGTH_SHORT).show();
             else startActivity(new Intent(getActivity(), LoginNetEase.class));
+
+
+            userViewModel.test();  // 测试
 
             Log.e(TAG, "onActivityCreated: " + userViewModel.getNetEaseUser().toString());
         });

@@ -17,6 +17,7 @@ public class NetEaseUser extends SugarRecord {
 
     public void setUserID(String usrID) {
         this.usrID = usrID;
+        this.save();
     }
 
     public String getUserName() {
@@ -25,6 +26,7 @@ public class NetEaseUser extends SugarRecord {
 
     public void setUserName(String usrName) {
         this.usrName = usrName;
+        this.save();
     }
 
     public String getUserPWD() {
@@ -33,6 +35,7 @@ public class NetEaseUser extends SugarRecord {
 
     public void setUserPWD(String usrPWD) {
         this.usrPWD = usrPWD;
+        this.save();
     }
 
     public String getCookie() {
@@ -41,6 +44,7 @@ public class NetEaseUser extends SugarRecord {
 
     public void setCookie(String cookie) {
         this.cookie = cookie;
+        this.save();
     }
 
     public String getAvatarURL() {
@@ -49,6 +53,7 @@ public class NetEaseUser extends SugarRecord {
 
     public void setAvatarURL(String avatarURL) {
         this.avatarURL = avatarURL;
+        this.save();
     }
 
     @Override

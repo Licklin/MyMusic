@@ -2,6 +2,7 @@ package com.lickling.mymusic.viewmodel;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -123,10 +124,19 @@ public class UserViewModel extends BaseViewModel {
             netEaseUser.setUserPWD("");
             netEaseUser.setCookie("");
             mainModel.setNetEaseUser(netEaseUser);
-            netEaseUser.save();
             setLoginNetEase(false);
+            mainModel.getClient().logOut();
             return true;
         } else
             return false;
+    }
+
+    @SuppressLint("CheckResult")
+    public void test() {
+        mainModel.saveCookie();
+        mainModel.getClient().getLoginStatus()
+                .subscribe(result-> {
+                    Log.e("6", "test: " + result.toString());
+                });
     }
 }

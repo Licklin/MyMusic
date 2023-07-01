@@ -26,6 +26,7 @@ public class User extends SugarRecord {
 
     public void setOurUserID(String ourUserID) {
         this.ourUserID = ourUserID;
+        this.save();
     }
 
     public String getOurUserName() {
@@ -34,6 +35,7 @@ public class User extends SugarRecord {
 
     public void setOurUserName(String ourUserName) {
         this.ourUserName = ourUserName;
+        this.save();
     }
 
     public String getOurUserPWD() {
@@ -42,6 +44,7 @@ public class User extends SugarRecord {
 
     public void setOurUserPWD(String ourUserPWD) {
         this.ourUserPWD = ourUserPWD;
+        this.save();
     }
 
 }
