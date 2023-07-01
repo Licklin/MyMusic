@@ -18,7 +18,7 @@ import androidx.annotation.Nullable;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.lickling.mymusic.R;
-
+import com.lickling.mymusic.bean.musicBean.MusicBean;
 
 
 public class SongOperationPopup extends BottomSheetDialogFragment{
@@ -30,7 +30,7 @@ public class SongOperationPopup extends BottomSheetDialogFragment{
     private Integer selectedItem;
     private View view;
 
-    private OnDeleteItemListener deleteItemListener;
+    private OnPopupClickListener onPopupClickListener;
 
     public SongOperationPopup() {
 
@@ -40,23 +40,24 @@ public class SongOperationPopup extends BottomSheetDialogFragment{
         this.context = context;
     }
 
-    public interface OnDeleteItemListener {
-        void onDeleteItem(int position);
+    public interface OnPopupClickListener {
+        void deleteItemClickListener(int position);
+
+        void nextPlayItemClickListener(int position);
     }
 
-
-    public void setOnDeleteItemListener(OnDeleteItemListener listener) {
-        deleteItemListener = listener;
+    public void setOnPopupClickListener(OnPopupClickListener listener) {
+        onPopupClickListener = listener;
     }
 
-    public void setData(ListItem item, int selectedItem) {
+    public void setData(MusicBean item, int selectedItem) {
         this.selectedItem = selectedItem;
 
-        this.singer_name = item.getTitle();
+        this.singer_name = item.getArtist();
 
-        this.song_title = item.getSubtitle();
+        this.song_title = item.getTitle();
 
-        this.singer_info ="歌手："+item.getSubtitle();
+        this.singer_info ="歌手："+item.getArtist();
     }
 
     public SongOperationPopup(Context context, View v, int selectedItem) {
@@ -93,11 +94,11 @@ public class SongOperationPopup extends BottomSheetDialogFragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.loaded_song_op_popup, container, false);
 
-        TextView sn = view.findViewById(R.id.title);
+        TextView sn = view.findViewById(R.id.subtitle);
         assert sn != null;
         sn.setText(this.singer_name);
 
-        TextView st = view.findViewById(R.id.subtitle);
+        TextView st = view.findViewById(R.id.title);
         assert st != null;
         st.setText(this.song_title);
 
@@ -109,29 +110,31 @@ public class SongOperationPopup extends BottomSheetDialogFragment{
         Button delete_btn = view.findViewById(R.id.delete_btn);
 
 
-        //下一曲播放
-        next_play_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
-
-
-        //删除
-        delete_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (selectedItem != -1) {
-                    deleteItemListener.onDeleteItem(selectedItem);
-                    Toast.makeText(context, "删除成功", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(context, "删除失败", Toast.LENGTH_SHORT).show();
-                }
-                dismiss();
-            }
-        });
-
+        next_play_btn.setOnClickListener(v -> onPopupClickListener.nextPlayItemClickListener(selectedItem));
+        delete_btn.setOnClickListener(v -> onPopupClickListener.deleteItemClickListener(selectedItem));
+//        //下一曲播放
+//        next_play_btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(context, "已添加到下一曲播放", Toast.LENGTH_SHORT).show();
+//                dismiss();
+//            }
+//        });
+//
+//
+//        //删除
+//        delete_btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (selectedItem != -1) {
+//                    deleteItemListener.onDeleteItem(selectedItem);
+//                    Toast.makeText(context, "删除成功", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    Toast.makeText(context, "删除失败", Toast.LENGTH_SHORT).show();
+//                }
+//                dismiss();
+//            }
+//        });
 
         return view;
     }
