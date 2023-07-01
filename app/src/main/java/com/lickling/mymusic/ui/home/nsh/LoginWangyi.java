@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,26 +26,40 @@ import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.lickling.mymusic.R;
 import com.lickling.mymusic.bean.User;
+import com.lickling.mymusic.bean.networkBean.QrCodeCheckResponse;
 import com.lickling.mymusic.model.MainModel;
+import com.lickling.mymusic.network.NetEase.NetEaseApiHandler;
 import com.lickling.mymusic.ui.home.MainActivity;
 import com.lickling.mymusic.ui.home.nsh.dao.UserDao;
 import com.lickling.mymusic.utilty.ImmersiveStatusBarUtil;
+import com.lickling.mymusic.utilty.PictureUtil;
 import com.lickling.mymusic.viewmodel.MusicViewModel;
 import com.lickling.mymusic.viewmodel.UserViewModel;
 import com.orm.SugarContext;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Observer;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class LoginWangyi extends AppCompatActivity {
     private Toolbar toolbar;
@@ -52,6 +67,7 @@ public class LoginWangyi extends AppCompatActivity {
     private MainModel mainModel;
     private EditText EditTextAccount;
     private EditText EditTextPassword;
+    boolean flag = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,25 +76,16 @@ public class LoginWangyi extends AppCompatActivity {
         ImmersiveStatusBarUtil.transparentBar(this, false);
         //输入光标
 
-        // 获取 SharedPreferences 对象
-        SharedPreferences prefs = getSharedPreferences("userId", Context.MODE_PRIVATE);
-
-        long saveKeyOfUser = prefs.getLong("saveKeyOfUser", -1);
-        long saveKeyOfSetting = prefs.getLong("saveKeyOfSetting", -1);
-
         SugarContext.init(this);
 
-        mainModel = new MainModel(saveKeyOfUser, saveKeyOfSetting);
+        mainModel = new MainModel(this);
         user = mainModel.getUser();
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putLong("saveKeyOfUser", mainModel.getUserSaveID());
-        editor.putLong("saveKeyOfSetting", mainModel.getSettingInfoSaveID());
-        editor.apply();
+
         EditTextAccount = findViewById(R.id.account);
         EditTextPassword = findViewById(R.id.password);
         EditTextAccount.setText(user.getOurUserID());
         EditTextPassword.setText(user.getOurUserPWD());
-        login();
+//        login();
         toolbar = findViewById(R.id.wangyi);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,6 +98,13 @@ public class LoginWangyi extends AppCompatActivity {
         TextView account = findViewById(R.id.account);
         EditText code = findViewById(R.id.password);
 
+        ImageView imageView = findViewById(R.id.qr_code_btn);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showLoginQd();
+            }
+        });
         account.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -110,7 +124,7 @@ public class LoginWangyi extends AppCompatActivity {
             public void onFocusChange(View v, boolean hasFocus) {
                 // 如果 newPassWordEdit1 获得了焦点，则将下划线颜色设置为红色
                 if (hasFocus) {
-                    code.getBackground().setColorFilter(ContextCompat.getColor(getApplicationContext(),R.color.wy_red), PorterDuff.Mode.SRC_IN);
+                    code.getBackground().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.wy_red), PorterDuff.Mode.SRC_IN);
                 }
                 // 如果 newPassWordEdit1 失去了焦点，则将下划线颜色恢复默认颜色
                 else {
@@ -274,12 +288,12 @@ public class LoginWangyi extends AppCompatActivity {
 
     //登录验证
 
-    public void login(View view){
+    public void login(View view) {
 
         EditText EditTextAccount = findViewById(R.id.account);
         EditText EditTextPassword = findViewById(R.id.password);
 
-        new Thread(){
+        new Thread() {
             @Override
             public void run() {
                 UserDao userDao = new UserDao();
@@ -325,6 +339,65 @@ public class LoginWangyi extends AppCompatActivity {
             }
         }
     };
+
+    @SuppressLint("CheckResult")
+    private void showLoginQd() {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.qd_dailog);
+        ImageView imageView = dialog.findViewById(R.id.qd_imageview);
+        dialog.show();
+        if (imageView == null) {
+            return;
+        }
+        mainModel.setQd2ImageView(imageView);
+        checkQdState();
+
+    }
+
+    @SuppressLint("CheckResult")
+    private void checkQdState() {
+        NetEaseApiHandler client = new NetEaseApiHandler();
+
+// 在主线程中创建一个 Handler 对象
+        Handler handler = new Handler();
+
+// 定义一个 Runnable 对象，用于执行定时任务
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                // 在这里执行定时任务的操作
+                // ...
+                client.checkQrCodeStatus()
+                        .observeOn(AndroidSchedulers.mainThread()) // 将结果切换回主线程
+                        .subscribe(qrCodeCheckResponse -> {
+                            System.out.println("[checkQrCodeStatus] " + qrCodeCheckResponse.toString());
+                            if (qrCodeCheckResponse.code == 803) {
+                                String cookie = qrCodeCheckResponse.cookie;
+
+//                                client.saveCookiesVarToFile("");
+                                startActivity(new Intent(LoginWangyi.this,MainActivity.class));
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        finish();
+                                    }
+                                },300);
+
+                            }
+                            if (qrCodeCheckResponse.code == 800) {
+                                System.out.println("[checkQrCodeStatus] Cookie被偷了！");
+
+                            }
+                        });
+                // 完成任务后，再次将该任务发送到主线程的消息队列中，以实现循环定时器的效果
+                handler.postDelayed(this, 1000); // 1000 毫秒后再次执行该任务
+            }
+        };
+// 将该任务发送到主线程的消息队列中，以实现定时器的效果
+        handler.postDelayed(runnable, 1000); // 1000 毫秒后执行该任务
+    }
+
+
 
 //    public void logout() {
 //        // 删除用户在数据库中的信息

@@ -30,7 +30,6 @@ import com.lickling.mymusic.bean.SettingInfo;
 import com.lickling.mymusic.bean.User;
 import com.lickling.mymusic.model.MainModel;
 import com.lickling.mymusic.ui.setting.api.APIActivity;
-import com.lickling.mymusic.ui.setting.dialog.EditDialog;
 import com.lickling.mymusic.ui.setting.notice.NoticeActivity;
 import com.lickling.mymusic.ui.setting.password.PassWordActivity;
 import com.lickling.mymusic.ui.setting.sound_quality.SoundQualityActivity;
@@ -186,8 +185,6 @@ public class SettingHomeActivity extends AppCompatActivity  {
         accountCancellation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditDialog dialog = new EditDialog();
-//                dialog.show(getFragmentManager(), "MyDialogFragment");
                 showEditDialog("账号注销", user.getOurUserName());
             }
         });
@@ -313,8 +310,6 @@ public class SettingHomeActivity extends AppCompatActivity  {
                 dialog.dismiss();
             }
         });
-
-
         dialog.setContentView(dialogView);
         mEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -354,7 +349,6 @@ public class SettingHomeActivity extends AppCompatActivity  {
 
             }
         });
-
 
         dialog.show();
     }
