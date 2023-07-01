@@ -59,6 +59,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class LoginWangyi extends AppCompatActivity {
     private Toolbar toolbar;
@@ -356,43 +357,46 @@ public class LoginWangyi extends AppCompatActivity {
     @SuppressLint("CheckResult")
     private void checkQdState() {
         NetEaseApiHandler client = new NetEaseApiHandler();
-        Timer mTimer = new Timer();
-        client.checkQrCodeStatus()
-                .subscribe(qrCodeCheckResponse -> {
-                    System.out.println("[checkQrCodeStatus] " + qrCodeCheckResponse.toString());
-                    if (qrCodeCheckResponse.code == 803) {
-                        flag = false;
-                    }
-                    if (qrCodeCheckResponse.code == 800) {
-                        System.out.println("[checkQrCodeStatus] Cookie被偷了！");
-                        flag = true;
-                    }
-                });
-        mTimer.schedule(new TimerTask() {
-            @SuppressLint("CheckResult")
+
+// 在主线程中创建一个 Handler 对象
+        Handler handler = new Handler();
+
+// 定义一个 Runnable 对象，用于执行定时任务
+        Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                // 检测二维码状态的代码
-                    client.checkQrCodeStatus()
-                            .subscribe(qrCodeCheckResponse -> {
-                                System.out.println("[checkQrCodeStatus] " + qrCodeCheckResponse.toString());
-                                if (qrCodeCheckResponse.code == 803) {
-//                                    client.saveCookiesVarToFile(PATH);
-                                    flag = false;
-                                }
-                                if (qrCodeCheckResponse.code == 800) {
-                                    System.out.println("[checkQrCodeStatus] Cookie被偷了！");
-                                    flag = true;
-                                }
-                            });
+                // 在这里执行定时任务的操作
+                // ...
+                client.checkQrCodeStatus()
+                        .observeOn(AndroidSchedulers.mainThread()) // 将结果切换回主线程
+                        .subscribe(qrCodeCheckResponse -> {
+                            System.out.println("[checkQrCodeStatus] " + qrCodeCheckResponse.toString());
+                            if (qrCodeCheckResponse.code == 803) {
+                                String cookie = qrCodeCheckResponse.cookie;
+
+//                                client.saveCookiesVarToFile("");
+                                startActivity(new Intent(LoginWangyi.this,MainActivity.class));
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        finish();
+                                    }
+                                },300);
+
+                            }
+                            if (qrCodeCheckResponse.code == 800) {
+                                System.out.println("[checkQrCodeStatus] Cookie被偷了！");
+
+                            }
+                        });
+                // 完成任务后，再次将该任务发送到主线程的消息队列中，以实现循环定时器的效果
+                handler.postDelayed(this, 1000); // 1000 毫秒后再次执行该任务
             }
-        }, 0, 3000); // 每3秒检测一次
-
+        };
+// 将该任务发送到主线程的消息队列中，以实现定时器的效果
+        handler.postDelayed(runnable, 1000); // 1000 毫秒后执行该任务
     }
 
-    private void setFlag(boolean t) {
-        this.flag = t;
-    }
 
 
 //    public void logout() {

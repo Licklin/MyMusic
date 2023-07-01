@@ -117,7 +117,7 @@ public class MainModel {
                 .subscribe(QRCodeBase64 -> {
                     if (QRCodeBase64 != null)
                     {
-                        Log.d(TAG, "[NetEaseTest subscribe: QRCodeBase64] " + QRCodeBase64);
+//                        Log.d(TAG, "[NetEaseTest subscribe: QRCodeBase64] " + QRCodeBase64);
                         Glide.with(context)
                                 .asBitmap()
                                 .load(PictureUtil.base64String2Bitmap(QRCodeBase64))

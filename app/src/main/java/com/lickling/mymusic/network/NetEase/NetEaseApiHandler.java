@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.functions.Function;
@@ -46,7 +47,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class NetEaseApiHandler {
 
     private Map<String, List<Cookie>> _cookies = new HashMap<>();
-    private String _qrCodeKey = null;
+    public static volatile String _qrCodeKey = null;
     private OkHttpClient _httpClient;
     private Retrofit _retrofit;
     private final int DEF_TIME_OUT_MILLISECOND = 10000;
@@ -114,19 +115,21 @@ public class NetEaseApiHandler {
         // 只使用这个来设置this._qrCodeKey
         synchronized (this) {
             this._qrCodeKey = qrCodeKey;
+//            System.out.println("setQrCodeKey" + this._qrCodeKey);
         }
     }
 
     private String getQrCodeKey() {
         // 只使用这个来获取this._qrCodeKey
         synchronized (this) {
+            System.out.println("getQrCodeKey:" + (this._qrCodeKey == null));
             if (this._qrCodeKey != null) {
-                String tmp = this._qrCodeKey;
-//                this._qrCodeKey = null;
-                return tmp;
+                System.out.println("getQrCodeKey:" + this._qrCodeKey);
+                return this._qrCodeKey;
             }
+            return null;
         }
-        return null;
+
     }
 
     //----类方法----
@@ -185,7 +188,7 @@ public class NetEaseApiHandler {
         return _client.getQrKey(timestamp)
                 .timeout(DEF_TIME_OUT_MILLISECOND, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
                 .flatMap(new Function<QrCodeKeyRespone, Flowable<QrCodeObtainResponse>>() {
                     @Override
                     public Flowable<QrCodeObtainResponse> apply(QrCodeKeyRespone qrCodeKeyRespone) throws Throwable {
@@ -193,6 +196,7 @@ public class NetEaseApiHandler {
                         if (__DEBUG__)
                             System.out.println("[NetEaseTest flatMap: qrCodeKey Obj ]" + qrCodeKeyRespone);
                         String key = qrCodeKeyRespone.getUniKey() == null ? "" : qrCodeKeyRespone.getUniKey();
+                        NetEaseApiHandler._qrCodeKey = key;
                         setQrCodeKey(key);
                         return _client.getQrCode(key, "true", timestamp);
                     }
@@ -230,7 +234,7 @@ public class NetEaseApiHandler {
         return _client.checkQrCodeStatus(qrCodeKey, timestamp)
                 .timeout(DEF_TIME_OUT_MILLISECOND, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.newThread())
-                .observeOn(Schedulers.computation());
+                ;
     }
 
     public Flowable<LoginStatusResponse> getLoginStatus() {
