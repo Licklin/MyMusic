@@ -86,7 +86,6 @@ public class SettingHomeActivity extends AppCompatActivity  {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        SugarContext.terminate();
     }
 
     @SuppressLint("SetTextI18n")
@@ -387,12 +386,9 @@ public void delete(){
                 user.setOurUserID("");
                 user.setOurUserName("");
                 user.setOurUserPWD("");
-                user.save();
-                mainModel.saveLogin(user);
                 Intent intent = new Intent(SettingHomeActivity.this, LoginWangyi.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
-//                SugarContext.terminate();
             }
         }
 

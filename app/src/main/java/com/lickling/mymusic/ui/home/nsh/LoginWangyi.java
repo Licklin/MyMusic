@@ -64,14 +64,6 @@ public class LoginWangyi extends AppCompatActivity {
         ImmersiveStatusBarUtil.transparentBar(this, false);
         //输入光标
 
-        SugarContext.init(this);
-        SugarContext.init(this);
-        // 获取 SharedPreferences 对象
-        SharedPreferences prefs = getSharedPreferences("userId", Context.MODE_PRIVATE);
-
-        long saveKeyOfUser = prefs.getLong("saveKeyOfUser", -1);
-        long saveKeyOfSetting = prefs.getLong("saveKeyOfSetting", -1);
-
 
 
         mainModel = new MainModel(this);
@@ -81,7 +73,6 @@ public class LoginWangyi extends AppCompatActivity {
         EditTextPassword = findViewById(R.id.password);
         EditTextAccount.setText(user.getOurUserID());
         EditTextPassword.setText(user.getOurUserPWD());
-       //login();
         toolbar = findViewById(R.id.wangyi);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -291,7 +282,6 @@ public class LoginWangyi extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        SugarContext.terminate();
     }
 
     //登录验证
@@ -342,13 +332,11 @@ public class LoginWangyi extends AppCompatActivity {
 
                 Intent intent = new Intent();
                 intent.setClass(LoginWangyi.this, MainActivity.class);
-                SugarContext.init(LoginWangyi.this);
                 user.setOurUserID(EditTextAccount.getText().toString());
 //              user.setOurUserName("");
                 user.setOurUserPWD(EditTextPassword.getText().toString());
                 user.save();
                 mainModel.saveLogin(user);
-                SugarContext.terminate();
                 startActivity(intent);
             } else if (msg.what == 2) {
                 Toast.makeText(getApplicationContext(), "密码错误", Toast.LENGTH_LONG).show();
@@ -368,54 +356,7 @@ public class LoginWangyi extends AppCompatActivity {
             return;
         }
         mainModel.setQd2ImageView(imageView);
-        checkQdState();
-
     }
-
-    @SuppressLint("CheckResult")
-    private void checkQdState() {
-        NetEaseApiHandler client = new NetEaseApiHandler();
-
-// 在主线程中创建一个 Handler 对象
-        Handler handler = new Handler();
-
-// 定义一个 Runnable 对象，用于执行定时任务
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                // 在这里执行定时任务的操作
-                // ...
-                client.checkQrCodeStatus()
-                        .observeOn(AndroidSchedulers.mainThread()) // 将结果切换回主线程
-                        .subscribe(qrCodeCheckResponse -> {
-                            System.out.println("[checkQrCodeStatus] " + qrCodeCheckResponse.toString());
-                            if (qrCodeCheckResponse.code == 803) {
-                                String cookie = qrCodeCheckResponse.cookie;
-
-//                                client.saveCookiesVarToFile("");
-                                startActivity(new Intent(LoginWangyi.this,MainActivity.class));
-                                handler.postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        finish();
-                                    }
-                                },300);
-
-                            }
-                            if (qrCodeCheckResponse.code == 800) {
-                                System.out.println("[checkQrCodeStatus] Cookie被偷了！");
-
-                            }
-                        });
-                // 完成任务后，再次将该任务发送到主线程的消息队列中，以实现循环定时器的效果
-                handler.postDelayed(this, 1000); // 1000 毫秒后再次执行该任务
-            }
-        };
-// 将该任务发送到主线程的消息队列中，以实现定时器的效果
-        handler.postDelayed(runnable, 1000); // 1000 毫秒后执行该任务
-    }
-
-
 
 //    public void logout() {
 //        // 删除用户在数据库中的信息
