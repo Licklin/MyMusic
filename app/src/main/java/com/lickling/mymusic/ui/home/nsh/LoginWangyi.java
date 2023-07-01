@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -52,6 +53,8 @@ public class LoginWangyi extends AppCompatActivity {
     private MainModel mainModel;
     private EditText EditTextAccount;
     private EditText EditTextPassword;
+    private ProgressDialog progressDialog;
+
     boolean flag = true;
 
     @Override
@@ -78,7 +81,7 @@ public class LoginWangyi extends AppCompatActivity {
         EditTextPassword = findViewById(R.id.password);
         EditTextAccount.setText(user.getOurUserID());
         EditTextPassword.setText(user.getOurUserPWD());
-//        login();
+       //login();
         toolbar = findViewById(R.id.wangyi);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -297,24 +300,32 @@ public class LoginWangyi extends AppCompatActivity {
 
         EditText EditTextAccount = findViewById(R.id.account);
         EditText EditTextPassword = findViewById(R.id.password);
-
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("登录中...");
+        progressDialog.show();
         new Thread() {
             @Override
             public void run() {
                 UserDao userDao = new UserDao();
                 int msg = userDao.login(EditTextAccount.getText().toString(), EditTextPassword.getText().toString());
                 hand1.sendEmptyMessage(msg);
+                progressDialog.dismiss();
             }
         }.start();
+
     }
 
     public void login() {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("登录中...");
+        progressDialog.show();
         new Thread() {
             @Override
             public void run() {
                 UserDao userDao = new UserDao();
                 int msg = userDao.login(EditTextAccount.getText().toString(), EditTextPassword.getText().toString());
                 hand1.sendEmptyMessage(msg);
+                progressDialog.dismiss();
             }
         }.start();
 
@@ -328,6 +339,7 @@ public class LoginWangyi extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "登录失败", Toast.LENGTH_LONG).show();
             } else if (msg.what == 1) {
                 Toast.makeText(getApplicationContext(), "登录成功", Toast.LENGTH_LONG).show();
+
                 Intent intent = new Intent();
                 intent.setClass(LoginWangyi.this, MainActivity.class);
                 SugarContext.init(LoginWangyi.this);

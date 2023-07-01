@@ -151,8 +151,9 @@ public class SettingHomeActivity extends AppCompatActivity  {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                SugarContext.init(SettingHomeActivity.this);
                 mainModel.saveSetting(settingInfo);
+                finish();
             }
         });
 
@@ -383,7 +384,7 @@ public void delete(){
         mTitle.setText(title);
         mSubtitle.setText(subtitle);
 
-        if (subtitle.equals(""))
+        if (subtitle!=null&&subtitle.equals(user.getOurUserID()))
             mSubtitle.setVisibility(View.GONE);
         btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
