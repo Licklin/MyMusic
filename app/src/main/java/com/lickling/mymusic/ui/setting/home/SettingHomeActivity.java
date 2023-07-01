@@ -29,6 +29,8 @@ import com.lickling.mymusic.R;
 import com.lickling.mymusic.bean.SettingInfo;
 import com.lickling.mymusic.bean.User;
 import com.lickling.mymusic.model.MainModel;
+import com.lickling.mymusic.ui.home.nsh.LoginWangyi;
+import com.lickling.mymusic.ui.home.nsh.dao.UserDao;
 import com.lickling.mymusic.ui.setting.api.APIActivity;
 import com.lickling.mymusic.ui.setting.notice.NoticeActivity;
 import com.lickling.mymusic.ui.setting.password.PassWordActivity;
@@ -185,7 +187,9 @@ public class SettingHomeActivity extends AppCompatActivity  {
         accountCancellation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showEditDialog("账号注销", user.getOurUserName());
+//                EditDialog dialog = new EditDialog();
+//                dialog.show(getFragmentManager(), "MyDialogFragment");
+                showEditDialog("账号注销", user.getOurUserID());
             }
         });
 
@@ -286,6 +290,17 @@ public class SettingHomeActivity extends AppCompatActivity  {
 
     }
 
+public void delete(){
+        new Thread(){
+            @Override
+            public void run() {
+                UserDao userDao = new UserDao();
+                userDao.deleteUser(user.getOurUserID());
+            }
+        }.start();
+}
+
+
     private void showEditDialog(String title, String subtitle) {
         Dialog dialog = new Dialog(this);
         View dialogView = LayoutInflater.from(this).inflate(R.layout.setting_edit_dialog, null);
@@ -300,8 +315,12 @@ public class SettingHomeActivity extends AppCompatActivity  {
             @Override
             public void onClick(View view) {
                 //账号注销操作
+               delete();
                 Toast.makeText(SettingHomeActivity.this, "成功", Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
+                Intent intent = new Intent(SettingHomeActivity.this, LoginWangyi.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
             }
         });
         mCancelButton.setOnClickListener(new View.OnClickListener() {
@@ -372,6 +391,16 @@ public class SettingHomeActivity extends AppCompatActivity  {
                 // 点击确定后的处理
                 Toast.makeText(SettingHomeActivity.this, "成功", Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
+                SugarContext.init(SettingHomeActivity.this);
+                user.setOurUserID("");
+                user.setOurUserName("");
+                user.setOurUserPWD("");
+                user.save();
+                mainModel.saveLogin(user);
+                Intent intent = new Intent(SettingHomeActivity.this, LoginWangyi.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+//                SugarContext.terminate();
             }
         }
 

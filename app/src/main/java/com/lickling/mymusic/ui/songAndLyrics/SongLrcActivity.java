@@ -108,12 +108,18 @@ public class SongLrcActivity extends BaseActivity<SongLrcViewModel> {
 
         mSongLrcBinding.songLrcCenterLrc.setOnClickListener(v -> mSongLrcViewModel.setShowLyric(false));
 
-        //！！！让vector资源替换颜色，适配深色模式
-        int color = Color.parseColor("#EEEEEE");
-        mSongLrcBinding.songLrcBottomLeft.getDrawable().setTint(color);
-        mSongLrcBinding.songLrcBottomRight.getDrawable().setTint(color);
-        mSongLrcBinding.songLrcCenterLove.getDrawable().setTint(color);
-        mSongLrcBinding.songLrcBottomList.getDrawable().setTint(color);
+        //让vector资源替换颜色
+        int color_play_ctrl = Color.parseColor("#cc3946");
+        mSongLrcBinding.songLrcBottomLeft.getDrawable().setTint(color_play_ctrl);
+        mSongLrcBinding.songLrcBottomRight.getDrawable().setTint(color_play_ctrl);
+        mSongLrcBinding.songLrcBottomPlay.getDrawable().setTint(color_play_ctrl);
+
+        int color_bottom_btn = Color.parseColor("#cc3946");
+        mSongLrcBinding.songLrcCenterLove.getDrawable().setTint(color_bottom_btn);
+        mSongLrcBinding.songLrcBottomList.getDrawable().setTint(color_bottom_btn);
+        mSongLrcBinding.songLrcCenterOpen.getDrawable().setTint(color_bottom_btn);
+        mSongLrcBinding.songLrcBottomPlayMode.getDrawable().setTint(color_bottom_btn);
+        mSongLrcBinding.songLrcCenterDescargar.getDrawable().setTint(color_bottom_btn);
     }
 
     private void release() {
@@ -223,7 +229,7 @@ public class SongLrcActivity extends BaseActivity<SongLrcViewModel> {
         int width = Math.min(mPhoneWidth, mPhoneHeight);
         // 如果长宽差小于250, 怀疑窗口化, 因此使用宽减去250的单位来进设置尺寸
         width = Math.abs(mPhoneWidth - mPhoneHeight) < 250 ? width - 150 : width;
-        int size = (int) (width * 0.76);
+        int size = (int) (width * 0.70);
         params.width = size;
         params.height = size;
 
