@@ -67,20 +67,11 @@ public class SettingHomeActivity extends AppCompatActivity  {
         ImmersiveStatusBarUtil.transparentBar(this, false);
         SugarContext.init(this);
 
-        // 获取 SharedPreferences 对象
-        SharedPreferences prefs = getSharedPreferences("userId", Context.MODE_PRIVATE);
 
-        long saveKeyOfUser = prefs.getLong("saveKeyOfUser", 1);
-        long saveKeyOfSetting = prefs.getLong("saveKeyOfSetting", 1);
 
-        SugarContext.init(this);
+        mainModel = new MainModel(getApplication());
 
-        mainModel = new MainModel(saveKeyOfUser,saveKeyOfSetting);
 
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putLong("saveKeyOfUser", mainModel.getUserSaveID());
-        editor.putLong("saveKeyOfSetting", mainModel.getSettingInfoSaveID());
-        editor.apply();
 
         settingInfo = mainModel.getSettingInfo();
         user = mainModel.getUser();

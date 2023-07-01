@@ -8,6 +8,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.lickling.mymusic.R;
+import com.lickling.mymusic.bean.NetEaseUser;
 import com.lickling.mymusic.bean.SettingInfo;
 import com.lickling.mymusic.bean.User;
 import com.lickling.mymusic.network.NetEase.NetEaseApiHandler;
@@ -21,7 +22,9 @@ public class MainModel {
     private Context context;
     protected long userSaveID = 1;
     protected long settingInfoSaveID = 1;
+    protected long netEaseUserInfoSaveID = 1;
     protected User user;
+    protected NetEaseUser netEaseUser;
     protected SettingInfo settingInfo;
     private NetEaseApiHandler client;
 
@@ -35,25 +38,34 @@ public class MainModel {
 
     public MainModel(Context context) {
         this.context = context;
-        client = new NetEaseApiHandler();
         // userSaveID和settingInfoSaveID存在SharedPreferences里
         SharedPreferences prefs = context.getSharedPreferences("userId", Context.MODE_PRIVATE);
-        userSaveID = prefs.getLong("saveKeyOfUser", -1);
-        settingInfoSaveID = prefs.getLong("saveKeyOfSetting", -1);
-        SugarContext.init(context);
+
+        userSaveID = prefs.getLong("saveKeyOfUser", 1);
+        settingInfoSaveID = prefs.getLong("saveKeyOfSetting", 1);
+        netEaseUserInfoSaveID = prefs.getLong("saveKeyOfNetUser", 1);
+
         getInfoFromDisk(); // 从SugarORM里读取出详细的数据
         SharedPreferences.Editor editor = prefs.edit();
-
         // 保存userSaveID和settingInfoSaveID，应用第一次安装时SQLite里没有数据，要new数据进出会产生新的id，所以要保存id进SharedPreferences
         editor.putLong("saveKeyOfUser", getUserSaveID());
         editor.putLong("saveKeyOfSetting", getSettingInfoSaveID());
+        editor.putLong("saveKeyOfNetUser", getNetEaseUserInfoSaveID());
         editor.apply();
+        initNetModel();
+    }
+    private void initNetModel(){
+//        client = new NetEaseApiHandler(getSettingInfo().getApiUrl());
+        client = new NetEaseApiHandler("http://192.168.31.31:3000");
+        if (!netEaseUser.getCookie().equals(""))
+            loadCookie(netEaseUser.getCookie());
     }
 
     private void getInfoFromDisk() {
-
+        SugarContext.init(context);
         this.user = User.findById(User.class, userSaveID);
         this.settingInfo = SettingInfo.findById(SettingInfo.class, settingInfoSaveID);
+        this.netEaseUser = NetEaseUser.findById(NetEaseUser.class, netEaseUserInfoSaveID);
         // 没有找到数据就会为null，就需要new一个user
         if (user == null) {
             user = new User();
@@ -68,15 +80,45 @@ public class MainModel {
             settingInfo.save();
             settingInfoSaveID = settingInfo.getId();
         }
+        if (netEaseUser == null) {
+            netEaseUser = new NetEaseUser();
+            Log.e("netEaseUser", "null");
+            netEaseUser.save();
+            netEaseUserInfoSaveID = netEaseUser.getId();
+        }
+    }
+
+    public long getNetEaseUserInfoSaveID() {
+        return netEaseUserInfoSaveID;
+    }
+
+    public void setNetEaseUserInfoSaveID(long netEaseUserInfoSaveID) {
+        this.netEaseUserInfoSaveID = netEaseUserInfoSaveID;
+    }
+
+    public NetEaseUser getNetEaseUser() {
+        return NetEaseUser.findById(NetEaseUser.class, netEaseUserInfoSaveID);
+    }
+
+    public void setNetEaseUser(NetEaseUser netEaseUser) {
+        this.netEaseUser = netEaseUser;
+    }
+
+    public NetEaseApiHandler getClient() {
+        return client;
+    }
+
+    public void setClient(NetEaseApiHandler client) {
+        this.client = client;
     }
 
     public User getUser() {
-        return user;
+        return User.findById(User.class, userSaveID);
     }
 
 
     public SettingInfo getSettingInfo() {
-        return settingInfo;
+        return SettingInfo.findById(SettingInfo.class, settingInfoSaveID);
     }
 
 
@@ -115,8 +157,7 @@ public class MainModel {
         client.getQrCode()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(QRCodeBase64 -> {
-                    if (QRCodeBase64 != null)
-                    {
+                    if (QRCodeBase64 != null) {
 //                        Log.d(TAG, "[NetEaseTest subscribe: QRCodeBase64] " + QRCodeBase64);
                         Glide.with(context)
                                 .asBitmap()
@@ -126,5 +167,14 @@ public class MainModel {
 
                 }, client.defErrorHandler());
 
+    }
+
+    public String saveCookie() {
+        netEaseUser.setCookie(client.cookie2Json());
+        return netEaseUser.getCookie();
+    }
+
+    public void loadCookie(String theCookie) {
+        client.json2Cookie(theCookie);
     }
 }

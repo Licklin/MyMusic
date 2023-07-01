@@ -22,6 +22,7 @@ public class SettingInfo extends SugarRecord {
 
     public void setApiPositionId(long apiPositionId) {
         this.apiPositionId = apiPositionId;
+        this.save();
     }
 
     public String getApiUrl() {
@@ -30,6 +31,7 @@ public class SettingInfo extends SugarRecord {
 
     public void setApiUrl(String apiUrl) {
         this.apiUrl = apiUrl;
+        this.save();
     }
 
     public int getApiPosition() {
@@ -38,6 +40,7 @@ public class SettingInfo extends SugarRecord {
 
     public void setApiPosition(int apiPosition) {
         this.apiPosition = apiPosition;
+        this.save();
     }
 
 
@@ -52,6 +55,7 @@ public class SettingInfo extends SugarRecord {
 
     public void setNotification(boolean notification) {
         isNotification = notification;
+        this.save();
     }
 
     public boolean isNoticeLyric() {
@@ -60,6 +64,7 @@ public class SettingInfo extends SugarRecord {
 
     public void setNoticeLyric(boolean noticeLyric) {
         isNoticeLyric = noticeLyric;
+        this.save();
     }
 
     public int getOnlineSoundQuality() {
@@ -68,6 +73,7 @@ public class SettingInfo extends SugarRecord {
 
     public void setOnlineSoundQuality(int onlineSoundQuality) {
         this.onlineSoundQuality = onlineSoundQuality;
+        this.save();
     }
 
     public int getDownloadSoundQuality() {
@@ -76,6 +82,7 @@ public class SettingInfo extends SugarRecord {
 
     public void setDownloadSoundQuality(int downloadSoundQuality) {
         this.downloadSoundQuality = downloadSoundQuality;
+        this.save();
     }
 
     public int getCacheLimit() {
@@ -84,6 +91,7 @@ public class SettingInfo extends SugarRecord {
 
     public void setCacheLimit(int cacheLimit) {
         this.cacheLimit = cacheLimit;
+        this.save();
     }
 
 
@@ -93,5 +101,6 @@ public class SettingInfo extends SugarRecord {
 
     public void setVersion(String version) {
         this.version = version;
+        this.save();
     }
 }

@@ -42,23 +42,9 @@ public class APIActivity extends AppCompatActivity implements MenuDialogFragment
         setContentView(R.layout.activity_api);
         ImmersiveStatusBarUtil.transparentBar(this, false);
 
-        // 获取 SharedPreferences 对象
-        SharedPreferences prefs = getSharedPreferences("userId", Context.MODE_PRIVATE);
 
-        long saveKeyOfUser = prefs.getLong("saveKeyOfUser", -1);
-        long saveKeyOfSetting = prefs.getLong("saveKeyOfSetting", -1);
-
-
-        SugarContext.init(this);
-
-        mainModel = new MainModel(saveKeyOfUser, saveKeyOfSetting);
-
-
+        mainModel = new MainModel(getApplication());
         settingInfo = mainModel.getSettingInfo();
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putLong("saveKeyOfUser", mainModel.getUserSaveID());
-        editor.putLong("saveKeyOfSetting", mainModel.getSettingInfoSaveID());
-        editor.apply();
 
         apiListItems = APIListItem.listAll(APIListItem.class);
         if (apiListItems == null) {

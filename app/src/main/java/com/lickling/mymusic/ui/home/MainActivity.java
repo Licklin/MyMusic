@@ -70,8 +70,6 @@ public class MainActivity extends BaseActivity<MusicViewModel> {
         super.onCreate(savedInstanceState);
 
         mainModel = new MainModel(this);
-
-//        Toast.makeText(this, mainModel.getSettingInfo().getApiUrl(), Toast.LENGTH_SHORT).show();
         mMainBinding = DataBindingUtil.setContentView(this, R.layout.desktop);
         mMusicViewModel = new MusicViewModel(getApplication());
         userViewModel = new UserViewModel(getApplication());
