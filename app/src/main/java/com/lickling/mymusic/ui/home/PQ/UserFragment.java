@@ -1,5 +1,6 @@
 package com.lickling.mymusic.ui.home.PQ;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import com.lickling.mymusic.R;
 import com.lickling.mymusic.bean.NetEaseUser;
 import com.lickling.mymusic.databinding.FragmentDesktopFourBinding;
+import com.lickling.mymusic.model.MainModel;
 import com.lickling.mymusic.ui.load.LoadActivity;
 import com.lickling.mymusic.ui.local.LocalActivity;
 import com.lickling.mymusic.ui.login.LoginNetEase;
@@ -46,6 +48,7 @@ public class UserFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private MainModel mainModel;
 
     public UserFragment() {
         // Required empty public constructor
@@ -81,6 +84,7 @@ public class UserFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+         mainModel = new MainModel(getActivity());
     }
 
     @Override
@@ -91,9 +95,25 @@ public class UserFragment extends Fragment {
         return desktopFourBinding.getRoot();
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void onStart() {
         super.onStart();
+
+        Log.e(TAG, "onStart: "+ mainModel.getNetEaseUser().getCookie());
+        if(userViewModel.isLoginNetEase()) {
+            mainModel.loadCookie(mainModel.getNetEaseUser().getCookie());
+            mainModel.getClient().getLoginStatus()
+                    .subscribe(result -> {
+                        NetEaseUser netEaseUser = new NetEaseUser();
+                        netEaseUser.setUserName(result.getNickname());
+                        netEaseUser.setAvatarURL(result.getAvatar());
+                        netEaseUser.setUserID(result.getUserId());
+                        netEaseUser.save();
+                        userViewModel.setNetEaseUser(netEaseUser);
+                    },mainModel.getClient().defErrorHandler());
+        }
+
         Log.d(TAG,"onStart: netEase user name: "+ userViewModel.getNetEaseName());
         desktopFourBinding.setUserInfo(userViewModel);
         userViewModel.setNetEaseAvatar(desktopFourBinding.headshot);
@@ -118,7 +138,11 @@ public class UserFragment extends Fragment {
             if (userViewModel.isLoginNetEase())
                 Toast.makeText(getActivity(), "已登录网易", Toast.LENGTH_SHORT).show();
             else startActivity(new Intent(getActivity(), LoginNetEase.class));
+
+            Log.e(TAG, "onActivityCreated: " + userViewModel.getNetEaseUser().toString());
         });
+
+
         desktopFourBinding.headshot.setOnLongClickListener(view -> {
             if (userViewModel.isLoginNetEase()) {
                 NetEaseUser netEaseUser = userViewModel.getNetEaseUser();

@@ -39,6 +39,9 @@ public class MainModel {
     public MainModel(Context context) {
         this.context = context;
         client = new NetEaseApiHandler("http://192.168.31.31:3000");
+
+
+
 //        client = new NetEaseApiHandler();
         // userSaveID和settingInfoSaveID存在SharedPreferences里
         SharedPreferences prefs = context.getSharedPreferences("userId", Context.MODE_PRIVATE);
@@ -49,12 +52,16 @@ public class MainModel {
         SugarContext.init(context);
         getInfoFromDisk(); // 从SugarORM里读取出详细的数据
 
+
+
         SharedPreferences.Editor editor = prefs.edit();
         // 保存userSaveID和settingInfoSaveID，应用第一次安装时SQLite里没有数据，要new数据进出会产生新的id，所以要保存id进SharedPreferences
         editor.putLong("saveKeyOfUser", getUserSaveID());
         editor.putLong("saveKeyOfSetting", getSettingInfoSaveID());
         editor.putLong("saveKeyOfNetUser", getNetEaseUserInfoSaveID());
         editor.apply();
+
+        loadCookie(netEaseUser.getCookie());
     }
 
     private void getInfoFromDisk() {
@@ -163,5 +170,15 @@ public class MainModel {
 
                 }, client.defErrorHandler());
 
+    }
+
+    public String saveCookie(){
+        netEaseUser.setCookie(client.cookie2Json());
+        netEaseUser.save();
+        return netEaseUser.getCookie();
+    }
+
+    public void loadCookie(String theCookie) {
+        client.json2Cookie(theCookie);
     }
 }

@@ -109,17 +109,17 @@ public class SongLrcActivity extends BaseActivity<SongLrcViewModel> {
         mSongLrcBinding.songLrcCenterLrc.setOnClickListener(v -> mSongLrcViewModel.setShowLyric(false));
 
         //让vector资源替换颜色
-        int color_play_ctrl = Color.parseColor("#cc3946");
-        mSongLrcBinding.songLrcBottomLeft.getDrawable().setTint(color_play_ctrl);
-        mSongLrcBinding.songLrcBottomRight.getDrawable().setTint(color_play_ctrl);
-        mSongLrcBinding.songLrcBottomPlay.getDrawable().setTint(color_play_ctrl);
-
-        int color_bottom_btn = Color.parseColor("#cc3946");
-        mSongLrcBinding.songLrcCenterLove.getDrawable().setTint(color_bottom_btn);
-        mSongLrcBinding.songLrcBottomList.getDrawable().setTint(color_bottom_btn);
-        mSongLrcBinding.songLrcCenterOpen.getDrawable().setTint(color_bottom_btn);
-        mSongLrcBinding.songLrcBottomPlayMode.getDrawable().setTint(color_bottom_btn);
-        mSongLrcBinding.songLrcCenterDescargar.getDrawable().setTint(color_bottom_btn);
+//        int color_play_ctrl = Color.parseColor("#cc3946");
+//        mSongLrcBinding.songLrcBottomLeft.getDrawable().setTint(color_play_ctrl);
+//        mSongLrcBinding.songLrcBottomRight.getDrawable().setTint(color_play_ctrl);
+//        mSongLrcBinding.songLrcBottomPlay.getDrawable().setTint(color_play_ctrl);
+//
+//        int color_bottom_btn = Color.parseColor("#cc3946");
+//        mSongLrcBinding.songLrcCenterLove.getDrawable().setTint(color_bottom_btn);
+//        mSongLrcBinding.songLrcBottomList.getDrawable().setTint(color_bottom_btn);
+//        mSongLrcBinding.songLrcCenterOpen.getDrawable().setTint(color_bottom_btn);
+//        mSongLrcBinding.songLrcBottomPlayMode.getDrawable().setTint(color_bottom_btn);
+//        mSongLrcBinding.songLrcCenterDescargar.getDrawable().setTint(color_bottom_btn);
     }
 
     private void release() {

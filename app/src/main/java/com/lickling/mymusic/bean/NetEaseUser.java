@@ -50,4 +50,15 @@ public class NetEaseUser extends SugarRecord {
     public void setAvatarURL(String avatarURL) {
         this.avatarURL = avatarURL;
     }
+
+    @Override
+    public String toString() {
+        return "NetEaseUser{" +
+                "usrID='" + usrID + '\'' +
+                ", usrName='" + usrName + '\'' +
+                ", usrPWD='" + usrPWD + '\'' +
+                ", cookie='" + cookie + '\'' +
+                ", avatarURL='" + avatarURL + '\'' +
+                '}';
+    }
 }

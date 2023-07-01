@@ -1,7 +1,6 @@
 package com.lickling.mymusic.viewmodel;
 
 import android.app.Application;
-import android.graphics.drawable.LayerDrawable;
 import android.widget.ImageView;
 
 import androidx.databinding.Bindable;
@@ -13,7 +12,6 @@ import com.lickling.mymusic.R;
 import com.lickling.mymusic.bean.NetEaseUser;
 import com.lickling.mymusic.bean.User;
 import com.lickling.mymusic.model.MainModel;
-import com.lickling.mymusic.utilty.PictureUtil;
 
 public class UserViewModel extends BaseViewModel {
     private Application application;
@@ -79,6 +77,10 @@ public class UserViewModel extends BaseViewModel {
     public void setNetEaseUser(NetEaseUser netEaseUser) {
         this.netEaseUser = netEaseUser;
         notifyPropertyChanged(BR.netEaseName);
+    }
+
+    public void logoutUser(NetEaseUser netEaseUser) {
+        mainModel.getClient().logOut();
     }
 
     public MainModel getMainModel() {

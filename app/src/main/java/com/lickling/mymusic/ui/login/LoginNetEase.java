@@ -373,19 +373,17 @@ public class LoginNetEase extends AppCompatActivity {
                 client.checkQrCodeStatus()
                         .observeOn(AndroidSchedulers.mainThread()) // 将结果切换回主线程
                         .subscribe(qrCodeCheckResponse -> {
-                            System.out.println("[checkQrCodeStatus] " + qrCodeCheckResponse.toString());
+//                            System.out.println("[checkQrCodeStatus] " + qrCodeCheckResponse.toString());
                             if (qrCodeCheckResponse.code == 803) {
-
                                 netUser.setCookie(qrCodeCheckResponse.cookie);
-                                netUser.setUserName(qrCodeCheckResponse.nickname);
-                                netUser.setAvatarURL(qrCodeCheckResponse.avatarUrl);
                                 netUser.save();
-                                Log.d(TAG, " net ease name" + qrCodeCheckResponse.nickname);
+//                                Log.d(TAG, " [net ease name] " + qrCodeCheckResponse.nickname);
 
                                 userViewModel.setNetEaseUser(netUser);
+                                mainModel.saveCookie();
 
                                 handler.removeCallbacks(this);
-                                Log.d("登录成功", "cookie：" + qrCodeCheckResponse.cookie);
+//                                Log.d("登录成功", "cookie：" + qrCodeCheckResponse.cookie);
                                 Toast.makeText(LoginNetEase.this, "网易登录成功", Toast.LENGTH_SHORT).show();
                                 finish();
 //                                handler.postDelayed(new Runnable() {
@@ -397,10 +395,11 @@ public class LoginNetEase extends AppCompatActivity {
 
                             }
                             if (qrCodeCheckResponse.code == 800) {
-                                System.out.println("[checkQrCodeStatus] Cookie被偷了！");
-
+//                                // 二维码超时
                             }
                         }, client.defErrorHandler());
+
+
                 // 完成任务后，再次将该任务发送到主线程的消息队列中，以实现循环定时器的效果
                 handler.postDelayed(this, 1000); // 1000 毫秒后再次执行该任务
             }
