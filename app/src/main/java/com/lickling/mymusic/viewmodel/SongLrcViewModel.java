@@ -48,7 +48,7 @@ public class SongLrcViewModel extends MusicViewModel {
         mDateFormat = new SimpleDateFormat(application.getResources()
                 .getString(R.string.label_minute_second), Locale.CHINA);
 
-        this.playbackResId = R.drawable.play_ctrl_play_btn;
+        this.playbackResId = R.drawable.play;
         this.playbackModeResId = R.drawable.iv_playback_mode_order;
     }
 
@@ -101,7 +101,7 @@ public class SongLrcViewModel extends MusicViewModel {
         }
 
         this.playbackResId = playState == PlaybackStateCompat.STATE_PLAYING ?
-                R.drawable.pq_play : R.drawable.play_ctrl_play_btn;
+                R.drawable.pq_play : R.drawable.play;
 
         notifyPropertyChanged(BR.playbackResId);
     }
@@ -114,7 +114,7 @@ public class SongLrcViewModel extends MusicViewModel {
         Log.d(TAG, "initView: 点击了播放暂停按钮, 播放状态代码: " + pbState);
         if (pbState == PlaybackStateCompat.STATE_PLAYING) {
             mMediaControllerCompat.getTransportControls().pause();
-            this.playbackResId = R.drawable.play_ctrl_play_btn;
+            this.playbackResId = R.drawable.play;
             notifyPropertyChanged(BR.playbackResId);
         } else if (pbState == PlaybackStateCompat.STATE_PAUSED) {
             mMediaControllerCompat.getTransportControls().play();
@@ -127,7 +127,7 @@ public class SongLrcViewModel extends MusicViewModel {
                     .getString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI);
             if (path == null || TextUtils.isEmpty(path)) return;
             mMediaControllerCompat.getTransportControls().playFromUri(Uri.parse(path), null);
-            this.playbackResId = R.drawable.play_ctrl_play_btn;
+            this.playbackResId = R.drawable.pq_play;
             notifyPropertyChanged(BR.playbackResId);
         }
     }

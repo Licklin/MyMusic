@@ -1,7 +1,6 @@
 package com.lickling.mymusic.network.NetEase;
 
 import android.annotation.SuppressLint;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -41,7 +40,6 @@ import okhttp3.Cookie;
 import okhttp3.CookieJar;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
-import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -134,7 +132,9 @@ public class NetEaseApiHandler {
 
     }
 
-        public void saveStringAsJsonFile(UserPlaylistResponse jsonString, String filePath) {
+    //----类方法----
+
+    public void saveStringAsJsonFile(UserPlaylistResponse jsonString, String filePath) {
         Gson gson = new Gson();
         String json = gson.toJson(jsonString);
         try {
@@ -146,8 +146,6 @@ public class NetEaseApiHandler {
             System.out.println("[saveStringAsJsonFile Error] " + e.getMessage());
         }
     }
-
-    // ----过时的----
 
     public void saveCookiesVarToFile(String fileName) {
         Gson gson = new Gson();
@@ -174,30 +172,6 @@ public class NetEaseApiHandler {
         } catch (Exception e) {
             System.out.println("[loadCookiesStringFromFile Error] " + e.getMessage());
         }
-
-    }
-
-    //----类方法----
-    public String cookie2Json() {
-        Gson gson = new Gson();
-        String json = gson.toJson(this._cookies);
-        System.out.println("[saveStringAsJsonFile Returned] " + json);
-        return json;
-    }
-
-    public void json2Cookie(String json) {
-        Gson gson = new Gson();
-        Type mapType = new TypeToken<Map<String, List<Cookie>>>() {
-        }.getType();
-
-        try {
-            this._cookies = gson.fromJson(json, mapType);
-        } catch (Exception e) {
-            System.out.println("[loadCookiesStringFromFile Error] " + e.getMessage());
-            this._cookies = new HashMap<>();
-        }
-
-        Log.e("CLIENT", "json2Cookie: " + _cookies.toString());
 
     }
 
@@ -251,15 +225,16 @@ public class NetEaseApiHandler {
 
     public Flowable<QrCodeCheckResponse> checkQrCodeStatus() {
         long timestamp = System.currentTimeMillis();
-        String qrCodeKey = "25ed2d0d-4983-4a6e-99e5-1f237f205817";
-        if (getQrCodeKey() != null) {
+        String qrCodeKey = null;
+
+        while (qrCodeKey == null) {
             qrCodeKey = getQrCodeKey();
         }
 
-
         return _client.checkQrCodeStatus(qrCodeKey, timestamp)
                 .timeout(DEF_TIME_OUT_MILLISECOND, TimeUnit.MILLISECONDS)
-                .subscribeOn(Schedulers.newThread());
+                .subscribeOn(Schedulers.newThread())
+                ;
     }
 
     public Flowable<LoginStatusResponse> getLoginStatus() {
@@ -313,13 +288,6 @@ public class NetEaseApiHandler {
 
     public Flowable<PlayListTrackAllResponse> getPlayListTrackAll(String id, int limit, int offset) {
         return _client.getPlayListTrackAll(id, limit, offset, System.currentTimeMillis())
-                .timeout(DEF_TIME_OUT_MILLISECOND, TimeUnit.MILLISECONDS)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(Schedulers.computation());
-    }
-
-    public Flowable<ResponseBody> logOut() {
-        return _client.logout(System.currentTimeMillis())
                 .timeout(DEF_TIME_OUT_MILLISECOND, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(Schedulers.computation());

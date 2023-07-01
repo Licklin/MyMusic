@@ -124,7 +124,7 @@ public class MyLrcView extends RelativeLayout implements View.OnClickListener {
             if (translate == null) translate = lrcBeans.get(size >> 2).getTranslateLrc();
         }//第一次获取翻译有可能获取不到，最多再获取两次翻译歌词
         isTranslate = size > 3 && translate != null && !TextUtils.isEmpty(translate);
-        if (mLrcView != null) mLrcView.setShowTranslate(isTranslate);
+        mLrcView.setShowTranslate(isTranslate);
         iv_translate.setAlpha(isTranslate ? 1f : 0.6f);
         //Log.d(TAG, "setLrc: "+size+", "+translate+", "+isTranslate);
         if (mLrcView != null) mLrcView.setLrc(lrcBeans);

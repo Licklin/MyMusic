@@ -141,25 +141,19 @@ public class LoginStatusResponse {
 
     public String getUserId() {
         if (data == null || data.profile == null || data.profile.userId == null)
-            return "";
+            return null;
         return data.profile.userId;
     }
 
     public String getNickname() {
-        if (data == null || data.profile == null || data.profile.nickname == null)
-            return "";
         return data.profile.nickname;
     }
 
     public String getAvatar() {
-        if (data == null || data.profile == null || data.profile.avatarUrl == null)
-            return "";
         return data.profile.avatarUrl;
     }
 
     public int getData() {
-        if (data == null)
-            return -1;
         return data.code;
     }
 

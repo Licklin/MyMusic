@@ -34,7 +34,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lickling.mymusic.R;
-import com.lickling.mymusic.bean.NetEaseUser;
 import com.lickling.mymusic.bean.User;
 import com.lickling.mymusic.model.MainModel;
 import com.lickling.mymusic.network.NetEase.NetEaseApiHandler;
@@ -57,7 +56,6 @@ public class LoginWangyi extends AppCompatActivity {
     private ProgressDialog progressDialog;
 
     boolean flag = true;
-    private NetEaseUser netUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,8 +76,6 @@ public class LoginWangyi extends AppCompatActivity {
 
         mainModel = new MainModel(this);
         user = mainModel.getUser();
-        netUser = mainModel.getNetEaseUser();
-
 
         EditTextAccount = findViewById(R.id.account);
         EditTextPassword = findViewById(R.id.password);
@@ -99,8 +95,6 @@ public class LoginWangyi extends AppCompatActivity {
         EditText code = findViewById(R.id.password);
 
         ImageView imageView = findViewById(R.id.qr_code_btn);
-        if(!netUser.getCookie().equals("")) imageView.setClickable(false);
-        // 二维码
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -367,11 +361,6 @@ public class LoginWangyi extends AppCompatActivity {
     @SuppressLint("CheckResult")
     private void showLoginQd() {
         Dialog dialog = new Dialog(this);
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialogInterface) {
-            }
-        });
         dialog.setContentView(R.layout.qd_dailog);
         ImageView imageView = dialog.findViewById(R.id.qd_imageview);
         dialog.show();
@@ -379,8 +368,52 @@ public class LoginWangyi extends AppCompatActivity {
             return;
         }
         mainModel.setQd2ImageView(imageView);
+        checkQdState();
+
     }
 
+    @SuppressLint("CheckResult")
+    private void checkQdState() {
+        NetEaseApiHandler client = new NetEaseApiHandler();
+
+// 在主线程中创建一个 Handler 对象
+        Handler handler = new Handler();
+
+// 定义一个 Runnable 对象，用于执行定时任务
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                // 在这里执行定时任务的操作
+                // ...
+                client.checkQrCodeStatus()
+                        .observeOn(AndroidSchedulers.mainThread()) // 将结果切换回主线程
+                        .subscribe(qrCodeCheckResponse -> {
+                            System.out.println("[checkQrCodeStatus] " + qrCodeCheckResponse.toString());
+                            if (qrCodeCheckResponse.code == 803) {
+                                String cookie = qrCodeCheckResponse.cookie;
+
+//                                client.saveCookiesVarToFile("");
+                                startActivity(new Intent(LoginWangyi.this,MainActivity.class));
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        finish();
+                                    }
+                                },300);
+
+                            }
+                            if (qrCodeCheckResponse.code == 800) {
+                                System.out.println("[checkQrCodeStatus] Cookie被偷了！");
+
+                            }
+                        });
+                // 完成任务后，再次将该任务发送到主线程的消息队列中，以实现循环定时器的效果
+                handler.postDelayed(this, 1000); // 1000 毫秒后再次执行该任务
+            }
+        };
+// 将该任务发送到主线程的消息队列中，以实现定时器的效果
+        handler.postDelayed(runnable, 1000); // 1000 毫秒后执行该任务
+    }
 
 
 

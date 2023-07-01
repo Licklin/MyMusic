@@ -1,6 +1,5 @@
 package com.lickling.mymusic.ui.home;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.media.MediaBrowserCompat;
@@ -21,7 +20,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.lickling.mymusic.R;
-import com.lickling.mymusic.bean.NetEaseUser;
 import com.lickling.mymusic.databinding.DesktopBinding;
 import com.lickling.mymusic.model.MainModel;
 import com.lickling.mymusic.service.BaseMusicService;
@@ -88,12 +86,10 @@ public class MainActivity extends BaseActivity<MusicViewModel> {
 
     }
 
-    @SuppressLint("CheckResult")
     @Override
     protected void onStart() {
         super.onStart();
-        userViewModel.notifyInfoChange();
-        userFragment.setUserInfo(userViewModel);
+
 //
 //        UpdateProgressBar();
     }

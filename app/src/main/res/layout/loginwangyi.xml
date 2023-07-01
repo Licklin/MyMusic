@@ -20,7 +20,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="38dp"
             app:navigationIcon="@drawable/load_back_button"
-
             app:title="登录网易" />
 
         <RelativeLayout
