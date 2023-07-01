@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HorizontalScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none"
+    android:orientation="horizontal"
+    >
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <!--     美化，并无其他作用-->
+        <RelativeLayout
+            android:layout_width="16dp"
+            android:layout_height="135dp"/>
+
+
+        <RelativeLayout
+            android:layout_width="130dp"
+            android:layout_height="135dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/like_icon2"
+                android:layout_centerHorizontal="true"
+                android:text="计蒙不吃鱼"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textColor="@color/black"
+                android:textSize="12.0dip" />
+
+            <com.lickling.mymusic.ui.home.PQ.MellowImageView
+                android:id="@+id/like_icon2"
+                android:layout_width="120.0dip"
+                android:layout_height="120.0dip"
+                android:layout_centerHorizontal="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/a20" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</HorizontalScrollView >

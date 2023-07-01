@@ -1,11 +1,6 @@
 package com.lickling.mymusic.ui.home;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.MediaMetadataCompat;
@@ -14,36 +9,28 @@ import android.support.v4.media.session.PlaybackStateCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.lickling.mymusic.MyTest;
 import com.lickling.mymusic.R;
-import com.lickling.mymusic.databinding.ActivityMainBinding;
 import com.lickling.mymusic.databinding.DesktopBinding;
-import com.lickling.mymusic.databinding.FragmentDesktopOneBinding;
 import com.lickling.mymusic.model.MainModel;
 import com.lickling.mymusic.service.BaseMusicService;
 import com.lickling.mymusic.service.OurMusicService;
 import com.lickling.mymusic.ui.BaseActivity;
-import com.lickling.mymusic.ui.home.PQ.Desktop;
-import com.lickling.mymusic.ui.home.PQ.Desktop_one;
 import com.lickling.mymusic.ui.home.PQ.Desktop_three;
 import com.lickling.mymusic.ui.home.PQ.Desktop_two;
 import com.lickling.mymusic.ui.home.PQ.HomeFragment;
 import com.lickling.mymusic.ui.home.PQ.UserFragment;
+import com.lickling.mymusic.ui.songAndLyrics.SongLrcActivity;
 import com.lickling.mymusic.utilty.PermissionUtil;
-import com.lickling.mymusic.utilty.PictureUtil;
 import com.lickling.mymusic.viewmodel.MusicViewModel;
 import com.lickling.mymusic.viewmodel.UserViewModel;
 import com.orm.SugarContext;
@@ -82,22 +69,7 @@ public class MainActivity extends BaseActivity<MusicViewModel> {
         }
         super.onCreate(savedInstanceState);
 
-        // 获取 SharedPreferences 对象
-        SharedPreferences prefs = getSharedPreferences("userId", Context.MODE_PRIVATE);
-
-        long saveKeyOfUser = prefs.getLong("saveKeyOfUser", -1);
-        long saveKeyOfSetting = prefs.getLong("saveKeyOfSetting", -1);
-
-        SugarContext.init(this);
-
-        mainModel = new MainModel(saveKeyOfUser,saveKeyOfSetting);
-
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putLong("saveKeyOfUser", mainModel.getUserSaveID());
-        editor.putLong("saveKeyOfSetting", mainModel.getSettingInfoSaveID());
-        editor.apply();
-
-//        Toast.makeText(this, mainModel.getSettingInfo().getApiUrl(), Toast.LENGTH_SHORT).show();
+        mainModel = new MainModel(this);
         mMainBinding = DataBindingUtil.setContentView(this, R.layout.desktop);
         mMusicViewModel = new MusicViewModel(getApplication());
         userViewModel = new UserViewModel(getApplication());
@@ -242,7 +214,6 @@ public class MainActivity extends BaseActivity<MusicViewModel> {
                 Animation animation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.alpha);
                 mMainBinding.imageViewPlay.startAnimation(animation);
                 mMusicViewModel.playbackButton();
-
             }
         });
 
@@ -314,6 +285,15 @@ public class MainActivity extends BaseActivity<MusicViewModel> {
 
         mMainBinding.bottom1.setSelected(true);
         replaceFragment(homeFragment);
+
+        // 底边音乐播放栏
+        mMainBinding.songLrcViewList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, SongLrcActivity.class));
+                overridePendingTransition(R.anim.push_in, 0);
+            }
+        });
 
     }
 

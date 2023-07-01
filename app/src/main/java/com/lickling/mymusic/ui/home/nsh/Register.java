@@ -5,6 +5,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -31,7 +32,7 @@ public class Register extends AppCompatActivity {
     EditText userName = null;
 
     RadioGroup sex = null;
-
+    private ProgressDialog progressDialog;
 
 
     @Override
@@ -40,8 +41,8 @@ public class Register extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         userAccount = findViewById(R.id.account);
-        userPassword = findViewById(R.id.password);
         userName = findViewById(R.id.username);
+        userPassword = findViewById(R.id.password);
         sex=(RadioGroup) findViewById(R.id.radioGroup);
 
         EditText username = findViewById(R.id.username);
@@ -106,9 +107,10 @@ public class Register extends AppCompatActivity {
     public void register(View view) {
 
         String userAccount1 = userAccount.getText().toString();
-        String userPassword1 = userPassword.getText().toString();
         String userName1 = userName.getText().toString();
+        String userPassword1 = userPassword.getText().toString();
         String usersex1=((RadioButton)Register.this.findViewById(sex.getCheckedRadioButtonId())).getText().toString();
+
 
         if (TextUtils.isEmpty(userAccount1) || TextUtils.isEmpty(userPassword1) || TextUtils.isEmpty(userName1)) {
             Toast.makeText(getApplicationContext(), "账号、密码、用户名不能为空", Toast.LENGTH_LONG).show();
@@ -118,10 +120,12 @@ public class Register extends AppCompatActivity {
         User user = new User();
 
         user.setUserAccount(userAccount1);
-        user.setUserPassword(userPassword1);
         user.setUserName(userName1);
+        user.setUserPassword(userPassword1);
         user.setUsersex(usersex1);
-
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("注册中...");
+        progressDialog.show();
         new Thread() {
             @Override
             public void run() {
@@ -140,7 +144,7 @@ public class Register extends AppCompatActivity {
                     }
                 }
                 hand.sendEmptyMessage(msg);
-
+                progressDialog.dismiss();
             }
         }.start();
     }

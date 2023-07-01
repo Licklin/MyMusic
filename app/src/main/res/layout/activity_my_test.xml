@@ -23,7 +23,7 @@
             android:layout_marginStart="0dp"
             android:layout_marginTop="6dp"
             android:background="?android:selectableItemBackgroundBorderless"
-            android:contentDescription="123"
+            android:contentDescription="@string/label_Activity_return"
             android:padding="7dp"
             android:rotation="90"
             android:src="@drawable/iv_return"
@@ -37,7 +37,7 @@
             android:layout_marginStart="3dp"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="123"
+            android:text="@string/label_default_local"
             android:textColor="@color/colorWhite"
             android:textSize="19sp"
             tools:viewBindingIgnore="true"
@@ -53,7 +53,7 @@
             android:autofillHints=" "
             android:background="@color/color01Black"
             android:gravity="center_vertical"
-            android:hint="123"
+            android:hint="@string/label_MusicActivity_search_music"
             android:inputType="text"
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
@@ -79,14 +79,14 @@
             app:layout_constraintTop_toBottomOf="@id/music_activity_top_edit"
             app:layout_constraintStart_toStartOf="@id/music_activity_top_edit"
             app:layout_constraintEnd_toEndOf="@id/music_activity_iv_search"
-            android:contentDescription="123"/>
+            android:contentDescription="@string/label_MusicActivity_search_music" />
 
         <ImageView
             android:id="@+id/music_activity_iv_search"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:background="?android:selectableItemBackgroundBorderless"
-            android:contentDescription="/123"
+            android:contentDescription="@string/label_MusicActivity_search"
             android:padding="8dp"
             android:src="@drawable/iv_search"
             android:visibility="@{musicInfo.showSearchView? View.INVISIBLE : View.VISIBLE,default=visible}"
@@ -132,7 +132,7 @@
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:background="?android:selectableItemBackgroundBorderless"
-                android:contentDescription="123"
+                android:contentDescription="@string/label_Activity_list"
                 android:padding="5dp"
                 android:src="@drawable/iv_list"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -142,18 +142,29 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias=".3" />
 
+            <com.lickling.mymusic.ui.songAndLyrics.CircleProgressBar
+                android:id="@+id/main_activity_bottom_progress_bar"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginEnd="12dp"
+                app:layout_constraintBottom_toBottomOf="@id/main_activity_bottom_iv_list"
+                app:layout_constraintEnd_toStartOf="@id/main_activity_bottom_iv_list"
+                app:layout_constraintTop_toTopOf="@id/main_activity_bottom_iv_list"
+                app:max="@{musicInfo.max,default=100}"
+                app:progress="@{musicInfo.progress,default=10}"
+                android:background="?android:selectableItemBackgroundBorderless" />
 
             <ImageView
                 android:id="@+id/main_activity_bottom_iv_play"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:contentDescription="123"
+                android:contentDescription="@string/label_Activity_toggle"
                 android:padding="0dp"
                 android:src="@{musicInfo.playbackResId,default=@drawable/iv_main_play}"
-                app:layout_constraintBottom_toBottomOf="@id/main_activity_bottom_iv_list"
-                app:layout_constraintEnd_toEndOf="@id/main_activity_bottom_iv_list"
-                app:layout_constraintStart_toStartOf="@id/main_activity_bottom_iv_list"
-                app:layout_constraintTop_toTopOf="@id/main_activity_bottom_iv_list" />
+                app:layout_constraintBottom_toBottomOf="@id/main_activity_bottom_progress_bar"
+                app:layout_constraintEnd_toEndOf="@id/main_activity_bottom_progress_bar"
+                app:layout_constraintStart_toStartOf="@id/main_activity_bottom_progress_bar"
+                app:layout_constraintTop_toTopOf="@id/main_activity_bottom_progress_bar" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -162,7 +173,7 @@
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="@color/color99White"
-            android:contentDescription="123"
+            android:contentDescription="@string/label_Activity_line"
             tools:viewBindingIgnore="true"
             app:layout_constraintBottom_toTopOf="@id/main_activity_bottom_layout" />
 
@@ -172,7 +183,7 @@
             android:layout_height="52dp"
             android:layout_marginBottom="10dp"
             android:background="@{musicInfo.record,default=@drawable/iv_record_128}"
-            android:contentDescription="123"
+            android:contentDescription="@string/label_Activity_mask"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.03"
@@ -182,7 +193,7 @@
             android:id="@+id/main_activity_iv_play_loading"
             android:layout_width="36dp"
             android:layout_height="36dp"
-            android:contentDescription="123"
+            android:contentDescription="@string/label_Activity_loading"
             android:src="@drawable/iv_play_loading"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@id/main_activity_bottom_iv_album"
@@ -198,7 +209,7 @@
             android:layout_marginStart="8dp"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="1233}"
+            android:text="@{musicInfo.playbackInfo,default=@string/label_default_artist}"
             android:textSize="13sp"
             app:layout_constraintBottom_toBottomOf="@id/main_activity_bottom_iv_album"
             app:layout_constraintStart_toEndOf="@id/main_activity_bottom_iv_album"

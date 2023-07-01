@@ -2,9 +2,6 @@ package com.lickling.mymusic.service;
 
 import android.content.Intent;
 import android.media.AudioManager;
-import android.media.MediaDescription;
-import android.media.MediaMetadata;
-import android.media.session.MediaSession;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.media.MediaBrowserCompat;
@@ -143,7 +140,7 @@ public class OurMusicService extends BaseMusicService {
 
         new MusicModel().getLocalMusicMetadata(musicMaps -> {
             musicList = musicMaps;
-            result.sendResult(getMediaItems(musicMaps));
+            result.sendResult(getMediaItems(musicMaps)); // 把歌曲信息从map里取出放到list里面，getMediaItems返回一个List
         }, getContentResolver());
 
         super.setMediaController(mediaSession.getController());

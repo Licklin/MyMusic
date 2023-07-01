@@ -6,13 +6,14 @@ import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -24,27 +25,27 @@ import android.text.style.BackgroundColorSpan;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.UnderlineSpan;
-import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lickling.mymusic.R;
 import com.lickling.mymusic.bean.User;
 import com.lickling.mymusic.model.MainModel;
+import com.lickling.mymusic.network.NetEase.NetEaseApiHandler;
 import com.lickling.mymusic.ui.home.MainActivity;
 import com.lickling.mymusic.ui.home.nsh.dao.UserDao;
 import com.lickling.mymusic.utilty.ImmersiveStatusBarUtil;
-import com.lickling.mymusic.viewmodel.MusicViewModel;
-import com.lickling.mymusic.viewmodel.UserViewModel;
 import com.orm.SugarContext;
 
 import java.util.Timer;
 import java.util.TimerTask;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 
 public class LoginWangyi extends AppCompatActivity {
     private Toolbar toolbar;
@@ -52,6 +53,9 @@ public class LoginWangyi extends AppCompatActivity {
     private MainModel mainModel;
     private EditText EditTextAccount;
     private EditText EditTextPassword;
+    private ProgressDialog progressDialog;
+
+    boolean flag = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,25 +64,15 @@ public class LoginWangyi extends AppCompatActivity {
         ImmersiveStatusBarUtil.transparentBar(this, false);
         //输入光标
 
-        // 获取 SharedPreferences 对象
-        SharedPreferences prefs = getSharedPreferences("userId", Context.MODE_PRIVATE);
 
-        long saveKeyOfUser = prefs.getLong("saveKeyOfUser", -1);
-        long saveKeyOfSetting = prefs.getLong("saveKeyOfSetting", -1);
 
-        SugarContext.init(this);
-
-        mainModel = new MainModel(saveKeyOfUser, saveKeyOfSetting);
+        mainModel = new MainModel(this);
         user = mainModel.getUser();
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putLong("saveKeyOfUser", mainModel.getUserSaveID());
-        editor.putLong("saveKeyOfSetting", mainModel.getSettingInfoSaveID());
-        editor.apply();
+
         EditTextAccount = findViewById(R.id.account);
         EditTextPassword = findViewById(R.id.password);
         EditTextAccount.setText(user.getOurUserID());
         EditTextPassword.setText(user.getOurUserPWD());
-        login();
         toolbar = findViewById(R.id.wangyi);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,6 +85,13 @@ public class LoginWangyi extends AppCompatActivity {
         TextView account = findViewById(R.id.account);
         EditText code = findViewById(R.id.password);
 
+        ImageView imageView = findViewById(R.id.qr_code_btn);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showLoginQd();
+            }
+        });
         account.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -110,7 +111,7 @@ public class LoginWangyi extends AppCompatActivity {
             public void onFocusChange(View v, boolean hasFocus) {
                 // 如果 newPassWordEdit1 获得了焦点，则将下划线颜色设置为红色
                 if (hasFocus) {
-                    code.getBackground().setColorFilter(ContextCompat.getColor(getApplicationContext(),R.color.wy_red), PorterDuff.Mode.SRC_IN);
+                    code.getBackground().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.wy_red), PorterDuff.Mode.SRC_IN);
                 }
                 // 如果 newPassWordEdit1 失去了焦点，则将下划线颜色恢复默认颜色
                 else {
@@ -267,36 +268,54 @@ public class LoginWangyi extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
-        SugarContext.terminate();
     }
 
     //登录验证
 
-    public void login(View view){
+    public void login(View view) {
 
         EditText EditTextAccount = findViewById(R.id.account);
         EditText EditTextPassword = findViewById(R.id.password);
-
-        new Thread(){
-            @Override
-            public void run() {
-                UserDao userDao = new UserDao();
-                int msg = userDao.login(EditTextAccount.getText().toString(), EditTextPassword.getText().toString());
-                hand1.sendEmptyMessage(msg);
-            }
-        }.start();
-
-    }
-
-    public void login() {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("登录中...");
+        progressDialog.show();
         new Thread() {
             @Override
             public void run() {
                 UserDao userDao = new UserDao();
                 int msg = userDao.login(EditTextAccount.getText().toString(), EditTextPassword.getText().toString());
                 hand1.sendEmptyMessage(msg);
+                progressDialog.dismiss();
+            }
+        }.start();
+
+    }
+
+    public void login() {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("登录中...");
+        progressDialog.show();
+        new Thread() {
+            @Override
+            public void run() {
+                UserDao userDao = new UserDao();
+                int msg = userDao.login(EditTextAccount.getText().toString(), EditTextPassword.getText().toString());
+                hand1.sendEmptyMessage(msg);
+                progressDialog.dismiss();
             }
         }.start();
 
@@ -310,10 +329,11 @@ public class LoginWangyi extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "登录失败", Toast.LENGTH_LONG).show();
             } else if (msg.what == 1) {
                 Toast.makeText(getApplicationContext(), "登录成功", Toast.LENGTH_LONG).show();
+
                 Intent intent = new Intent();
                 intent.setClass(LoginWangyi.this, MainActivity.class);
                 user.setOurUserID(EditTextAccount.getText().toString());
-                user.setOurUserName("");
+//              user.setOurUserName("");
                 user.setOurUserPWD(EditTextPassword.getText().toString());
                 user.save();
                 mainModel.saveLogin(user);
@@ -325,6 +345,18 @@ public class LoginWangyi extends AppCompatActivity {
             }
         }
     };
+
+    @SuppressLint("CheckResult")
+    private void showLoginQd() {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.qd_dailog);
+        ImageView imageView = dialog.findViewById(R.id.qd_imageview);
+        dialog.show();
+        if (imageView == null) {
+            return;
+        }
+        mainModel.setQd2ImageView(imageView);
+    }
 
 //    public void logout() {
 //        // 删除用户在数据库中的信息
