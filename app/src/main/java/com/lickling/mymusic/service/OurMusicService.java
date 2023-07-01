@@ -2,9 +2,6 @@ package com.lickling.mymusic.service;
 
 import android.content.Intent;
 import android.media.AudioManager;
-import android.media.MediaDescription;
-import android.media.MediaMetadata;
-import android.media.session.MediaSession;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.media.MediaBrowserCompat;
@@ -22,8 +19,8 @@ import androidx.annotation.Nullable;
 import androidx.media.MediaBrowserServiceCompat;
 
 import com.lickling.mymusic.bean.musicBean.MusicBean;
-import com.lickling.mymusic.model.LocalMusicModel;
-import com.lickling.mymusic.model.MusicModel;
+import com.lickling.mymusic.service.model.LocalMusicModel;
+import com.lickling.mymusic.service.model.MusicModel;
 import com.lickling.mymusic.service.manager.LastMetaManager;
 import com.lickling.mymusic.service.manager.MediaPlayerManager;
 import com.lickling.mymusic.service.manager.MyAudioManager;

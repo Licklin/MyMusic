@@ -18,7 +18,7 @@ import android.widget.Toast;
 import com.lickling.mymusic.R;
 import com.lickling.mymusic.bean.APIListItem;
 import com.lickling.mymusic.bean.SettingInfo;
-import com.lickling.mymusic.model.MainModel;
+import com.lickling.mymusic.service.model.MainModel;
 import com.lickling.mymusic.utilty.ImmersiveStatusBarUtil;
 import com.orm.SugarContext;
 
