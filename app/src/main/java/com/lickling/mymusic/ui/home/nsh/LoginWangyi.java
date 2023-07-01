@@ -24,30 +24,18 @@ import android.text.style.BackgroundColorSpan;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.UnderlineSpan;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.lickling.mymusic.R;
 import com.lickling.mymusic.bean.User;
-import com.lickling.mymusic.bean.networkBean.QrCodeCheckResponse;
 import com.lickling.mymusic.model.MainModel;
 import com.lickling.mymusic.network.NetEase.NetEaseApiHandler;
-import com.lickling.mymusic.ui.home.MainActivity;
-import com.lickling.mymusic.ui.home.nsh.dao.UserDao;
-import com.lickling.mymusic.utilty.ImmersiveStatusBarUtil;
-import com.lickling.mymusic.utilty.PictureUtil;
-import com.lickling.mymusic.viewmodel.MusicViewModel;
-import com.lickling.mymusic.viewmodel.UserViewModel;
-import com.lickling.mymusic.service.model.MainModel;
 import com.lickling.mymusic.ui.home.MainActivity;
 import com.lickling.mymusic.ui.home.nsh.dao.UserDao;
 import com.lickling.mymusic.utilty.ImmersiveStatusBarUtil;
@@ -55,13 +43,8 @@ import com.orm.SugarContext;
 
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.core.Observer;
-import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class LoginWangyi extends AppCompatActivity {
     private Toolbar toolbar;

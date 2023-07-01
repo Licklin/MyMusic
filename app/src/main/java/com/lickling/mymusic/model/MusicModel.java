@@ -1,4 +1,4 @@
-package com.lickling.mymusic.service.model;
+package com.lickling.mymusic.model;
 
 
 import android.annotation.SuppressLint;

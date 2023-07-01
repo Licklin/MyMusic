@@ -1,8 +1,6 @@
 package com.lickling.mymusic.ui.home;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.MediaMetadataCompat;
@@ -23,7 +21,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.lickling.mymusic.R;
 import com.lickling.mymusic.databinding.DesktopBinding;
-import com.lickling.mymusic.service.model.MainModel;
+import com.lickling.mymusic.model.MainModel;
 import com.lickling.mymusic.service.BaseMusicService;
 import com.lickling.mymusic.service.OurMusicService;
 import com.lickling.mymusic.ui.BaseActivity;
@@ -31,7 +29,6 @@ import com.lickling.mymusic.ui.home.PQ.Desktop_three;
 import com.lickling.mymusic.ui.home.PQ.Desktop_two;
 import com.lickling.mymusic.ui.home.PQ.HomeFragment;
 import com.lickling.mymusic.ui.home.PQ.UserFragment;
-import com.lickling.mymusic.ui.setting.home.SettingHomeActivity;
 import com.lickling.mymusic.ui.songAndLyrics.SongLrcActivity;
 import com.lickling.mymusic.utilty.PermissionUtil;
 import com.lickling.mymusic.viewmodel.MusicViewModel;

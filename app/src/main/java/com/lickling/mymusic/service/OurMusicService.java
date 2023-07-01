@@ -19,8 +19,8 @@ import androidx.annotation.Nullable;
 import androidx.media.MediaBrowserServiceCompat;
 
 import com.lickling.mymusic.bean.musicBean.MusicBean;
-import com.lickling.mymusic.service.model.LocalMusicModel;
-import com.lickling.mymusic.service.model.MusicModel;
+import com.lickling.mymusic.model.LocalMusicModel;
+import com.lickling.mymusic.model.MusicModel;
 import com.lickling.mymusic.service.manager.LastMetaManager;
 import com.lickling.mymusic.service.manager.MediaPlayerManager;
 import com.lickling.mymusic.service.manager.MyAudioManager;

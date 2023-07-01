@@ -28,7 +28,7 @@ import androidx.core.content.ContextCompat;
 import com.lickling.mymusic.R;
 import com.lickling.mymusic.bean.SettingInfo;
 import com.lickling.mymusic.bean.User;
-import com.lickling.mymusic.service.model.MainModel;
+import com.lickling.mymusic.model.MainModel;
 import com.lickling.mymusic.ui.home.nsh.LoginWangyi;
 import com.lickling.mymusic.ui.home.nsh.dao.UserDao;
 import com.lickling.mymusic.ui.setting.api.APIActivity;
@@ -187,7 +187,7 @@ public class SettingHomeActivity extends AppCompatActivity  {
         accountCancellation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditDialog dialog = new EditDialog();
+//                EditDialog dialog = new EditDialog();
 //                dialog.show(getFragmentManager(), "MyDialogFragment");
                 showEditDialog("账号注销", user.getOurUserID());
             }

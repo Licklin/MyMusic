@@ -5,6 +5,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -18,7 +19,8 @@ import android.widget.Toast;
 
 import com.lickling.mymusic.R;
 import com.lickling.mymusic.bean.User;
-import com.lickling.mymusic.service.model.MainModel;
+import com.lickling.mymusic.model.MainModel;
+import com.lickling.mymusic.ui.home.nsh.LoginWangyi;
 import com.lickling.mymusic.ui.home.nsh.dao.UserDao;
 import com.lickling.mymusic.ui.setting.home.SettingHomeActivity;
 import com.orm.SugarContext;
@@ -115,6 +117,10 @@ public class PassWordActivity extends AppCompatActivity {
 
                 if (judge_newpass(newPassWordEdit1.getText().toString(),newPassWordEdit2.getText().toString())) {
                     updatepass();
+                    SugarContext.init(PassWordActivity.this);
+                    Intent intent = new Intent(PassWordActivity.this, LoginWangyi.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                 }
                 else {
                     Toast.makeText(PassWordActivity.this, "两次输入密码不一致", Toast.LENGTH_SHORT).show();
