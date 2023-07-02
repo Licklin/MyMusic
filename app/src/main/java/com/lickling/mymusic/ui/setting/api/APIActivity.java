@@ -42,28 +42,14 @@ public class APIActivity extends AppCompatActivity implements MenuDialogFragment
         setContentView(R.layout.activity_api);
         ImmersiveStatusBarUtil.transparentBar(this, false);
 
-        // 获取 SharedPreferences 对象
-        SharedPreferences prefs = getSharedPreferences("userId", Context.MODE_PRIVATE);
 
-        long saveKeyOfUser = prefs.getLong("saveKeyOfUser", -1);
-        long saveKeyOfSetting = prefs.getLong("saveKeyOfSetting", -1);
-
-
-        SugarContext.init(this);
-
-        mainModel = new MainModel(saveKeyOfUser, saveKeyOfSetting);
-
-
+        mainModel = new MainModel(getApplication());
         settingInfo = mainModel.getSettingInfo();
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putLong("saveKeyOfUser", mainModel.getUserSaveID());
-        editor.putLong("saveKeyOfSetting", mainModel.getSettingInfoSaveID());
-        editor.apply();
 
         apiListItems = APIListItem.listAll(APIListItem.class);
         if (apiListItems == null) {
             Log.e("apiListItems", "null");
-            APIListItem item = new APIListItem("腾讯云", "https://service-hrf5csss-1318703950.gz.apigw.tencentcs.com/release/");
+            APIListItem item = new APIListItem("测试", "http://192.168.31.31:3000/");
             item.save();
             apiListItems = APIListItem.listAll(APIListItem.class);
         }
@@ -162,7 +148,6 @@ public class APIActivity extends AppCompatActivity implements MenuDialogFragment
                 settingInfo.setApiPositionId(0);
                 settingInfo.setApiUrl(apiListItems.get(0).getSubtitle());
             }
-            settingInfo.save();
         }
         listAdapter.setSelectedItem(settingInfo.getApiPosition());
         listAdapter.notifyItemRemoved(position);
@@ -176,7 +161,7 @@ public class APIActivity extends AppCompatActivity implements MenuDialogFragment
         settingInfo.setApiPosition(selectedItem);
         settingInfo.setApiPositionId(apiListItems.get(selectedItem).getId());
         settingInfo.setApiUrl(apiListItems.get(selectedItem).getSubtitle());
-        settingInfo.save();
+        mainModel.setClientAPI(settingInfo.getApiUrl());  // 更改当前的地址为选中的地址
         Toast.makeText(this, "选择" + apiListItems.get(selectedItem).getTitle(), Toast.LENGTH_SHORT).show();
     }
 }

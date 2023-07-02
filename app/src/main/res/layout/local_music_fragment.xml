@@ -80,14 +80,14 @@
                     android:layout_marginRight="5dp"
                     android:layout_toLeftOf="@id/multi_choice_btn">
 
-<!--                    <SearchView-->
-<!--                        android:id="@+id/search_bar"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:iconifiedByDefault="true"-->
-<!--                        android:queryBackground="@drawable/load_search_bar"-->
-<!--                        android:queryHint="搜索此歌单的歌曲"-->
-<!--                        app:showAsAction="collapseActionView|ifRoom"/>-->
+                    <SearchView
+                        android:id="@+id/search_bar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:iconifiedByDefault="true"
+                        android:queryBackground="@drawable/load_search_bar"
+                        android:queryHint="搜索此歌单的歌曲"
+                        app:showAsAction="collapseActionView|ifRoom"/>
 
                 </LinearLayout>
 
@@ -126,6 +126,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:layout_marginBottom="80dp"
                 tools:listitem="@layout/local_song_list_item" />
 
         </LinearLayout>
@@ -138,7 +139,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="0dp"
             android:background="@drawable/desktop_item"
             android:orientation="horizontal">
 

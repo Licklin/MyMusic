@@ -12,6 +12,7 @@ import com.lickling.mymusic.bean.networkBean.SongUrlResponse;
 import com.lickling.mymusic.bean.networkBean.UserPlaylistResponse;
 
 import io.reactivex.rxjava3.core.Flowable;
+import okhttp3.ResponseBody;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
@@ -61,6 +62,9 @@ public interface NetEaseApiService {
 
     @GET("/song/url")
     Flowable<SongUrlResponse> getSongUrl(@Query("id") String id);
+
+    @GET("/logout")
+    Flowable<ResponseBody> logout(@Query("timestamp") long timestamp);
 
     @GET("/playlist/track/all")
     Flowable<PlayListTrackAllResponse> getPlayListTrackAll(@Query("id") String id,

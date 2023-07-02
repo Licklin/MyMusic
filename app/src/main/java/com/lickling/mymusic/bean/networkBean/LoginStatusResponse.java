@@ -1,7 +1,5 @@
 package com.lickling.mymusic.bean.networkBean;
 
-//'http://localhost:4000/'+'login/status'
-
 public class LoginStatusResponse {
 
     public Data data;

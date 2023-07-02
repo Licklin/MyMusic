@@ -2,13 +2,14 @@ package com.lickling.mymusic;
 
 import android.annotation.SuppressLint;
 
+import com.lickling.mymusic.model.MainModel;
 import com.lickling.mymusic.network.NetEase.NetEaseApiHandler;
 
 import org.junit.Test;
 
 
 public class NetEaseAPIUnitTest_getCookies {
-    private static final String BASE_URL = "http://localhost:4000";
+    private static final String BASE_URL = MainModel.BASE_URL;
     boolean temp = true;
 
     @SuppressLint("CheckResult")
@@ -27,6 +28,7 @@ public class NetEaseAPIUnitTest_getCookies {
         while (temp) {
             client.checkQrCodeStatus()
                     .subscribe(qrCodeCheckResponse -> {
+
                         if (client.__DEBUG__)
                             System.out.println("[checkQrCodeStatus] " + qrCodeCheckResponse.toString());
                         if (qrCodeCheckResponse.code == 803) {

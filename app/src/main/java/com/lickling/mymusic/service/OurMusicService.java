@@ -2,9 +2,6 @@ package com.lickling.mymusic.service;
 
 import android.content.Intent;
 import android.media.AudioManager;
-import android.media.MediaDescription;
-import android.media.MediaMetadata;
-import android.media.session.MediaSession;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.media.MediaBrowserCompat;

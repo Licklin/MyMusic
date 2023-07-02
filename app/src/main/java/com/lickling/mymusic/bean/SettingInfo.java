@@ -1,6 +1,8 @@
 package com.lickling.mymusic.bean;
 
+import com.lickling.mymusic.model.MainModel;
 import com.orm.SugarRecord;
+import com.orm.dsl.Ignore;
 import com.orm.dsl.Table;
 
 
@@ -13,15 +15,21 @@ public class SettingInfo extends SugarRecord {
     private int cacheLimit = 4; // 1-8GB
     private long apiPositionId = -1; // SugarORM 数据库的ID
     private int apiPosition = -1; // APIList里的位置
-    private String apiUrl = "http://192.168.31.31:3000";
+    private String apiUrl = MainModel.BASE_URL;
     private String version;
+    @Ignore
+    private APIChangeListener apiChangeListener;
 
     public SettingInfo() {
 
     }
 
+    public interface APIChangeListener{
+        void setClientAPI(String api);
+    }
     public void setApiPositionId(long apiPositionId) {
         this.apiPositionId = apiPositionId;
+        this.save();
     }
 
     public String getApiUrl() {
@@ -30,6 +38,8 @@ public class SettingInfo extends SugarRecord {
 
     public void setApiUrl(String apiUrl) {
         this.apiUrl = apiUrl;
+//        apiChangeListener.setClientAPI(apiUrl);
+        this.save();
     }
 
     public int getApiPosition() {
@@ -38,6 +48,7 @@ public class SettingInfo extends SugarRecord {
 
     public void setApiPosition(int apiPosition) {
         this.apiPosition = apiPosition;
+        this.save();
     }
 
 
@@ -52,6 +63,7 @@ public class SettingInfo extends SugarRecord {
 
     public void setNotification(boolean notification) {
         isNotification = notification;
+        this.save();
     }
 
     public boolean isNoticeLyric() {
@@ -60,6 +72,7 @@ public class SettingInfo extends SugarRecord {
 
     public void setNoticeLyric(boolean noticeLyric) {
         isNoticeLyric = noticeLyric;
+        this.save();
     }
 
     public int getOnlineSoundQuality() {
@@ -68,6 +81,7 @@ public class SettingInfo extends SugarRecord {
 
     public void setOnlineSoundQuality(int onlineSoundQuality) {
         this.onlineSoundQuality = onlineSoundQuality;
+        this.save();
     }
 
     public int getDownloadSoundQuality() {
@@ -76,6 +90,7 @@ public class SettingInfo extends SugarRecord {
 
     public void setDownloadSoundQuality(int downloadSoundQuality) {
         this.downloadSoundQuality = downloadSoundQuality;
+        this.save();
     }
 
     public int getCacheLimit() {
@@ -84,6 +99,7 @@ public class SettingInfo extends SugarRecord {
 
     public void setCacheLimit(int cacheLimit) {
         this.cacheLimit = cacheLimit;
+        this.save();
     }
 
 
@@ -93,5 +109,9 @@ public class SettingInfo extends SugarRecord {
 
     public void setVersion(String version) {
         this.version = version;
+        this.save();
+    }
+    public void setApiChangeListener(APIChangeListener listener){
+        this.apiChangeListener = listener;
     }
 }
