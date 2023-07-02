@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/load_mul_popup_background"
         android:orientation="horizontal"
-        android:padding="25dp"
+        android:padding="15dp"
         android:weightSum="3">
 
         <Button

@@ -84,6 +84,7 @@ public abstract class BaseBindingAdapter<M,B extends ViewDataBinding>
     @Override
     public void onBindViewHolder(@NonNull BaseBindingViewHolder holder, int position) {
         B binding = DataBindingUtil.getBinding(holder.itemView);
+        //holder.setIsRecyclable(false);//自己加的
         this.onBindItem(binding,this.mItems.get(position),position);
     }
     //子类实现

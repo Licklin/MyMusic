@@ -22,19 +22,21 @@ public class MulOperationPopup extends PopupWindow {
     Button delete_btn;
     Button load_btn;
 
-    private OnDeleteMulItemListener deleteMulItemListener;
+    private OnMulPopupClickListener onMulPopupClickListener;
 
     public MulOperationPopup(Context context) {
         this.context = context;
         init();
     }
 
-    public interface OnDeleteMulItemListener {
-        void onDeleteMulItem();
+    public interface OnMulPopupClickListener {
+        void deleteMulItemClickListener();
+        void addMulItemClickListener();
+        void nextPlayMulItemClickListener();
     }
 
-    public void setOnDeleteMulItemListener(OnDeleteMulItemListener listener) {
-        deleteMulItemListener = listener;
+    public void setOnMulPopupClickListener(OnMulPopupClickListener listener) {
+        onMulPopupClickListener = listener;
     }
 
     private void init() {
@@ -47,31 +49,34 @@ public class MulOperationPopup extends PopupWindow {
         add_btn = view.findViewById(R.id.add_btn);
         delete_btn = view.findViewById(R.id.delete_btn);
 
-        //下一曲播放
-        next_play_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
-
-        //添加
-        add_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dismiss();
-            }
-        });
-
-        //删除
-        delete_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                deleteMulItemListener.onDeleteMulItem();
-                dismiss();
-            }
-        });
+        next_play_btn.setOnClickListener(view1 -> onMulPopupClickListener.nextPlayMulItemClickListener());
+        add_btn.setOnClickListener(view1 -> onMulPopupClickListener.addMulItemClickListener());
+        delete_btn.setOnClickListener(view1 -> onMulPopupClickListener.deleteMulItemClickListener());
+//        //下一曲播放
+//        next_play_btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//            }
+//        });
+//
+//
+//        //添加
+//        add_btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                dismiss();
+//            }
+//        });
+//
+//        //删除
+//        delete_btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                deleteMulItemListener.onDeleteMulItem();
+//                dismiss();
+//            }
+//        });
     }
 
     public void show(View anchorView) {
