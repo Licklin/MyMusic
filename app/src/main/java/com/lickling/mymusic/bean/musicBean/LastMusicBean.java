@@ -1,4 +1,4 @@
-package com.lickling.mymusic.bean;
+package com.lickling.mymusic.bean.musicBean;
 
 import com.orm.SugarRecord;
 import com.orm.dsl.Table;
@@ -8,6 +8,8 @@ import com.orm.dsl.Table;
  */
 @Table
 public class LastMusicBean extends SugarRecord {
+    private String listId;
+    private String netId;
     private String musicId;
     private String title;
     private String artist;
@@ -26,13 +28,31 @@ public class LastMusicBean extends SugarRecord {
         this.duration = duration;
     }
 
+    public String getListId() {
+        return listId;
+    }
+
+    public void setListId(String listId) {
+        this.listId = listId;
+    }
+
+    public String getNetId() {
+        return netId;
+    }
+
+    public void setNetId(String netId) {
+        this.netId = netId;
+    }
+
+    public void setMusicId(String musicId) {
+        this.musicId = musicId;
+    }
+
     public String getMusicId() {
         return musicId;
     }
 
-    public void setId(String id) {
-        this.musicId = id;
-    }
+
 
     public String getTitle() {
         return title;

@@ -4,7 +4,11 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.lickling.mymusic.bean.musicBean.MusicBean;
+
 import java.lang.ref.SoftReference;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LastPlayListManager {
     private static final String TAG = "LastPlayListManager";
@@ -33,9 +37,8 @@ public class LastPlayListManager {
             editor.apply();
         }
     }
-    // TODO 改为List保存整个list
-    public int getLastPlayList(){
-        return get().getInt("MusicPosition",0);
+    public List<MusicBean> getLastPlayList(){
+        return new ArrayList<>();
     }
 
     public void onDestroy(){
