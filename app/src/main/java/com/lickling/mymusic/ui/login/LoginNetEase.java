@@ -357,7 +357,7 @@ public class LoginNetEase extends AppCompatActivity {
 
     @SuppressLint("CheckResult")
     private void checkQdState() {
-        NetEaseApiHandler client = new NetEaseApiHandler();
+        NetEaseApiHandler client = mainModel.getClient();
 
 // 一个 Runnable 对象，用于执行定时任务
         runnable = new Runnable() {
@@ -392,7 +392,7 @@ public class LoginNetEase extends AppCompatActivity {
                             if (qrCodeCheckResponse.code == 800) {
 //                                // 二维码超时
                             }
-                        }, client.defErrorHandler());
+                        }, client.defErrorHandler("line: " + Thread.currentThread().getStackTrace()[2].getLineNumber()));
 
 
                 // 完成任务后，再次将该任务发送到主线程的消息队列中，以实现循环定时器的效果

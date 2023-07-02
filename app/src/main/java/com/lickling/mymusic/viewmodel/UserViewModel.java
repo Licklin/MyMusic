@@ -76,15 +76,14 @@ public class UserViewModel extends BaseViewModel {
         this.user = user;
     }
 
-    @Bindable
     public NetEaseUser getNetEaseUser() {
         return netEaseUser;
     }
 
     public void setNetEaseUser(NetEaseUser netEaseUser) {
         this.netEaseUser = netEaseUser;
+//        setNetEaseAvatar();
         notifyPropertyChanged(BR.netEaseName);
-        notifyPropertyChanged(BR.userName);
     }
 
     public void logoutUser(NetEaseUser netEaseUser) {

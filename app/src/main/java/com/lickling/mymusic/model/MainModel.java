@@ -27,6 +27,7 @@ public class MainModel{
     protected NetEaseUser netEaseUser;
     protected SettingInfo settingInfo;
     private NetEaseApiHandler client;
+    public final static String BASE_URL = "http://192.168.1.210:3000";
 
     public MainModel(Context context) {
         this.context = context;
