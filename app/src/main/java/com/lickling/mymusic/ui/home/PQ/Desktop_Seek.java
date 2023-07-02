@@ -75,7 +75,6 @@ public class Desktop_Seek extends AppCompatActivity implements SongOperationPopu
     private ProgressDialog progressDialog;
     private NetEaseApiHandler client;
     private MainModel mainModel;
-    private String url;
 
 
     @SuppressLint("MissingInflatedId")
@@ -86,7 +85,6 @@ public class Desktop_Seek extends AppCompatActivity implements SongOperationPopu
         desktopSeekBinding = DataBindingUtil.setContentView(this, R.layout.desktop_seek);
         ImmersiveStatusBarUtil.transparentBar(this, false);
         mainModel = new MainModel(this);
-        url = mainModel.getSettingInfo().getApiUrl();
 
         musicModel = new MusicModel();
 
@@ -106,7 +104,7 @@ public class Desktop_Seek extends AppCompatActivity implements SongOperationPopu
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("加载中...");
-        client = new NetEaseApiHandler();
+        client = mainModel.getClient();
 
         dialog = new SongOperationPopup(this);
         dialog.setOnDeleteItemListener(this);

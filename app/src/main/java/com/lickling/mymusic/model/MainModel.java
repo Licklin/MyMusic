@@ -17,7 +17,7 @@ import com.orm.SugarContext;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 
-public class MainModel {
+public class MainModel{
     private final String TAG = "MainModel";
     private Context context;
     protected long userSaveID = 1;
@@ -27,14 +27,6 @@ public class MainModel {
     protected NetEaseUser netEaseUser;
     protected SettingInfo settingInfo;
     private NetEaseApiHandler client;
-
-    public MainModel(long userSaveID, long settingInfoSaveID) {
-        this.userSaveID = userSaveID;
-        this.settingInfoSaveID = settingInfoSaveID;
-        getInfoFromDisk();
-        client = new NetEaseApiHandler(); // 实例化网络模块
-
-    }
 
     public MainModel(Context context) {
         this.context = context;
@@ -54,9 +46,14 @@ public class MainModel {
         editor.apply();
         initNetModel();
     }
-    private void initNetModel(){
-//        client = new NetEaseApiHandler(getSettingInfo().getApiUrl());
-        client = new NetEaseApiHandler("http://192.168.31.31:3000");
+
+    private void initNetModel() {
+        Log.e(TAG,"api"+settingInfo.getApiUrl());
+        if (getSettingInfo().getApiUrl().equals(""))
+            client = new NetEaseApiHandler("http://192.168.31.31:3000");
+        else
+            client = new NetEaseApiHandler(getSettingInfo().getApiUrl());
+
         if (!netEaseUser.getCookie().equals(""))
             loadCookie(netEaseUser.getCookie());
     }
@@ -170,11 +167,16 @@ public class MainModel {
     }
 
     public String saveCookie() {
-        netEaseUser.setCookie(client.cookie2Json());
+        netEaseUser.setCookie(client.cookie2Json()); //序列化cookie然后保存到数据库
         return netEaseUser.getCookie();
     }
 
     public void loadCookie(String theCookie) {
         client.json2Cookie(theCookie);
+    }
+
+
+    public void setClientAPI(String api) {
+        client.changeAPI(api);
     }
 }

@@ -324,4 +324,8 @@ public class NetEaseApiHandler {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(Schedulers.computation());
     }
+
+    public void changeAPI(String api) {
+        this._BASE_URL = api;
+    }
 }

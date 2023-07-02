@@ -131,13 +131,4 @@ public class UserViewModel extends BaseViewModel {
         } else
             return false;
     }
-
-    @SuppressLint("CheckResult")
-    public void test() {
-        mainModel.saveCookie();
-        mainModel.getClient().getLoginStatus()
-                .subscribe(result-> {
-                    Log.e("6", "test: " + result.toString());
-                });
-    }
 }
