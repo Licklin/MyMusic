@@ -81,7 +81,6 @@ public class LoginNetEase extends AppCompatActivity {
         ImmersiveStatusBarUtil.transparentBar(this, false);
         //输入光标
         userViewModel = new UserViewModel(getApplication());
-        SugarContext.init(this);
 
         mainModel = new MainModel(this);
         netUser = mainModel.getNetEaseUser();
@@ -106,7 +105,6 @@ public class LoginNetEase extends AppCompatActivity {
         EditText code = findViewById(R.id.password);
 
         ImageView imageView = findViewById(R.id.qr_code_btn);
-//        if(!netUser.getCookie().equals("")) imageView.setClickable(false);
 //        // 二维码
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -352,7 +350,6 @@ public class LoginNetEase extends AppCompatActivity {
         if (imageView == null) {
             return;
         }
-
         mainModel.setQd2ImageView(imageView);
         checkQdState();
 
