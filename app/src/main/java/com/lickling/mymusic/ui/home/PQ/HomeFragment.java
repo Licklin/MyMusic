@@ -217,7 +217,7 @@ public class HomeFragment extends Fragment {
         Desktop_Listltem.add(new Desktop_Listltem("青花瓷", "jay潘"));
 
         Desktop_ListAdapter = new Desktop_ListAdapter(Desktop_Listltem, getActivity());
-
+        desktopOneBinding.homeRecyclerView.setAdapter(Desktop_ListAdapter);
 
         // 进入主页对自动点击一次，更换心灵鸡汤语句
         initData();

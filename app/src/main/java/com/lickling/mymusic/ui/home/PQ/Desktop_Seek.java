@@ -182,7 +182,7 @@ public class Desktop_Seek extends BaseActivity<MusicViewModel> implements SongOp
 
         listAdapter.notifyDataSetChanged();
 
-        //正在下载列表
+        //歌单列表
         listItems3 = new ArrayList<>();
 
         listItems3.add(new ListItem3("歌曲1", "12首", "创建者", "1245"));
