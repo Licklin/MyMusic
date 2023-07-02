@@ -188,4 +188,8 @@
     <string name="flag">|</string>
     <!--播放界面-结束-->
 
+    <!--playing_list_popup.xml, 播放列表文字描述-->
+    <string name="playing_list">Now Playing: </string>
+
+
 </resources>

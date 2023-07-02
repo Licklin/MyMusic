@@ -1,7 +1,6 @@
 package com.lickling.mymusic;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.MediaBrowserCompat.MediaItem;
@@ -22,10 +21,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.lickling.mymusic.adapter.MusicAdapter;
 
 import com.lickling.mymusic.databinding.ActivityMyTestBinding;
-import com.lickling.mymusic.service.OurMusicService;
 import com.lickling.mymusic.ui.BaseActivity;
 
-import com.lickling.mymusic.ui.home.MainActivity;
 import com.lickling.mymusic.ui.songAndLyrics.SongLrcActivity;
 import com.lickling.mymusic.utilty.ImmersiveStatusBarUtil;
 import com.lickling.mymusic.viewmodel.MusicViewModel;

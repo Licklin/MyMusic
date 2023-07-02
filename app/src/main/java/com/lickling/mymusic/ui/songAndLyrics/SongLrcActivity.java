@@ -1,7 +1,6 @@
 package com.lickling.mymusic.ui.songAndLyrics;
 
 import android.animation.ObjectAnimator;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.MediaMetadataCompat;
@@ -14,14 +13,20 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.lickling.mymusic.databinding.PlayingListPopupBinding;
 import com.lickling.mymusic.ui.BaseActivity;
+import com.lickling.mymusic.ui.local.ListAdapter;
 import com.lickling.mymusic.ui.songAndLyrics.util.LrcUtil;
-import com.lickling.mymusic.viewmodel.SongLrcViewModel;
+import com.lickling.mymusic.ui.songAndLyrics.view.PlayingListFragment;
+import com.lickling.mymusic.ui.songAndLyrics.view.SlideView;
 import com.lickling.mymusic.R;
 import com.lickling.mymusic.databinding.ActivitySongLrcBinding;
 import com.lickling.mymusic.service.manager.MediaPlayerManager;
 import com.lickling.mymusic.service.manager.MyAudioManager;
+import com.lickling.mymusic.ui.songAndLyrics.viewmodel.PlayListViewModel;
+import com.lickling.mymusic.viewmodel.SongLrcViewModel;
 
 import java.util.List;
 import java.util.Timer;
@@ -32,18 +37,27 @@ public class SongLrcActivity extends BaseActivity<SongLrcViewModel> {
 
     private ActivitySongLrcBinding mSongLrcBinding;
     private SongLrcViewModel mSongLrcViewModel;
+    private PlayListViewModel mPlayListViewModel;
     private Timer mTimer;
     private SlideView mSlideView;
     private ObjectAnimator mRecordAnimator;
+    private ListAdapter listAdapter;
+    PlayingListPopupBinding mPlayingListPopupBinding;
     private final static int pauseRotation = -32, playRotation = -2;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mPlayingListPopupBinding = DataBindingUtil.setContentView(this, R.layout.playing_list_popup);
+        mPlayListViewModel = new PlayListViewModel(getApplication());
+        // mPlayingListPopupBinding.setLocalInfo(mPlayListViewModel);
+
         mSongLrcBinding = DataBindingUtil.setContentView(this, R.layout.activity_song_lrc);
         mSongLrcViewModel = new SongLrcViewModel(getApplication());
         mSongLrcBinding.setSongLrcInfo(mSongLrcViewModel);
+
 
         initView();
     }
@@ -93,6 +107,7 @@ public class SongLrcActivity extends BaseActivity<SongLrcViewModel> {
     }
 
     private void initView() {
+        // 绑定歌曲及词界面
         mSlideView = new SlideView(this, SlideView.SLIDE_DIRECTION_DOWN);
         mSongLrcBinding.songLrcRootLayout.setOnApplyWindowInsetsListener(this);
         mRecordAnimator = super.initAnimation(mSongLrcBinding.songLrcCslCenterIvAlbum);
@@ -103,10 +118,18 @@ public class SongLrcActivity extends BaseActivity<SongLrcViewModel> {
         mSongLrcBinding.songLrcTopBarVolume
                 .setOnSeekBarChangeListener(mSongLrcViewModel.getVolumeListener());
 
+        mSongLrcBinding.songLrcCenterLrc.setOnClickListener(v -> mSongLrcViewModel.setShowLyric(false));
+        mSongLrcBinding.songLrcBottomList.setOnClickListener(v -> mSongLrcViewModel.playListButton(getSupportFragmentManager()));
+
+        // 绑定播放列表界面
+        mPlayingListPopupBinding.playingListPopup.setOnApplyWindowInsetsListener(this);
+        mPlayingListPopupBinding.recyclerView.setLayoutManager(new LinearLayoutManager(getApplication()));
+        listAdapter = new ListAdapter(getApplication());
+        listAdapter.setContext(this);
+        mPlayingListPopupBinding.recyclerView.setAdapter(listAdapter);
+
         // 缩小唱片和音乐图片的组合
         sureRecordSize();
-
-        mSongLrcBinding.songLrcCenterLrc.setOnClickListener(v -> mSongLrcViewModel.setShowLyric(false));
 
         //让vector资源替换颜色
 //        int color_play_ctrl = Color.parseColor("#cc3946");
@@ -134,6 +157,12 @@ public class SongLrcActivity extends BaseActivity<SongLrcViewModel> {
             mSongLrcBinding.unbind();
             mSongLrcBinding = null;
         }
+    }
+
+    public void ShowPlayList() {
+        Log.i(TAG, "[SongLrcActivity] None");
+        PlayingListFragment bottomSheetDialog = new PlayingListFragment();
+        bottomSheetDialog.show(getSupportFragmentManager(), "SongLrcActivity");
     }
 
     private void UpdateProgressBar() {

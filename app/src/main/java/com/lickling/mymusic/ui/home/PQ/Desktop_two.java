@@ -234,8 +234,8 @@ public class Desktop_two extends Fragment {
                         Desktop_ListItem2.add(new Desktop_ListItem2("潘琪",data));
                         Desktop_ListItem2.add(new Desktop_ListItem2("黎科良",data));
                         Desktop_ListItem2.add(new Desktop_ListItem2("朱纪达",data));
-                        Desktop_ListItem2.add(new Desktop_ListItem2("倪浩深",data));
-                        Desktop_ListItem2.add(new Desktop_ListItem2("赵胜葳",data));
+                        Desktop_ListItem2.add(new Desktop_ListItem2("倪浩深", data));
+                        Desktop_ListItem2.add(new Desktop_ListItem2("赵晟葳", data));
 
                         Desktop_ListAdapter2 = new Desktop_ListAdapter2(Desktop_ListItem2, getActivity());
                         recyclerView.setAdapter(Desktop_ListAdapter2);
@@ -263,7 +263,7 @@ public class Desktop_two extends Fragment {
 //                    Desktop_ListItem2.add(new Desktop_ListItem2("黎科良",data));
 //                    Desktop_ListItem2.add(new Desktop_ListItem2("朱纪达",data));
 //                    Desktop_ListItem2.add(new Desktop_ListItem2("倪浩深",data));
-//                    Desktop_ListItem2.add(new Desktop_ListItem2("赵胜葳",data));
+//                    Desktop_ListItem2.add(new Desktop_ListItem2("赵晟葳",data));
 //
 //                    Desktop_ListAdapter2 = new Desktop_ListAdapter2(Desktop_ListItem2, getActivity());
 //                    recyclerView.setAdapter(Desktop_ListAdapter2);
