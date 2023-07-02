@@ -230,6 +230,7 @@ public class Desktop_two extends Fragment {
 
                         data = message.getData().getString("data");
 
+
                         // 在此处添加数据到listItems
                         Desktop_ListItem2.add(new Desktop_ListItem2("潘琪",data));
                         Desktop_ListItem2.add(new Desktop_ListItem2("黎科良",data));
