@@ -12,7 +12,6 @@ import java.util.List;
  * <p>
  * offset : 偏移数量，用于分页 , 如 :( 页数 -1)*30, 其中 30 为 limit 的值 , 默认为 0
  * <p>
- * 'http://localhost:4000/'+/user/playlist
  */
 
 public class UserPlaylistResponse {
