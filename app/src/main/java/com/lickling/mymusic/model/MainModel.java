@@ -27,6 +27,7 @@ public class MainModel {
     protected NetEaseUser netEaseUser;
     protected SettingInfo settingInfo;
     private NetEaseApiHandler client;
+    public final static String BASE_URL = "http://192.168.1.210:3000";
 
     public MainModel(long userSaveID, long settingInfoSaveID) {
         this.userSaveID = userSaveID;
@@ -56,7 +57,7 @@ public class MainModel {
     }
     private void initNetModel(){
 //        client = new NetEaseApiHandler(getSettingInfo().getApiUrl());
-        client = new NetEaseApiHandler("http://192.168.31.31:3000");
+        client = new NetEaseApiHandler(MainModel.BASE_URL);
         if (!netEaseUser.getCookie().equals(""))
             loadCookie(netEaseUser.getCookie());
     }
