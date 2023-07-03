@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 
 import android.widget.ImageView;
@@ -44,6 +46,56 @@ public class Desktop_ListAdapter2 extends RecyclerView.Adapter<Desktop_ListAdapt
         Desktop_ListItem2 listItem = Desktop_ListItem2.get(position);
         holder.title.setText(listItem.getTitle());
         holder.condition.setText(listItem.getCondition());
+
+        // 观看人数按键
+        holder.pq_watch_count.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Animation animation = AnimationUtils.loadAnimation(context, R.anim.alpha);
+                holder.pq_watch_count.startAnimation(animation);
+            }
+        });
+
+        // 收藏人数按键
+        holder.pq_collect_count.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Animation animation = AnimationUtils.loadAnimation(context, R.anim.alpha);
+                holder.pq_collect_count.startAnimation(animation);
+                if(holder.pq_collect_count.isSelected()) {
+                    holder.pq_collect_count.setSelected(false);
+                }
+                else {
+                    holder.pq_collect_count.setSelected(true);
+                }
+
+            }
+        });
+
+        // 评论人数按键
+        holder.pq_comment_count.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Animation animation = AnimationUtils.loadAnimation(context, R.anim.alpha);
+                holder.pq_comment_count.startAnimation(animation);
+            }
+        });
+
+        // 点赞人数按键
+        holder.pq_upvote_count.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Animation animation = AnimationUtils.loadAnimation(context, R.anim.alpha);
+                holder.pq_upvote_count.startAnimation(animation);
+                if(holder.pq_upvote_count.isSelected()) {
+                    holder.pq_upvote_count.setSelected(false);
+                }
+                else {
+                    holder.pq_upvote_count.setSelected(true);
+                }
+            }
+        });
+
     }
 
     @Override
@@ -61,6 +113,7 @@ public class Desktop_ListAdapter2 extends RecyclerView.Adapter<Desktop_ListAdapt
         public ImageView pq_upvote_count;
 
 
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -73,14 +126,13 @@ public class Desktop_ListAdapter2 extends RecyclerView.Adapter<Desktop_ListAdapt
             pq_upvote_count = itemView.findViewById(R.id.pq_upvote_count);
 
             itemView.setOnClickListener(this);
+
         }
 
         @Override
         public void onClick(View v) {
 
-
         }
-
 
 
         @Override
