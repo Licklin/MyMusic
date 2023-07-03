@@ -15,7 +15,7 @@ public class SettingInfo extends SugarRecord {
     private int cacheLimit = 4; // 1-8GB
     private long apiPositionId = -1; // SugarORM 数据库的ID
     private int apiPosition = -1; // APIList里的位置
-    private String apiUrl = MainModel.BASE_URL;
+    private String apiUrl = "";
     private String version;
     @Ignore
     private APIChangeListener apiChangeListener;

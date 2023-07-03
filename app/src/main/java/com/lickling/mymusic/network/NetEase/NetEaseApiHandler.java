@@ -1,7 +1,6 @@
 package com.lickling.mymusic.network.NetEase;
 
 import android.annotation.SuppressLint;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -55,7 +54,7 @@ public class NetEaseApiHandler {
     private Retrofit _retrofit;
     private final int DEF_TIME_OUT_MILLISECOND = 10000;
 
-    protected String _BASE_URL = MainModel.BASE_URL;
+    protected String _BASE_URL = "";
 
     public boolean __DEBUG__ = true;
     public NetEaseApiService _client;
@@ -255,7 +254,7 @@ public class NetEaseApiHandler {
 
     public Flowable<QrCodeCheckResponse> checkQrCodeStatus() {
         long timestamp = System.currentTimeMillis();
-        String qrCodeKey = "25ed2d0d-4983-4a6e-99e5-1f237f205817";
+        String qrCodeKey = "";
         if (getQrCodeKey() != null) {
             qrCodeKey = getQrCodeKey();
         }

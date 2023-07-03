@@ -36,6 +36,7 @@ import com.lickling.mymusic.service.manager.MyAudioManager;
 import com.lickling.mymusic.ui.songAndLyrics.viewmodel.PlayingListViewModel;
 import com.lickling.mymusic.viewmodel.SongLrcViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 
@@ -287,6 +288,19 @@ public class SongLrcActivity extends BaseActivity<SongLrcViewModel> {
             activityOnChildrenLoad(mSongLrcViewModel,
                     mSongLrcBinding.songLrcIvLoading,
                     children);
+
+            super.onChildrenLoaded(parentId, children);
+
+            Log.d(TAG, "onChildrenLoaded: MyMusic");
+
+            if (local_items == null) {
+                local_items = new ArrayList<>();
+                listAdapter.mySetItems(children);
+                local_items = children;
+            } else
+                listAdapter.mySetItems(local_items);
+
+
             MediaControllerCompat mediaController = MediaControllerCompat.getMediaController(SongLrcActivity.this);
             //同步歌词
             mSongLrcBinding.songLrcCenterLrc.setMediaController(mediaController);

@@ -137,7 +137,7 @@ public class ListAdapter extends BaseBindingAdapter<MediaItem, LocalSongListItem
         return bean;
     }
 
-    void resetItemColor(LocalSongListItemBinding binding, int position) {
+    public void resetItemColor(LocalSongListItemBinding binding, int position) {
         Drawable icon;
 
         if (selectedItem != null && selectedItem == getItems().get(position)) {
@@ -166,13 +166,13 @@ public class ListAdapter extends BaseBindingAdapter<MediaItem, LocalSongListItem
 
     }
 
-    void mySetItems(List<MediaItem> items) {
+    public void mySetItems(List<MediaItem> items) {
         super.setItems(items);
         items_state = new ArrayList<>(Collections.nCopies(items.size(), false));
     }
 
 
-    void synBindingState(LocalSongListItemBinding binding, int position) {
+    public void synBindingState(LocalSongListItemBinding binding, int position) {
         CheckBox checkBox = ((Activity) m_context).findViewById(R.id.all_choice_btn);
         if (checkBox.getVisibility() == View.VISIBLE) {
             binding.checkBox.setVisibility(View.VISIBLE);

@@ -1,83 +1,94 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
-    android:layout_marginBottom="5dp"
-    android:gravity="center_vertical"
-    android:padding="0dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <ImageView
-        android:id="@+id/single_view"
-        android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:layout_centerInParent="true"
-        android:scaleType="fitXY"
-        android:src="@drawable/load_grey_background" />
+    <data>
+
+        <variable
+            name="PlayingListMusicInfo"
+            type="com.lickling.mymusic.bean.musicBean.MusicBean" />
+    </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true">
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="5dp"
+        android:gravity="center_vertical"
+        android:padding="0dp">
 
-        <Button
-            android:id="@+id/play_btn"
+        <ImageView
+            android:id="@+id/single_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="80dp"
-            android:background="@android:color/transparent" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
+            android:layout_height="52dp"
             android:layout_centerInParent="true"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:scaleType="fitXY"
+            android:src="@drawable/load_grey_background" />
 
-            <View
-                android:id="@+id/album_cover"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:background="@drawable/load_album_cover"></View>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+
+            <Button
+                android:id="@+id/play_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="80dp"
+                android:background="@android:color/transparent" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_weight="8"
-                android:orientation="vertical">
+                android:layout_alignParentTop="true"
+                android:layout_centerInParent="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Title"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
+<!--                <View-->
+<!--                    android:id="@+id/album_cover"-->
+<!--                    android:layout_width="35dp"-->
+<!--                    android:layout_height="35dp"-->
+<!--                    android:background="@drawable/load_album_cover"></View>-->
 
-                <TextView
-                    android:id="@+id/subtitle"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Subtitle"
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="12sp" />
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="8"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text='@{PlayingListMusicInfo.title}'
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/subtitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text='@{PlayingListMusicInfo.artist+" - "+PlayingListMusicInfo.album}'
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/add_btn"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/load_add"
+                    android:rotation="45"
+                    android:visibility="visible"></Button>
+
             </LinearLayout>
 
-            <Button
-                android:id="@+id/add_btn"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/load_add"
-                android:visibility="visible"></Button>
+        </RelativeLayout>
 
-        </LinearLayout>
 
     </RelativeLayout>
-
-
-</RelativeLayout>
+</layout>

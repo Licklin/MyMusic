@@ -351,6 +351,7 @@ public class LoginNetEase extends AppCompatActivity {
             return;
         }
         mainModel.setQd2ImageView(imageView);
+
         checkQdState();
 
     }
