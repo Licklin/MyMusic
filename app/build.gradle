@@ -86,6 +86,8 @@ dependencies {
 }
 android {
 
+
+    compileSdk 31
     compileOptions.encoding = "UTF-8"
 
 }

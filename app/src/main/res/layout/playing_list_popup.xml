@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.lickling.mymusic.ui.songAndLyrics.viewmodel.PlayListViewModel" />
+            type="com.lickling.mymusic.ui.songAndLyrics.viewmodel.PlayingListViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="80dp"
-                tools:listitem="@layout/local_song_list_item" />
+                tools:listitem="@layout/playing_list_item" />
 
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

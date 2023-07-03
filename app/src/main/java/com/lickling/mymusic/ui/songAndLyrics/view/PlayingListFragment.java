@@ -12,16 +12,16 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.lickling.mymusic.R;
 import com.lickling.mymusic.databinding.PlayingListPopupBinding;
-import com.lickling.mymusic.ui.songAndLyrics.viewmodel.PlayListViewModel;
+import com.lickling.mymusic.ui.songAndLyrics.viewmodel.PlayingListViewModel;
 
 public class PlayingListFragment extends BottomSheetDialogFragment {
-    private PlayListViewModel playingListviewModel;
+    private PlayingListViewModel playingListviewModel;
     private PlayingListPopupBinding binding;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        playingListviewModel = new ViewModelProvider(this).get(PlayListViewModel.class);
+        playingListviewModel = new ViewModelProvider(this).get(PlayingListViewModel.class);
         setStyle(BottomSheetDialogFragment.STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme);
     }
 

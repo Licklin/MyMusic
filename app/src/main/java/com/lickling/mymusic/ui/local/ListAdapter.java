@@ -185,15 +185,15 @@ public class ListAdapter extends BaseBindingAdapter<MediaItem, LocalSongListItem
         }
     }
 
-    void setPreBinding(LocalSongListItemBinding binding) {
+    public void setPreBinding(LocalSongListItemBinding binding) {
         this.pre_binding = binding;
     }
 
-    LocalSongListItemBinding getPreBinding() {
+    public LocalSongListItemBinding getPreBinding() {
         return pre_binding;
     }
 
-    void setSelectedItem(MediaItem item) {
+    public void setSelectedItem(MediaItem item) {
         this.selectedItem = item;
     }
 
