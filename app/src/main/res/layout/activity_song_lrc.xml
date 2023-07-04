@@ -121,7 +121,7 @@
             android:layout_marginLeft="25dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="25dp"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="20dp"
             android:orientation="horizontal"
             app:layout_constraintBottom_toTopOf="@+id/song_lrc_csl_bottom_layout">
 
@@ -173,7 +173,7 @@
             android:layout_height="16dp"
             android:orientation="horizontal"
             android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="20dp"
             android:layout_marginStart="25dp"
             android:layout_marginEnd="25dp"
             app:layout_constraintBottom_toTopOf="@+id/play_controller">
@@ -250,7 +250,7 @@
 
         <!--ellipsize: 文本超过限制则给滚动显示-->
 
-        <com.lickling.mymusic.ui.songAndLyrics.MarqueeTextView
+        <com.lickling.mymusic.ui.songAndLyrics.view.MarqueeTextView
             android:id="@+id/song_lrc_top_song"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

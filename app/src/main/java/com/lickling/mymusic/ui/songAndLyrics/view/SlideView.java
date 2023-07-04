@@ -1,4 +1,4 @@
-package com.lickling.mymusic.ui.songAndLyrics;
+package com.lickling.mymusic.ui.songAndLyrics.view;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

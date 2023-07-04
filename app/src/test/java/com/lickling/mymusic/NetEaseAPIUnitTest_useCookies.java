@@ -9,7 +9,7 @@ import org.junit.Test;
 
 
 public class NetEaseAPIUnitTest_useCookies {
-    private static final String BASE_URL = MainModel.BASE_URL;
+    private static final String BASE_URL = "http://192.168.31.31:3000";
     boolean _temp = false;
     String _uid = null;
 

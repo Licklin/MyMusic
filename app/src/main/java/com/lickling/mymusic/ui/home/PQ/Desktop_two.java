@@ -230,13 +230,12 @@ public class Desktop_two extends Fragment {
 
                         data = message.getData().getString("data");
 
-
                         // 在此处添加数据到listItems
                         Desktop_ListItem2.add(new Desktop_ListItem2("潘琪",data));
                         Desktop_ListItem2.add(new Desktop_ListItem2("黎科良",data));
                         Desktop_ListItem2.add(new Desktop_ListItem2("朱纪达",data));
-                        Desktop_ListItem2.add(new Desktop_ListItem2("倪浩深",data));
-                        Desktop_ListItem2.add(new Desktop_ListItem2("赵胜葳",data));
+                        Desktop_ListItem2.add(new Desktop_ListItem2("倪浩深", data));
+                        Desktop_ListItem2.add(new Desktop_ListItem2("赵晟葳", data));
 
                         Desktop_ListAdapter2 = new Desktop_ListAdapter2(Desktop_ListItem2, getActivity());
                         recyclerView.setAdapter(Desktop_ListAdapter2);
@@ -245,6 +244,35 @@ public class Desktop_two extends Fragment {
                     return false;
                 }
             });
+
+
+//        }
+
+//        initData();
+//
+//        // 接受子线程返回的数据，由主线程更改UI
+//        mHandler = new Handler(new Handler.Callback() {
+//            @Override
+//            public boolean handleMessage(@NonNull Message message) {
+//                if(message.what==GET_DATA_SUCCESS){
+//
+//                        data = message.getData().getString("data");
+//
+//                    // 在此处添加数据到listItems
+//                    Desktop_ListItem2.add(new Desktop_ListItem2("潘琪",data));
+//                    Desktop_ListItem2.add(new Desktop_ListItem2("黎科良",data));
+//                    Desktop_ListItem2.add(new Desktop_ListItem2("朱纪达",data));
+//                    Desktop_ListItem2.add(new Desktop_ListItem2("倪浩深",data));
+//                    Desktop_ListItem2.add(new Desktop_ListItem2("赵晟葳",data));
+//
+//                    Desktop_ListAdapter2 = new Desktop_ListAdapter2(Desktop_ListItem2, getActivity());
+//                    recyclerView.setAdapter(Desktop_ListAdapter2);
+//
+//                }
+//                return false;
+//            }
+//        });
+
 
 
 

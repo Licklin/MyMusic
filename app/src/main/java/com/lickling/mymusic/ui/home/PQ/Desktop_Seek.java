@@ -99,8 +99,7 @@ public class Desktop_Seek extends BaseActivity<MusicViewModel> implements SongOp
     private ProgressDialog progressDialog;
     private NetEaseApiHandler client;
     private MainModel mainModel;
-    private String url;
-    private Timer mTimer;
+   private Timer mTimer;
 
     private Intent mIntentMusic;
     private static final String TAG = "Desktop_seek";
@@ -127,18 +126,9 @@ public class Desktop_Seek extends BaseActivity<MusicViewModel> implements SongOp
         mMusicViewModel = new MusicViewModel(getApplication());
         desktopSeekBinding.setSearchInfo(mMusicViewModel);
         initView();
-        mIntentMusic = new Intent(this, OurMusicService.class);
-        this.startService(mIntentMusic);
-
-
-
 
         ImmersiveStatusBarUtil.transparentBar(this, false);
         mainModel = new MainModel(this);
-
-        url = mainModel.getSettingInfo().getApiUrl();
-
-        MusicModel musicModel = new MusicModel();
 
         load_view = getWindow().getDecorView();
         context = load_view.getContext();
@@ -157,7 +147,7 @@ public class Desktop_Seek extends BaseActivity<MusicViewModel> implements SongOp
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("加载中...");
 
-        client = new NetEaseApiHandler();
+        client = mainModel.getClient();
 
         dialog = new SongOperationPopup(this);
         dialog.setOnDeleteItemListener(this);

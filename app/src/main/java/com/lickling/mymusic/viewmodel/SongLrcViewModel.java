@@ -8,19 +8,24 @@ import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.SeekBar;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.Bindable;
+import androidx.fragment.app.FragmentManager;
 
 
 import com.lickling.mymusic.BR;
 import com.lickling.mymusic.R;
 import com.lickling.mymusic.service.manager.MediaPlayerManager;
 import com.lickling.mymusic.service.manager.MyAudioManager;
+import com.lickling.mymusic.ui.songAndLyrics.view.PlayingListFragment;
+import com.lickling.mymusic.viewmodel.MusicViewModel;
 
 import java.lang.ref.SoftReference;
 import java.text.SimpleDateFormat;
@@ -50,6 +55,13 @@ public class SongLrcViewModel extends MusicViewModel {
 
         this.playbackResId = R.drawable.play_ctrl_play_btn;
         this.playbackModeResId = R.drawable.iv_playback_mode_order;
+    }
+
+    // 点击歌单之后, 要显示歌单
+    public void playListButton(FragmentManager frag) {
+        // ?
+        PlayingListFragment bottomSheetDialog = new PlayingListFragment();
+        bottomSheetDialog.show(frag, "SongLrcActivity");
     }
 
     @Override
