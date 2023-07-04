@@ -15,9 +15,12 @@ import com.lickling.mymusic.R;
 import com.lickling.mymusic.bean.NetEaseUser;
 import com.lickling.mymusic.bean.User;
 import com.lickling.mymusic.model.MainModel;
+import com.lickling.mymusic.utilty.PictureUtil;
 import com.orm.SugarContext;
 
 import java.util.Objects;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 
 public class UserViewModel extends BaseViewModel {
     private Application application;
@@ -65,6 +68,7 @@ public class UserViewModel extends BaseViewModel {
     }
 
     public void setLoginNetEase(boolean loginNetEase) {
+        mainModel.saveCookie();
         isLoginNetEase = loginNetEase;
     }
 
@@ -82,7 +86,11 @@ public class UserViewModel extends BaseViewModel {
 
     public void setNetEaseUser(NetEaseUser netEaseUser) {
         this.netEaseUser = netEaseUser;
-//        setNetEaseAvatar();
+        notifyPropertyChanged(BR.netEaseName);
+    }
+    public void loginNetEase(NetEaseUser netEaseUser){
+        this.netEaseUser = netEaseUser;
+        mainModel.saveCookie();
         notifyPropertyChanged(BR.netEaseName);
     }
 
@@ -98,11 +106,15 @@ public class UserViewModel extends BaseViewModel {
         this.mainModel = mainModel;
     }
 
+
+
+
     @SuppressLint("CheckResult")
     public void upgradeNteEaseInfo(ImageView imageView) { // 更新个人主页的网易信息，参数：显示头像的ImageView
         if (isLoginNetEase()) {
             mainModel.loadCookie(mainModel.getNetEaseUser().getCookie()); // 加载cookie
             mainModel.getClient().getLoginStatus()
+                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(result -> {
                         NetEaseUser netEaseUser = getNetEaseUser(); //
                         netEaseUser.setUserName(result.getNickname()); // 昵称
@@ -129,5 +141,28 @@ public class UserViewModel extends BaseViewModel {
             return true;
         } else
             return false;
+    }
+
+    @SuppressLint("CheckResult")
+    public void setQd2ImageView(ImageView imageView) {
+        if (application == null) return;
+        Glide.with(application).load(R.drawable.loading).into(imageView);
+        mainModel.getClient().getQrCode()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(QRCodeBase64 -> {
+                    if (QRCodeBase64 != null) {
+//                        Log.d(TAG, "[NetEaseTest subscribe: QRCodeBase64] " + QRCodeBase64);
+                        Glide.with(application)
+                                .asBitmap()
+                                .load(PictureUtil.base64String2Bitmap(QRCodeBase64))
+                                .into(imageView);
+                    }
+
+                }, mainModel.getClient().defErrorHandler());
+
+    }
+
+    public void saveLogin(User user) {
+        mainModel.saveLogin(user);
     }
 }

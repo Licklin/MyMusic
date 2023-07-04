@@ -40,6 +40,7 @@ import com.lickling.mymusic.network.NetEase.NetEaseApiHandler;
 import com.lickling.mymusic.ui.home.MainActivity;
 import com.lickling.mymusic.ui.home.nsh.dao.UserDao;
 import com.lickling.mymusic.utilty.ImmersiveStatusBarUtil;
+import com.lickling.mymusic.viewmodel.UserViewModel;
 import com.orm.SugarContext;
 
 import java.util.Timer;
@@ -50,12 +51,12 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 public class LoginWangyi extends AppCompatActivity {
     private Toolbar toolbar;
     private User user;
-    private MainModel mainModel;
     private EditText EditTextAccount;
     private EditText EditTextPassword;
     private ProgressDialog progressDialog;
 
     boolean flag = true;
+    private UserViewModel userViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,10 +65,8 @@ public class LoginWangyi extends AppCompatActivity {
         ImmersiveStatusBarUtil.transparentBar(this, false);
         //输入光标
 
-
-
-        mainModel = new MainModel(this);
-        user = mainModel.getUser();
+        userViewModel = new UserViewModel(getApplication());
+        user= userViewModel.getUser();
 
         EditTextAccount = findViewById(R.id.account);
         EditTextPassword = findViewById(R.id.password);
@@ -336,7 +335,7 @@ public class LoginWangyi extends AppCompatActivity {
 //              user.setOurUserName("");
                 user.setOurUserPWD(EditTextPassword.getText().toString());
                 user.save();
-                mainModel.saveLogin(user);
+                userViewModel.saveLogin(user);
                 startActivity(intent);
             } else if (msg.what == 2) {
                 Toast.makeText(getApplicationContext(), "密码错误", Toast.LENGTH_LONG).show();
@@ -355,7 +354,7 @@ public class LoginWangyi extends AppCompatActivity {
         if (imageView == null) {
             return;
         }
-        mainModel.setQd2ImageView(imageView);
+        userViewModel.setQd2ImageView(imageView);
     }
 
 //    public void logout() {

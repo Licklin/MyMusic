@@ -64,11 +64,9 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class LoginNetEase extends AppCompatActivity {
     private Toolbar toolbar;
-    private MainModel mainModel;
     private UserViewModel userViewModel;
     private EditText EditTextAccount;
     private EditText EditTextPassword;
-    boolean flag = true;
     private NetEaseUser netUser;
     private Handler handler;
     private Runnable runnable;
@@ -81,9 +79,7 @@ public class LoginNetEase extends AppCompatActivity {
         ImmersiveStatusBarUtil.transparentBar(this, false);
         //输入光标
         userViewModel = new UserViewModel(getApplication());
-
-        mainModel = new MainModel(this);
-        netUser = mainModel.getNetEaseUser();
+        netUser = userViewModel.getNetEaseUser();
 
 // 在主线程中创建一个 Handler 对象
         handler = new Handler();
@@ -293,47 +289,11 @@ public class LoginNetEase extends AppCompatActivity {
 
     public void login(View view) {
 
-        EditText EditTextAccount = findViewById(R.id.account);
-        EditText EditTextPassword = findViewById(R.id.password);
-
-        new Thread() {
-            @Override
-            public void run() {
-                UserDao userDao = new UserDao();
-                int msg = userDao.login(EditTextAccount.getText().toString(), EditTextPassword.getText().toString());
-                hand1.sendEmptyMessage(msg);
-            }
-        }.start();
-
     }
 
-    public void login() {
-        new Thread() {
-            @Override
-            public void run() {
-                UserDao userDao = new UserDao();
-                int msg = userDao.login(EditTextAccount.getText().toString(), EditTextPassword.getText().toString());
-                hand1.sendEmptyMessage(msg);
-            }
-        }.start();
 
-    }
 
-    @SuppressLint("HandlerLeak")
-    final Handler hand1 = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            if (msg.what == 0) {
-                Toast.makeText(getApplicationContext(), "登录失败", Toast.LENGTH_LONG).show();
-            } else if (msg.what == 1) {
-                Toast.makeText(getApplicationContext(), "登录成功", Toast.LENGTH_LONG).show();
-            } else if (msg.what == 2) {
-                Toast.makeText(getApplicationContext(), "密码错误", Toast.LENGTH_LONG).show();
-            } else if (msg.what == 3) {
-                Toast.makeText(getApplicationContext(), "账号不存在", Toast.LENGTH_LONG).show();
-            }
-        }
-    };
+
 
     @SuppressLint("CheckResult")
     private void showLoginQd() {
@@ -350,51 +310,34 @@ public class LoginNetEase extends AppCompatActivity {
         if (imageView == null) {
             return;
         }
-        mainModel.setQd2ImageView(imageView);
+        userViewModel.setQd2ImageView(imageView);
 
         checkQdState();
 
     }
-
     @SuppressLint("CheckResult")
     private void checkQdState() {
-        NetEaseApiHandler client = mainModel.getClient();
+        NetEaseApiHandler client = userViewModel.getMainModel().getClient(); // 获取网络连接客户端
 
-// 一个 Runnable 对象，用于执行定时任务
         runnable = new Runnable() {
             @Override
             public void run() {
-                // 在这里执行定时任务的操作
-                // ...
                 client.checkQrCodeStatus()
                         .observeOn(AndroidSchedulers.mainThread()) // 将结果切换回主线程
                         .subscribe(qrCodeCheckResponse -> {
 //                            System.out.println("[checkQrCodeStatus] " + qrCodeCheckResponse.toString());
                             if (qrCodeCheckResponse.code == 803) {
-                                netUser.setCookie(qrCodeCheckResponse.cookie);
-                                netUser.save();
-//                                Log.d(TAG, " [net ease name] " + qrCodeCheckResponse.nickname);
+                                userViewModel.loginNetEase(netUser);
 
-                                userViewModel.setNetEaseUser(netUser);
-                                mainModel.saveCookie();
-
-                                handler.removeCallbacks(this);
+                                handler.removeCallbacks(this);  // 停止轮询检测二维码
 //                                Log.d("登录成功", "cookie：" + qrCodeCheckResponse.cookie);
                                 Toast.makeText(LoginNetEase.this, "网易登录成功", Toast.LENGTH_SHORT).show();
                                 finish();
-//                                handler.postDelayed(new Runnable() {
-//                                    @Override
-//                                    public void run() {
-//
-//                                    }
-//                                }, 300);
-
                             }
                             if (qrCodeCheckResponse.code == 800) {
 //                                // 二维码超时
                             }
                         }, client.defErrorHandler("line: " + Thread.currentThread().getStackTrace()[2].getLineNumber()));
-
 
                 // 完成任务后，再次将该任务发送到主线程的消息队列中，以实现循环定时器的效果
                 handler.postDelayed(this, 1000); // 1000 毫秒后再次执行该任务

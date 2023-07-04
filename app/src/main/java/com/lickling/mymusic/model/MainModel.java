@@ -173,24 +173,7 @@ public class MainModel {
         this.settingInfoSaveID = settingInfoSaveID;
     }
 
-    @SuppressLint("CheckResult")
-    public void setQd2ImageView(ImageView imageView) {
-        if (context == null) return;
-        Glide.with(context).load(R.drawable.loading).into(imageView);
-        client.getQrCode()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(QRCodeBase64 -> {
-                    if (QRCodeBase64 != null) {
-//                        Log.d(TAG, "[NetEaseTest subscribe: QRCodeBase64] " + QRCodeBase64);
-                        Glide.with(context)
-                                .asBitmap()
-                                .load(PictureUtil.base64String2Bitmap(QRCodeBase64))
-                                .into(imageView);
-                    }
 
-                }, client.defErrorHandler());
-
-    }
 
     public String saveCookie() {
         netEaseUser.setCookie(client.cookie2Json()); //序列化cookie然后保存到数据库
