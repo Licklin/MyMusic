@@ -3,35 +3,25 @@ package com.lickling.mymusic.ui.home.PQ;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Binder;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
-import android.os.IBinder;
-import android.os.Looper;
 import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.lickling.mymusic.MyTest;
 import com.lickling.mymusic.R;
 import com.lickling.mymusic.databinding.FragmentDesktopOneBinding;
-import com.lickling.mymusic.ui.load.ListAdapter;
-import com.lickling.mymusic.ui.load.ListItem;
 import com.lickling.mymusic.viewmodel.MusicViewModel;
 
 import java.io.BufferedReader;
@@ -41,10 +31,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.zip.Inflater;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -217,7 +203,6 @@ public class HomeFragment extends Fragment {
 
         Desktop_ListAdapter = new Desktop_ListAdapter(Desktop_Listltem, getActivity());
         desktopOneBinding.homeRecyclerView.setAdapter(Desktop_ListAdapter);
-
 
         // 进入主页对自动点击一次，更换心灵鸡汤语句
         initData();
@@ -492,7 +477,7 @@ public class HomeFragment extends Fragment {
         desktopOneBinding.imageViewLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(), MyTest.class));
+//                startActivity(new Intent(getActivity(), MyTest.class));
             }
         });
 

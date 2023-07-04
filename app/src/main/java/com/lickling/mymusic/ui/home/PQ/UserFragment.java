@@ -99,10 +99,8 @@ public class UserFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        Log.d(TAG, "onStart: netEase user name: " + userViewModel.getNetEaseName());
+//        Log.d(TAG, "onStart: netEase user name: " + userViewModel.getNetEaseName());
         userViewModel.upgradeNteEaseInfo(desktopFourBinding.headshot);
-
-
         desktopFourBinding.setUserInfo(userViewModel);
     }
 
@@ -127,12 +125,11 @@ public class UserFragment extends Fragment {
             else startActivity(new Intent(getActivity(), LoginNetEase.class));
         });
 
-
         desktopFourBinding.headshot.setOnLongClickListener(view -> {
 
             if (userViewModel.logoutNetEase())
                 Toast.makeText(getActivity(), "网易：退出成功", Toast.LENGTH_SHORT).show();
-            else Toast.makeText(getActivity(), "网易：退出失败", Toast.LENGTH_SHORT).show();
+            else Toast.makeText(getActivity(), "网易：未登录", Toast.LENGTH_SHORT).show();
             return false;
         });
         desktopFourBinding.imageviewSetting.setOnClickListener(new View.OnClickListener() {
@@ -162,7 +159,7 @@ public class UserFragment extends Fragment {
         desktopFourBinding.payBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(), Vip_pay.class));
+//                startActivity(new Intent(getActivity(), Vip_pay.class));
             }
         });
     }

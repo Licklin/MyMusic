@@ -8,6 +8,10 @@ import com.orm.dsl.Table;
  */
 public class MusicBean  {
     private String id;
+
+    private String listId;
+
+    private String netId;
     private String title;
     private String artist;
     private String album;
@@ -23,6 +27,22 @@ public class MusicBean  {
         this.albumPath = albumPath;
         this.path = path;
         this.duration = duration;
+    }
+
+    public String getListId() {
+        return listId;
+    }
+
+    public void setListId(String listId) {
+        this.listId = listId;
+    }
+
+    public String getNetId() {
+        return netId;
+    }
+
+    public void setNetId(String netId) {
+        this.netId = netId;
     }
 
     public String getId() {

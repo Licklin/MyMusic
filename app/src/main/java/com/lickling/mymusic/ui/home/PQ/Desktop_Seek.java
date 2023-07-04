@@ -3,33 +3,57 @@ package com.lickling.mymusic.ui.home.PQ;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.media.AudioAttributes;
+import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.media.MediaBrowserCompat;
+import android.support.v4.media.MediaMetadataCompat;
+import android.support.v4.media.session.MediaControllerCompat;
+import android.support.v4.media.session.PlaybackStateCompat;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lickling.mymusic.R;
+import com.lickling.mymusic.adapter.MusicAdapter;
 import com.lickling.mymusic.bean.musicBean.MusicBean;
 import com.lickling.mymusic.databinding.DesktopSeekBinding;
+import com.lickling.mymusic.databinding.LocalMusicFragmentBinding;
 import com.lickling.mymusic.model.MainModel;
 import com.lickling.mymusic.model.MusicModel;
 import com.lickling.mymusic.network.NetEase.NetEaseApiHandler;
+import com.lickling.mymusic.service.BaseMusicService;
+import com.lickling.mymusic.service.OurMusicService;
+import com.lickling.mymusic.ui.BaseActivity;
+import com.lickling.mymusic.ui.home.MainActivity;
+import com.lickling.mymusic.ui.local.LocalActivity;
+import com.lickling.mymusic.ui.songAndLyrics.SongLrcActivity;
 import com.lickling.mymusic.utilty.ImmersiveStatusBarUtil;
 import com.lickling.mymusic.utilty.MusicInfoConversion;
+import com.lickling.mymusic.utilty.PermissionUtil;
+import com.lickling.mymusic.viewmodel.MusicViewModel;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.disposables.Disposable;
@@ -38,8 +62,9 @@ import io.reactivex.rxjava3.functions.Function;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Timer;
 
-public class Desktop_Seek extends AppCompatActivity implements SongOperationPopup.OnDeleteItemListener,
+public class Desktop_Seek extends BaseActivity<MusicViewModel> implements SongOperationPopup.OnDeleteItemListener,
         ListAdapter.OnCheckItemListener, MulOperationPopup.OnDeleteMulItemListener {
 
 
@@ -70,12 +95,26 @@ public class Desktop_Seek extends AppCompatActivity implements SongOperationPopu
     private TextView checked_item_info;
 
     private DesktopSeekBinding desktopSeekBinding;
-    private MusicModel musicModel;
     private List<MusicBean> searchList;
     private ProgressDialog progressDialog;
     private NetEaseApiHandler client;
     private MainModel mainModel;
-    private String url;
+   private Timer mTimer;
+
+    private Intent mIntentMusic;
+    private static final String TAG = "Desktop_seek";
+    private MusicViewModel mMusicViewModel;
+
+
+    @Override
+    protected MediaControllerCompat.Callback getControllerCallback() {
+        return new Desktop_Seek.MyMediaControllerCallback();
+    }
+
+    @Override
+    protected MediaBrowserCompat.SubscriptionCallback getSubscriptionCallback() {
+        return new Desktop_Seek.MyMediaBrowserSubscriptionCallback();
+    }
 
 
     @SuppressLint("MissingInflatedId")
@@ -84,11 +123,12 @@ public class Desktop_Seek extends AppCompatActivity implements SongOperationPopu
         super.onCreate(savedInstanceState);
 
         desktopSeekBinding = DataBindingUtil.setContentView(this, R.layout.desktop_seek);
+        mMusicViewModel = new MusicViewModel(getApplication());
+        desktopSeekBinding.setSearchInfo(mMusicViewModel);
+        initView();
+
         ImmersiveStatusBarUtil.transparentBar(this, false);
         mainModel = new MainModel(this);
-        url = mainModel.getSettingInfo().getApiUrl();
-
-        musicModel = new MusicModel();
 
         load_view = getWindow().getDecorView();
         context = load_view.getContext();
@@ -106,7 +146,8 @@ public class Desktop_Seek extends AppCompatActivity implements SongOperationPopu
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("加载中...");
-        client = new NetEaseApiHandler();
+
+        client = mainModel.getClient();
 
         dialog = new SongOperationPopup(this);
         dialog.setOnDeleteItemListener(this);
@@ -129,9 +170,9 @@ public class Desktop_Seek extends AppCompatActivity implements SongOperationPopu
             }
         });
 
-//        listAdapter.notifyDataSetChanged();
+        listAdapter.notifyDataSetChanged();
 
-        //正在下载列表
+        //歌单列表
         listItems3 = new ArrayList<>();
 
         listItems3.add(new ListItem3("歌曲1", "12首", "创建者", "1245"));
@@ -164,6 +205,7 @@ public class Desktop_Seek extends AppCompatActivity implements SongOperationPopu
 
             }
         });
+
 
         // 播放歌曲
         play_btn = findViewById(R.id.play_btn);
@@ -312,6 +354,8 @@ public class Desktop_Seek extends AppCompatActivity implements SongOperationPopu
 
     }
 
+
+
     @Override
     public void onDeleteItem(int position) {
         listItems.remove(position);
@@ -319,7 +363,6 @@ public class Desktop_Seek extends AppCompatActivity implements SongOperationPopu
         listAdapter.notifyItemRangeChanged(position, listAdapter.getItemCount() - position);
         recyclerView.setAdapter(listAdapter);
     }
-
 
     // 重置布局
     @SuppressLint("SetTextI18n")
@@ -383,7 +426,191 @@ public class Desktop_Seek extends AppCompatActivity implements SongOperationPopu
     }
 
 
+
+
+
+
+
+
+
+
+
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+//
+//        UpdateProgressBar();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //
+//        StopProgressBar();
+    }
+
+    @Override
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+    }
+
+    @Override
+    public void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+    }
+
+    private void UpdateProgressBar() {
+        if (mTimer != null) {
+            return;
+        }
+
+        mTimer = new Timer();
+        mTimer.schedule(mMusicViewModel.getCircleBarTask(), 300, 300);
+    }
+
+    private void StopProgressBar() {
+        if (mTimer != null) {
+            mTimer.purge();
+            mTimer.cancel();
+            mTimer = null;
+        }
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (mIntentMusic != null) {
+            mIntentMusic = null;
+        }
+        if (mMusicViewModel != null) {
+            mMusicViewModel = null;
+        }
+        if (desktopSeekBinding != null) {
+            desktopSeekBinding.unbind();
+            desktopSeekBinding = null;
+        }
+    }
+
+
+    private class MyMediaBrowserSubscriptionCallback extends MediaBrowserCompat.SubscriptionCallback {
+        @Override
+        public void onChildrenLoaded(@NonNull String parentId,
+                                     @NonNull List<MediaBrowserCompat.MediaItem> children) {
+            super.onChildrenLoaded(parentId, children);
+
+            activityOnChildrenLoad(mMusicViewModel, desktopSeekBinding.imageViewPlaying, children);
+
+        }
+
+        @Override
+        public void onError(@NonNull String parentId) {
+            super.onError(parentId);
+        }
+    }
+
+    private class MyMediaControllerCallback extends MediaControllerCompat.Callback {
+        @Override
+        public void onMetadataChanged(MediaMetadataCompat metadata) {
+            super.onMetadataChanged(metadata);
+            mMusicViewModel.SyncMusicInformation();
+        }
+
+        @Override
+        public void onPlaybackStateChanged(PlaybackStateCompat playbackState) {
+            super.onPlaybackStateChanged(playbackState);
+            //Log.w(TAG, "onPlaybackStateChanged: "+state);
+            mMusicViewModel.setPlaybackState(playbackState.getState());
+            playbackStateChanged(playbackState,
+                    desktopSeekBinding.playBtn);
+        }
+
+        @Override
+        public void onSessionEvent(String event, Bundle extras) {
+            super.onSessionEvent(event, extras);
+        }
+    }
+
+
+    private void initView() {
+
+
+        desktopSeekBinding.seekMainUiRoot.setOnApplyWindowInsetsListener(this);
+
+
+
+
+        //初始化唱片旋转动画
+        super.initAnimation(desktopSeekBinding.imageViewPlaying);
+        // 设置文字自动滚动
+        desktopSeekBinding.songName.setSingleLine(true);
+        desktopSeekBinding.songName.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+        desktopSeekBinding.songName.setMarqueeRepeatLimit(-1);
+        desktopSeekBinding.songName.setSelected(true);
+
+        // 播放按键
+        desktopSeekBinding.imageViewPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Animation animation = AnimationUtils.loadAnimation(Desktop_Seek.this, R.anim.alpha);
+                desktopSeekBinding.imageViewPlay.startAnimation(animation);
+                mMusicViewModel.playbackButton();
+
+            }
+        });
+
+        // 下一首按键
+        desktopSeekBinding.imageViewNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Animation animation = AnimationUtils.loadAnimation(Desktop_Seek.this, R.anim.alpha);
+                desktopSeekBinding.imageViewNext.startAnimation(animation);
+                mMusicViewModel.skipToNextPlayBack();
+            }
+        });
+
+        // 队列按键
+        desktopSeekBinding.imageViewList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Animation animation = AnimationUtils.loadAnimation(Desktop_Seek.this, R.anim.alpha);
+                desktopSeekBinding.imageViewList.startAnimation(animation);
+            }
+        });
+
+        desktopSeekBinding.songLrcViewList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Desktop_Seek.this, SongLrcActivity.class));
+                overridePendingTransition(R.anim.push_in, 0);
+            }
+        });
+
+    }
+
+
+
 }
+
+
+
+
+
+
+
 
 
 

@@ -12,6 +12,7 @@
     </data>
 
     <LinearLayout
+        android:id="@+id/seek_main_ui_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingLeft="8dp"
@@ -225,9 +226,11 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
+                android:id="@+id/songLrc_view_list"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_marginTop="20dp"
+                android:layout_height="80dp"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="10dp"
                 android:background="@drawable/desktop_item"
                 android:orientation="horizontal">
 
@@ -239,12 +242,11 @@
                     android:gravity="center">
 
                     <ImageView
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
+                        android:id="@+id/image_view_playing"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
                         android:layout_gravity="center"
-                        android:background="@drawable/pq_cover">
-
-                    </ImageView>
+                        android:src="@{searchInfo.record,default=@drawable/default_record}" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -255,66 +257,80 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/song_Name"
+                        android:layout_width="170dp"
                         android:layout_height="wrap_content"
-                        android:text="歌曲名"
-                        android:textSize="16dp"
+                        android:layout_marginLeft="10dp"
+                        android:ellipsize="marquee"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:singleLine="true"
+                        android:text="@{searchInfo.playbackInfo,default=@string/label_default_title}"
+                        android:textSize="16sp"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="歌手" />
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="@{searchInfo.subtitle,default=@string/label_default_title}"
+                        android:visibility="gone" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginTop="2dp"
                     android:layout_weight="1"
                     android:gravity="center">
 
                     <ImageView
-                        android:id="@+id/imageView_play"
+                        android:id="@+id/image_view_play"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_gravity="center"
-                        android:background="@drawable/pq_play" />
+                        android:src="@{searchInfo.playbackResId,default=@drawable/play}" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginTop="2dp"
                     android:layout_weight="1"
                     android:gravity="center">
 
                     <ImageView
-                        android:id="@+id/imageView_next"
+                        android:id="@+id/image_view_next"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_gravity="center"
-                        android:background="@drawable/pq_next" />
+                        android:background="@drawable/pq_next"
+                        android:foregroundGravity="center" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginTop="2dp"
                     android:layout_weight="1"
                     android:gravity="center">
 
                     <ImageView
-                        android:id="@+id/imageView_list"
+                        android:id="@+id/image_view_list"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_gravity="center"
+                        android:layout_marginRight="10dp"
                         android:background="@drawable/pq_list" />
                 </LinearLayout>
 
             </LinearLayout>
-
 
         </LinearLayout>
 

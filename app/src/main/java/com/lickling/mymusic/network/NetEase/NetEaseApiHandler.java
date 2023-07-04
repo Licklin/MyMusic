@@ -1,7 +1,6 @@
 package com.lickling.mymusic.network.NetEase;
 
 import android.annotation.SuppressLint;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -16,6 +15,7 @@ import com.lickling.mymusic.bean.networkBean.QrCodeKeyRespone;
 import com.lickling.mymusic.bean.networkBean.QrCodeObtainResponse;
 import com.lickling.mymusic.bean.networkBean.SongUrlResponse;
 import com.lickling.mymusic.bean.networkBean.UserPlaylistResponse;
+import com.lickling.mymusic.model.MainModel;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -54,7 +54,7 @@ public class NetEaseApiHandler {
     private Retrofit _retrofit;
     private final int DEF_TIME_OUT_MILLISECOND = 10000;
 
-    protected String _BASE_URL = "http://192.168.31.31:3000";
+    protected static String _BASE_URL = "";
 
     public boolean __DEBUG__ = true;
     public NetEaseApiService _client;
@@ -71,11 +71,15 @@ public class NetEaseApiHandler {
     }
 
     public Consumer<Throwable> defErrorHandler() {
+        return defErrorHandler("");
+    }
+
+    public Consumer<Throwable> defErrorHandler(String TAG) {
         return new Consumer<Throwable>() { // 添加 onError 处理程序
             @Override
             public void accept(Throwable throwable) throws Throwable {
                 // 在这里处理异常情况
-                System.out.println("[NetEaseTest subscribe: Error] " + throwable.getMessage());
+                System.out.println("[" + TAG + " subscribe: Error] " + throwable.getMessage());
             }
         };
     }
@@ -101,7 +105,7 @@ public class NetEaseApiHandler {
 
         // 创建 Retrofit 实例
         _retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(_BASE_URL)
                 .callFactory(_httpClient)
                 .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
                 .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
@@ -124,7 +128,6 @@ public class NetEaseApiHandler {
     private String getQrCodeKey() {
         // 只使用这个来获取this._qrCodeKey
         synchronized (this) {
-            System.out.println("getQrCodeKey:" + (this._qrCodeKey == null));
             if (this._qrCodeKey != null) {
                 System.out.println("getQrCodeKey:" + this._qrCodeKey);
                 return this._qrCodeKey;
@@ -134,7 +137,7 @@ public class NetEaseApiHandler {
 
     }
 
-        public void saveStringAsJsonFile(UserPlaylistResponse jsonString, String filePath) {
+    public void saveStringAsJsonFile(UserPlaylistResponse jsonString, String filePath) {
         Gson gson = new Gson();
         String json = gson.toJson(jsonString);
         try {
@@ -251,7 +254,7 @@ public class NetEaseApiHandler {
 
     public Flowable<QrCodeCheckResponse> checkQrCodeStatus() {
         long timestamp = System.currentTimeMillis();
-        String qrCodeKey = "25ed2d0d-4983-4a6e-99e5-1f237f205817";
+        String qrCodeKey = "";
         if (getQrCodeKey() != null) {
             qrCodeKey = getQrCodeKey();
         }
@@ -323,5 +326,9 @@ public class NetEaseApiHandler {
                 .timeout(DEF_TIME_OUT_MILLISECOND, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(Schedulers.computation());
+    }
+
+    public void changeAPI(String api) {
+        this._BASE_URL = api;
     }
 }

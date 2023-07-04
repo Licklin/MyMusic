@@ -8,19 +8,24 @@ import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.SeekBar;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.Bindable;
+import androidx.fragment.app.FragmentManager;
 
 
 import com.lickling.mymusic.BR;
 import com.lickling.mymusic.R;
 import com.lickling.mymusic.service.manager.MediaPlayerManager;
 import com.lickling.mymusic.service.manager.MyAudioManager;
+import com.lickling.mymusic.ui.songAndLyrics.view.PlayingListFragment;
+import com.lickling.mymusic.viewmodel.MusicViewModel;
 
 import java.lang.ref.SoftReference;
 import java.text.SimpleDateFormat;
@@ -48,8 +53,15 @@ public class SongLrcViewModel extends MusicViewModel {
         mDateFormat = new SimpleDateFormat(application.getResources()
                 .getString(R.string.label_minute_second), Locale.CHINA);
 
-        this.playbackResId = R.drawable.play;
+        this.playbackResId = R.drawable.play_ctrl_play_btn;
         this.playbackModeResId = R.drawable.iv_playback_mode_order;
+    }
+
+    // 点击歌单之后, 要显示歌单
+    public void playListButton(FragmentManager frag) {
+        // ?
+        PlayingListFragment bottomSheetDialog = new PlayingListFragment();
+        bottomSheetDialog.show(frag, "SongLrcActivity");
     }
 
     @Override
@@ -101,7 +113,7 @@ public class SongLrcViewModel extends MusicViewModel {
         }
 
         this.playbackResId = playState == PlaybackStateCompat.STATE_PLAYING ?
-                R.drawable.pq_play : R.drawable.play;
+                R.drawable.pq_play : R.drawable.play_ctrl_play_btn;
 
         notifyPropertyChanged(BR.playbackResId);
     }
@@ -114,7 +126,7 @@ public class SongLrcViewModel extends MusicViewModel {
         Log.d(TAG, "initView: 点击了播放暂停按钮, 播放状态代码: " + pbState);
         if (pbState == PlaybackStateCompat.STATE_PLAYING) {
             mMediaControllerCompat.getTransportControls().pause();
-            this.playbackResId = R.drawable.play;
+            this.playbackResId = R.drawable.play_ctrl_play_btn;
             notifyPropertyChanged(BR.playbackResId);
         } else if (pbState == PlaybackStateCompat.STATE_PAUSED) {
             mMediaControllerCompat.getTransportControls().play();
@@ -127,7 +139,7 @@ public class SongLrcViewModel extends MusicViewModel {
                     .getString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI);
             if (path == null || TextUtils.isEmpty(path)) return;
             mMediaControllerCompat.getTransportControls().playFromUri(Uri.parse(path), null);
-            this.playbackResId = R.drawable.pq_play;
+            this.playbackResId = R.drawable.play_ctrl_play_btn;
             notifyPropertyChanged(BR.playbackResId);
         }
     }

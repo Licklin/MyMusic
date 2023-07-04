@@ -62,6 +62,7 @@ public interface NetEaseApiService {
 
     @GET("/song/url")
     Flowable<SongUrlResponse> getSongUrl(@Query("id") String id);
+
     @GET("/logout")
     Flowable<ResponseBody> logout(@Query("timestamp") long timestamp);
 

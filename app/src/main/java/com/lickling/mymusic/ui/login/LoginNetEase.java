@@ -81,7 +81,6 @@ public class LoginNetEase extends AppCompatActivity {
         ImmersiveStatusBarUtil.transparentBar(this, false);
         //输入光标
         userViewModel = new UserViewModel(getApplication());
-        SugarContext.init(this);
 
         mainModel = new MainModel(this);
         netUser = mainModel.getNetEaseUser();
@@ -106,7 +105,6 @@ public class LoginNetEase extends AppCompatActivity {
         EditText code = findViewById(R.id.password);
 
         ImageView imageView = findViewById(R.id.qr_code_btn);
-//        if(!netUser.getCookie().equals("")) imageView.setClickable(false);
 //        // 二维码
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -352,15 +350,15 @@ public class LoginNetEase extends AppCompatActivity {
         if (imageView == null) {
             return;
         }
-
         mainModel.setQd2ImageView(imageView);
+
         checkQdState();
 
     }
 
     @SuppressLint("CheckResult")
     private void checkQdState() {
-        NetEaseApiHandler client = new NetEaseApiHandler();
+        NetEaseApiHandler client = mainModel.getClient();
 
 // 一个 Runnable 对象，用于执行定时任务
         runnable = new Runnable() {
@@ -395,7 +393,7 @@ public class LoginNetEase extends AppCompatActivity {
                             if (qrCodeCheckResponse.code == 800) {
 //                                // 二维码超时
                             }
-                        }, client.defErrorHandler());
+                        }, client.defErrorHandler("line: " + Thread.currentThread().getStackTrace()[2].getLineNumber()));
 
 
                 // 完成任务后，再次将该任务发送到主线程的消息队列中，以实现循环定时器的效果

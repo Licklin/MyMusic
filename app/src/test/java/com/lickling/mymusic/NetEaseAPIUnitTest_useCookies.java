@@ -2,6 +2,7 @@ package com.lickling.mymusic;
 
 import android.annotation.SuppressLint;
 
+import com.lickling.mymusic.model.MainModel;
 import com.lickling.mymusic.network.NetEase.NetEaseApiHandler;
 
 import org.junit.Test;

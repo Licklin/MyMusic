@@ -8,12 +8,15 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.lickling.mymusic.R;
+import com.lickling.mymusic.bean.APIListItem;
 import com.lickling.mymusic.bean.NetEaseUser;
 import com.lickling.mymusic.bean.SettingInfo;
 import com.lickling.mymusic.bean.User;
 import com.lickling.mymusic.network.NetEase.NetEaseApiHandler;
 import com.lickling.mymusic.utilty.PictureUtil;
 import com.orm.SugarContext;
+
+import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 
@@ -27,19 +30,13 @@ public class MainModel {
     protected NetEaseUser netEaseUser;
     protected SettingInfo settingInfo;
     private NetEaseApiHandler client;
-
-    public MainModel(long userSaveID, long settingInfoSaveID) {
-        this.userSaveID = userSaveID;
-        this.settingInfoSaveID = settingInfoSaveID;
-        getInfoFromDisk();
-        client = new NetEaseApiHandler(); // 实例化网络模块
-
-    }
+    public static List<APIListItem> BASE_URL_LIST;
 
     public MainModel(Context context) {
         this.context = context;
         // userSaveID和settingInfoSaveID存在SharedPreferences里
         SharedPreferences prefs = context.getSharedPreferences("userId", Context.MODE_PRIVATE);
+
 
         userSaveID = prefs.getLong("saveKeyOfUser", 1);
         settingInfoSaveID = prefs.getLong("saveKeyOfSetting", 1);
@@ -54,9 +51,35 @@ public class MainModel {
         editor.apply();
         initNetModel();
     }
-    private void initNetModel(){
-//        client = new NetEaseApiHandler(getSettingInfo().getApiUrl());
-        client = new NetEaseApiHandler("http://192.168.31.31:3000");
+
+    private void initNetModel() {
+        BASE_URL_LIST = APIListItem.listAll(APIListItem.class);
+        // 首次装载三个默认地址
+        if (BASE_URL_LIST.isEmpty()) {
+            APIListItem apiListItem_001 = new APIListItem("广西区私有服务器001号", "http://192.168.1.210:3000");
+            apiListItem_001.save();
+            APIListItem apiListItem_002 = new APIListItem("广西区私有服务器002号", "http://192.168.31.31:3000");
+            apiListItem_002.save();
+            APIListItem apiListItem_pub = new APIListItem("公网服务器1号", "https://service-hrf5csss-1318703950.gz.apigw.tencentcs.com/release/");
+            apiListItem_pub.save();
+            BASE_URL_LIST.add(apiListItem_001);
+            BASE_URL_LIST.add(apiListItem_002);
+            BASE_URL_LIST.add(apiListItem_pub);
+            // 设置默认API地址为001
+            getSettingInfo().setApiUrl(apiListItem_001.getSubtitle());
+            // 设置->API地址界面的 打勾 位置
+            getSettingInfo().setApiPosition(0);
+            // 为了符合数据库的记录, 添加上主键值
+            getSettingInfo().setApiPositionId(apiListItem_001.getId());
+        }
+
+
+//        Log.e(TAG,"api"+settingInfo.getApiUrl());
+        if (getSettingInfo().getApiUrl().equals(""))
+            client = new NetEaseApiHandler("http://192.168.31.31:3000");
+        else
+            client = new NetEaseApiHandler(getSettingInfo().getApiUrl());
+
         if (!netEaseUser.getCookie().equals(""))
             loadCookie(netEaseUser.getCookie());
     }
@@ -170,11 +193,16 @@ public class MainModel {
     }
 
     public String saveCookie() {
-        netEaseUser.setCookie(client.cookie2Json());
+        netEaseUser.setCookie(client.cookie2Json()); //序列化cookie然后保存到数据库
         return netEaseUser.getCookie();
     }
 
     public void loadCookie(String theCookie) {
         client.json2Cookie(theCookie);
+    }
+
+
+    public void setClientAPI(String api) {
+        client.changeAPI(api);
     }
 }

@@ -2,13 +2,14 @@ package com.lickling.mymusic;
 
 import android.annotation.SuppressLint;
 
+import com.lickling.mymusic.model.MainModel;
 import com.lickling.mymusic.network.NetEase.NetEaseApiHandler;
 
 import org.junit.Test;
 
 
 public class NetEaseAPIUnitTest_getCookies {
-    private static final String BASE_URL = "http://localhost:3000";
+    private static final String BASE_URL = "http://192.168.31.31:3000";
     boolean temp = true;
 
     @SuppressLint("CheckResult")
