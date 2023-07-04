@@ -37,6 +37,7 @@ public class ListAdapter extends BaseBindingAdapter<MediaItem, LocalSongListItem
 
     public List<Boolean> items_state;
     private MediaItem selectedItem;
+    private int selected_item_id = -1;
     private static final String TAG = "MusicAdapter";
     private ObservableArrayList<MediaItem> mSearchMediaItems, mSheetMediaItems;
     private OnItemClickListener mItemClickListener;
@@ -86,11 +87,11 @@ public class ListAdapter extends BaseBindingAdapter<MediaItem, LocalSongListItem
                 Objects.requireNonNull(item.getDescription().getMediaUri()).toString(),
                 100000);
         binding.setLocalMusicInfo(bean);
-
         synBindingState(binding, position);
 
         if(selectedItem==item)
-            pre_binding = binding;
+            selected_item_id = position;
+            // pre_binding = binding;
         resetItemColor(binding, position);
 
         if (mItemClickListener == null) return;
@@ -196,6 +197,10 @@ public class ListAdapter extends BaseBindingAdapter<MediaItem, LocalSongListItem
     void setSelectedItem(MediaItem item) {
         this.selectedItem = item;
     }
+
+    void setSelectedItemId(int id){this.selected_item_id = id;}
+
+    int getSelectedItemId(){return selected_item_id;}
 
 }
 

@@ -438,4 +438,6 @@ public class PictureUtil {
         byte[] imageBytes = Base64.decode(base64String, Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
     }
+
+
 }

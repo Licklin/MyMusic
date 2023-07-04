@@ -8,12 +8,14 @@ import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.MediaBrowserCompat.MediaItem;
 import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -28,26 +30,30 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lickling.mymusic.R;
-import com.lickling.mymusic.adapter.BaseBindingAdapter;
 import com.lickling.mymusic.databinding.LocalMusicFragmentBinding;
 import com.lickling.mymusic.databinding.LocalSongListItemBinding;
 
 import com.lickling.mymusic.ui.BaseActivity;
 
+import com.lickling.mymusic.ui.login.LoginNetEase;
+import com.lickling.mymusic.ui.songAndLyrics.SongLrcActivity;
 import com.lickling.mymusic.viewmodel.MusicViewModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
+import java.util.TimerTask;
 import java.util.stream.Collectors;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 
 public class LocalActivity extends BaseActivity<MusicViewModel> {
     private List<Integer> positions;
@@ -65,8 +71,7 @@ public class LocalActivity extends BaseActivity<MusicViewModel> {
     private TextView checked_item_info;
     private SearchView search_bar;
 
-
-    private static final String TAG = "MyTest";
+    private static final String TAG = "LocalActivity";
     private LocalMusicFragmentBinding localMusicFragmentBinding;
     private MusicViewModel mMusicViewModel;
     private ListAdapter listAdapter;
@@ -75,14 +80,17 @@ public class LocalActivity extends BaseActivity<MusicViewModel> {
     private MyAdapterItemClickListener myItemClickListener;
     private MyPopupClickListener myPopupClickListener;
     private MyMulPopupClickListener myMulPopupClickListener;
-
-
+    private int selected_item_id = -1;
+    boolean tag = true;
     private Intent mIntentMusic;
 
     private LocalSongListItemBinding pre_binding;
     private Timer mTimer;
     private View local_view;
     private List<MediaItem> local_items;
+    private Runnable runnable;
+    private Handler handler;
+    private boolean index = false;
 
     @Override
     protected MediaControllerCompat.Callback getControllerCallback() {
@@ -104,19 +112,30 @@ public class LocalActivity extends BaseActivity<MusicViewModel> {
         localMusicFragmentBinding = DataBindingUtil.setContentView(this, R.layout.local_music_fragment);
         mMusicViewModel = new MusicViewModel(getApplication());
         localMusicFragmentBinding.setLocalInfo(mMusicViewModel);
+        handler = new Handler();
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                synMediaState();
+            }
+        };
+
         initView();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-//
-//        UpdateProgressBar();
+
+        //UpdateProgressBar();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
+        // 250 毫秒后执行该任务，同步正在播放的歌曲在recycleView中的状态
+        handler.postDelayed(runnable,250);
     }
 
     @Override
@@ -179,30 +198,20 @@ public class LocalActivity extends BaseActivity<MusicViewModel> {
 
         //设置本地音乐页面的控件的点击事件
         setClickListener();
+
     }
 
     private void setClickListener() {
 
-        //recycleView滚动位置发生变换
-//        recyclerView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-//            @Override
-//            public void onScrollChange(View view, int i, int i1, int i2, int i3) {
-//                Toast.makeText(context, "滚动位置发生变换"+i, Toast.LENGTH_SHORT).show();
-//            }
-//        });
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener(){
-//            @Override
-//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-//                super.onScrollStateChanged(recyclerView, newState);
-//                // 滚动状态发生变化时的逻辑
-//                Toast.makeText(context, "滚动状态发生变换"+newState, Toast.LENGTH_SHORT).show();
-//            }
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 alterItemLayout();
+
                 //Toast.makeText(context, "滚动位置发生变换"+dy, Toast.LENGTH_SHORT).show();
             }
+
         });
 
         //播放歌曲
@@ -311,7 +320,7 @@ public class LocalActivity extends BaseActivity<MusicViewModel> {
                     for (int i = 0; i < listAdapter.items_state.size(); i++) {
                         listAdapter.items_state.set(i, true);
                     }
-                } else{
+                } else {
                     checked_item_num = 0;
                     //重置Item状态列表
                     for (int i = 0; i < listAdapter.items_state.size(); i++) {
@@ -354,6 +363,10 @@ public class LocalActivity extends BaseActivity<MusicViewModel> {
         });
 
         /*下方播放栏*/
+        //
+        localMusicFragmentBinding.controller.setOnClickListener(view -> {
+            startActivity(new Intent(LocalActivity.this, SongLrcActivity.class));
+        });
         // 播放按键
         localMusicFragmentBinding.imageViewPlay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -372,6 +385,9 @@ public class LocalActivity extends BaseActivity<MusicViewModel> {
                 Animation animation = AnimationUtils.loadAnimation(LocalActivity.this, R.anim.alpha);
                 localMusicFragmentBinding.imageViewNext.startAnimation(animation);
                 mMusicViewModel.skipToNextPlayBack();
+
+                // listAdapter.setSelectedItemId((listAdapter.getSelectedItemId() + 1) % (listAdapter.getItems().size()));
+                // refreshRecycleView();
             }
         });
 
@@ -512,7 +528,7 @@ public class LocalActivity extends BaseActivity<MusicViewModel> {
                     local_items.remove(tmp);
                     //listAdapter.setItems(found_items);
                     listAdapter.mySetItems(found_items);
-                } else if (local_items != null && position < local_items.size()){
+                } else if (local_items != null && position < local_items.size()) {
                     local_items.remove(position);
                     //listAdapter.setItems(local_items);
                     listAdapter.mySetItems(local_items);
@@ -538,9 +554,9 @@ public class LocalActivity extends BaseActivity<MusicViewModel> {
         //播放
         @Override
         public void ItemClickListener(ListAdapter adapter, int position, LocalSongListItemBinding binding) {
-            if(all_choice_btn.getVisibility()==View.VISIBLE){
+            if (all_choice_btn.getVisibility() == View.VISIBLE) {
                 if (!binding.checkBox.isChecked()) {
-                    listAdapter.items_state.set(position,true);//Item被选中
+                    listAdapter.items_state.set(position, true);//Item被选中
                     binding.checkBox.setChecked(true);
                     positions.add(position);
                     checked_item_num++;
@@ -548,7 +564,7 @@ public class LocalActivity extends BaseActivity<MusicViewModel> {
                         all_choice_btn.setChecked(true);
                 } else {
                     if (positions.contains(position)) {
-                        listAdapter.items_state.set(position,false);//Item取消选中
+                        listAdapter.items_state.set(position, false);//Item取消选中
                         binding.checkBox.setChecked(false);
                         all_choice_btn.setChecked(false);
                         positions.remove((Integer) position);
@@ -556,8 +572,7 @@ public class LocalActivity extends BaseActivity<MusicViewModel> {
                     }
                 }
                 checked_item_info.setText("已选" + checked_item_num + "首");
-            }
-            else {
+            } else {
                 MediaControllerCompat mediaController =
                         MediaControllerCompat.getMediaController(LocalActivity.this);
                 String mediaId = mediaController.getMetadata()
@@ -566,10 +581,14 @@ public class LocalActivity extends BaseActivity<MusicViewModel> {
                 if (mediaId.equals(currentMediaId)) {
                     LocalActivity.this.mMusicViewModel.playbackButton();
                 } else mediaController.getTransportControls().playFromMediaId(currentMediaId, null);
-                //将Item的控件的颜色设为橙红色
-                alterItemColor(binding,position);
 
-                listAdapter.setSelectedItem(local_items.get(position));//设置当前选中的Item
+
+//                listAdapter.setSelectedItem(listAdapter.getItems().get(position));//设置当前选中的Item
+//                listAdapter.setSelectedItemId(position);
+//                selected_item_id = position;
+
+                //refreshRecycleView();
+
                 Log.d(TAG, "ItemClickListener: 点击了 " + mediaId + ", " + currentMediaId);
             }
         }
@@ -579,7 +598,8 @@ public class LocalActivity extends BaseActivity<MusicViewModel> {
         public void ItemMoreClickListener(View v, int position) {
             MediaItem tmp = listAdapter.getItems().get(position);
             songOperationPopup.setData(listAdapter.toMusicBean(tmp), position);//把点击的item的数据给dialog
-            songOperationPopup.show(((AppCompatActivity) listAdapter.getContext()).getSupportFragmentManager(), "menu");
+            //songOperationPopup.show(((AppCompatActivity) listAdapter.getContext()).getSupportFragmentManager(), "menu");
+            songOperationPopup.show(getSupportFragmentManager(), "menu");
             Log.d(TAG, "ItemMoreClickListener: 点击了更多 " + position);
         }
 
@@ -595,12 +615,12 @@ public class LocalActivity extends BaseActivity<MusicViewModel> {
             if (binding.checkBox.isChecked()) {
                 positions.add(position);
                 checked_item_num++;
-                listAdapter.items_state.set(position,true);//Item被选中
+                listAdapter.items_state.set(position, true);//Item被选中
                 if (checked_item_num == local_items.size())
                     all_choice_btn.setChecked(true);
             } else {
                 if (positions.contains(position)) {
-                    listAdapter.items_state.set(position,false);//Item取消选中
+                    listAdapter.items_state.set(position, false);//Item取消选中
                     all_choice_btn.setChecked(false);
                     positions.remove((Integer) position);
                     checked_item_num--;
@@ -663,7 +683,7 @@ public class LocalActivity extends BaseActivity<MusicViewModel> {
                                      @NonNull List<MediaBrowserCompat.MediaItem> children) {
             super.onChildrenLoaded(parentId, children);
 
-            Log.d(TAG, "onChildrenLoaded: MyMusic");
+            Log.e(TAG, "onChildrenLoaded: MyMusic");
 
             if (local_items == null) {
                 local_items = new ArrayList<>();
@@ -671,6 +691,9 @@ public class LocalActivity extends BaseActivity<MusicViewModel> {
                 local_items = children;
             } else
                 listAdapter.mySetItems(local_items);
+
+            //synMediaState();
+            //refreshRecycleView();
 
             activityOnChildrenLoad(mMusicViewModel, localMusicFragmentBinding.imageViewPlaying, children);
         }
@@ -686,6 +709,7 @@ public class LocalActivity extends BaseActivity<MusicViewModel> {
         public void onMetadataChanged(MediaMetadataCompat metadata) {
             super.onMetadataChanged(metadata);
             mMusicViewModel.SyncMusicInformation();
+            synMediaState(); //同步正在播放的歌曲在recycleView中的状态
         }
 
         @Override
@@ -708,7 +732,7 @@ public class LocalActivity extends BaseActivity<MusicViewModel> {
         Drawable icon;
         pre_binding = listAdapter.getPreBinding();
 
-        if ( pre_binding!=null && pre_binding != binding) {
+        if (pre_binding != null && pre_binding != binding) {
             icon = ContextCompat.getDrawable(this.getApplicationContext(), R.drawable.load_add);
             icon.setColorFilter(this.getResources().getColor(R.color.black_gray), PorterDuff.Mode.SRC_IN);
             pre_binding.addBtn.setBackground(icon);
@@ -734,9 +758,9 @@ public class LocalActivity extends BaseActivity<MusicViewModel> {
         listAdapter.setPreBinding(binding);
     }
 
-    void alterItemLayout()
-    {
-        if(all_choice_btn.getVisibility()==View.VISIBLE){
+    void alterItemLayout() {
+        selected_item_id = listAdapter.getSelectedItemId();
+        if (all_choice_btn.getVisibility() == View.VISIBLE) {
             for (int i = 0; i < recyclerView.getChildCount(); i++) {
                 View itemView = recyclerView.getChildAt(i);
                 Button add_btn = itemView.findViewById(R.id.add_btn);
@@ -746,16 +770,17 @@ public class LocalActivity extends BaseActivity<MusicViewModel> {
                 Button extend_btn = itemView.findViewById(R.id.extend_btn);
                 extend_btn.setVisibility(View.GONE);
 
-                TextView textView =itemView.findViewById(R.id.id);
+                TextView textView = itemView.findViewById(R.id.id);
                 String text = textView.getText().toString();
                 int pos = Integer.parseInt(text);
-                if(all_choice_btn.isChecked() || listAdapter.items_state.get(pos))
+                if (all_choice_btn.isChecked() || listAdapter.items_state.get(pos))
                     check_box.setChecked(true);
                 else
                     check_box.setChecked(false);
+
+                alterItemColor(itemView);
             }
-        }
-        else{
+        } else {
             // 遍历RecyclerView的每个Item，并将它们的可选框更改为下曲播放按钮,将扩展按钮设置可见
             for (int i = 0; i < recyclerView.getChildCount(); i++) {
                 View itemView = recyclerView.getChildAt(i);
@@ -766,7 +791,96 @@ public class LocalActivity extends BaseActivity<MusicViewModel> {
                 check_box.setVisibility(View.GONE);
                 Button extend_btn = itemView.findViewById(R.id.extend_btn);
                 extend_btn.setVisibility(View.VISIBLE);
+
+                alterItemColor(itemView);
             }
+        }
+    }
+
+    //同步正在播放的歌曲在recycleView中的状态
+    void synMediaState() {
+        MediaControllerCompat mediaController =
+                MediaControllerCompat.getMediaController(LocalActivity.this);
+        if (mediaController == null) {
+            Toast.makeText(context, "mediaController为空", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String mediaId = mediaController.getMetadata()
+                .getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID);
+
+        for (int i = 0; i < listAdapter.getItems().size(); i++) {
+            if (listAdapter.getItems().get(i).getMediaId().equals(mediaId)) {
+                selected_item_id = i;
+                listAdapter.setSelectedItemId(i);
+                listAdapter.setSelectedItem(listAdapter.getItems().get(i));//设置当前选中的Item
+                //recyclerView.getLayoutManager().smoothScrollToPosition(recyclerView, null, i);//丝滑定位Item
+
+
+                RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(context) {
+                    private static final float MILLISECONDS_PER_INCH = 20f;
+                    @Override
+                    protected float calculateSpeedPerPixel(DisplayMetrics displayMetrics) {
+                        return MILLISECONDS_PER_INCH / displayMetrics.densityDpi;
+                    }
+                };
+                smoothScroller.setTargetPosition(i);
+                recyclerView.getLayoutManager().startSmoothScroll(smoothScroller);
+                //recyclerView.getLayoutManager().scrollToPosition(i); // 立即定位Item
+                break;
+            }
+        }
+        for (int i = 0; i < recyclerView.getChildCount(); i++) {
+            View itemView = recyclerView.getChildAt(i);
+            alterItemColor(itemView);
+        }
+
+    }
+
+//    void refreshRecycleView() {
+//        selected_item_id = listAdapter.getSelectedItemId();
+//        for (int i = 0; i < recyclerView.getChildCount(); i++) {
+//            View itemView = recyclerView.getChildAt(i);
+//            alterItemColor(itemView);
+//        }
+//    }
+
+    void alterItemColor(View itemView) {
+        Drawable icon;
+        TextView textView = itemView.findViewById(R.id.id);
+        String text = textView.getText().toString();
+        if (text.equals(""))
+            return;
+        int id = Integer.parseInt(text);
+
+        if (selected_item_id == id) {
+            icon = ContextCompat.getDrawable(this.getApplicationContext(), R.drawable.load_add);
+            icon.setColorFilter(this.getResources().getColor(R.color.wy_red), PorterDuff.Mode.SRC_IN);
+            itemView.findViewById(R.id.add_btn).setBackground(icon);
+
+            icon = ContextCompat.getDrawable(this.getApplicationContext(), R.drawable.baseline_more_vert_24);
+            icon.setColorFilter(this.getResources().getColor(R.color.wy_red), PorterDuff.Mode.SRC_IN);
+            itemView.findViewById(R.id.extend_btn).setBackground(icon);
+
+            textView = itemView.findViewById(R.id.title);
+            textView.setTextColor(this.getResources().getColor(R.color.wy_red));
+
+            textView = itemView.findViewById(R.id.subtitle);
+            textView.setTextColor(this.getResources().getColor(R.color.wy_red));
+        } else {
+            icon = ContextCompat.getDrawable(this.getApplicationContext(), R.drawable.load_add);
+            icon.setColorFilter(this.getResources().getColor(R.color.black_gray), PorterDuff.Mode.SRC_IN);
+            itemView.findViewById(R.id.add_btn).setBackground(icon);
+
+            icon = ContextCompat.getDrawable(this.getApplicationContext(), R.drawable.baseline_more_vert_24);
+            icon.setColorFilter(this.getResources().getColor(R.color.black_gray), PorterDuff.Mode.SRC_IN);
+            itemView.findViewById(R.id.extend_btn).setBackground(icon);
+
+            textView = itemView.findViewById(R.id.title);
+            textView.setTextColor(this.getResources().getColor(R.color.black));
+
+            textView = itemView.findViewById(R.id.subtitle);
+            textView.setTextColor(this.getResources().getColor(android.R.color.darker_gray));
         }
 
     }

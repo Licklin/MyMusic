@@ -160,6 +160,9 @@ public class SongLrcActivity extends BaseActivity<SongLrcViewModel> {
                     children);
             MediaControllerCompat mediaController =
                     MediaControllerCompat.getMediaController(SongLrcActivity.this);
+
+
+
             //同步歌词
             mSongLrcBinding.songLrcCenterLrc.setMediaController(mediaController);
             mSongLrcBinding.songLrcCenterLrc.setLrc(LrcUtil.getLocalLrc(
