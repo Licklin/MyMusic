@@ -26,20 +26,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyMusic"
         android:windowLightStatusBar="true">
-        <activity
-            android:name=".ui.home.PQ.Vip_pay"
-            android:exported="false" />
-        <activity
-            android:name=".MyTest"
-            android:exported="false"
-            android:launchMode="singleTask"
-            android:windowSoftInputMode="stateHidden">
-            <intent-filter>
-                <action android:name="musicList" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
 
         <service
             android:name=".service.OurMusicService"
@@ -109,10 +96,6 @@
             android:name=".ui.home.PQ.Desktop_Seek"
             android:exported="false"
             tools:ignore="DuplicateActivity" />
-        <activity android:name=".TestActivity"
-            android:exported="false">
-
-        </activity>
         <activity android:name=".ui.login.LoginNetEase"
             android:exported="false"/>
     </application>

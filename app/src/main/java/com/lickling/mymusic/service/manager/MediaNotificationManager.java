@@ -200,7 +200,7 @@ public class MediaNotificationManager {
                         .setContentIntent(clickPendingIntent)
                         //适用于Api21-
                         .setDeleteIntent(deletePendingIntent)
-                        .setSmallIcon(R.drawable.ic_test)
+                        .setSmallIcon(R.drawable.album)
                         //设置 Ongoing 为true ,则此通知不可滑动关闭。
                         //设置 Ongoing 为false ,则此通知在音乐暂停或停止时可向右滑动关闭。
                         //个人猜测是通过MediaSession播放状态来判定的，
