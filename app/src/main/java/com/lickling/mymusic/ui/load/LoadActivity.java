@@ -80,11 +80,11 @@ public class LoadActivity extends AppCompatActivity implements SongOperationPopu
         back_btn.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listItems.add(new ListItem("歌曲名", "歌手"));
-                int visibility = select_tag1.getVisibility();
-
-                if (visibility == View.VISIBLE)
-                    recyclerView.setAdapter(listAdapter);
+                finish();
+//                listItems.add(new ListItem("歌曲名", "歌手"));
+//                int visibility = select_tag1.getVisibility();
+//                if (visibility == View.VISIBLE)
+//                    recyclerView.setAdapter(listAdapter);
             }
         });
 
