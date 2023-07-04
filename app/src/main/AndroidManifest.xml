@@ -74,17 +74,26 @@
         <activity
             android:name=".ui.setting.password.PassWordActivity"
             android:exported="false" />
-        <activity
-            android:name=".ui.home.MainActivity"
-            android:exported="true"
-            android:launchMode="standard">
+<!--        <activity-->
+<!--            android:name=".ui.home.MainActivity"-->
+<!--            android:exported="true"-->
+<!--            android:launchMode="standard">-->
 
-        </activity>
+<!--        </activity>-->
         <activity
             android:name=".ui.home.nsh.Register"
             android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".ui.home.nsh.LoginWangyi"-->
+<!--            android:exported="true" >-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
         <activity
-            android:name=".ui.home.nsh.LoginWangyi"
+            android:name=".ui.home.MainActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -95,6 +104,12 @@
 
         <activity
             android:name=".ui.myLike.MyLikeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.local.LocalActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.load.LoadActivity"
             android:exported="false" />
         <activity
             android:name=".ui.songSheet.SongSheetActivity"
